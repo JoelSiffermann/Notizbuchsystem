@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.*;
+import de.hdm.notizbuchsystem.shared.bo.*;
 
 
 public class NutzerMapper {
@@ -21,7 +22,7 @@ public static NutzerMapper nutzerMapper(){
 	 return nutzerMapper;
 }
 
-public Nutzer erstellen(Nutzer n){
+public Nutzer erstellen(Nutzer n) {
 	Connection con = DBConnection.getConnection();
 	
 	try{
@@ -37,11 +38,12 @@ public Nutzer erstellen(Nutzer n){
 
 		        
 		        stmt.executeUpdate("INSERT INTO Nutzer (ID, Name, Vorname, E-Mail) " + "VALUES ("
-		            + n.getID() + "," + n.getName() + "," + n.getVorname() + n.getEMail() +" )");
+		            + n.getId() + "," + n.getName() + "," + n.getVorname() + n.getEmail() +" )");
 		      }}
 		   catch (SQLException e1) {
 			      e1.printStackTrace();
 			    }
+	return n;
 }
 	
 
