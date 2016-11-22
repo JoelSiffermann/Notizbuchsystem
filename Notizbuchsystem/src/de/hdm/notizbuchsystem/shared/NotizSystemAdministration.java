@@ -7,7 +7,7 @@ import java.util.Vector;
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 public interface NotizSystemAdministration {
-
+//test
 	public void login() throws IllegalArgumentException;
 	
 	public void logout() throws IllegalArgumentException;
