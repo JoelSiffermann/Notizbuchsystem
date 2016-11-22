@@ -23,7 +23,7 @@ public class Notizbuchsystem implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		// TODO Auto-generated method stub
+		// TODO
 		
 	}
 	
