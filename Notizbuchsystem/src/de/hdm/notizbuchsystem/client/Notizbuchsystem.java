@@ -26,6 +26,6 @@ public class Notizbuchsystem implements EntryPoint {
 		// TODO
 		
 	}
-	
+	//test
 }
 	
