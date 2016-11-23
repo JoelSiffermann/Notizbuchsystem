@@ -40,6 +40,8 @@ public abstract class Freigabe extends BusinessObject {
 		return this.loeschberechtigung;
 	}
 	
+//	ist die Variable email nicht besser als die Variable freigegebeneEmail?
+	
 	public void setFreigegebeneEmail(String freigegebeneEmail){
 		this.freigegebeneEmail = freigegebeneEmail;
 	}
