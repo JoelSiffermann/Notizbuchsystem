@@ -28,10 +28,10 @@ public class NotizMapper {
 			Statement stmt = con.createStatement();
 			
 			
-			// SQL Statement muss noch eingefügt werden
+					
 			
-			
-			ResultSet rs = stmt.executeQuery("sql");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Notiz.Eintragung-ID) AS maxid "
+		          + "FROM Notiz ");
 			
 			if (rs.next()) {
 				
@@ -39,7 +39,8 @@ public class NotizMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Notiz (Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt) " + "VALUES ("
+		            + n.getId() + "," + n.getEigentuemer() + "," + n.getModifikationsdatum() + n.getErstelldatum() + "," n.getTitel() + "," n.getSubtitel() + "," n.getInhalt() +" )");
 			}
 		}
 		
@@ -49,14 +50,16 @@ public class NotizMapper {
 		
 		return n;
 	}
-	
+	// Es können bis jetzt nur Modifikationsdatum, Titel, Subtitel und Inhalt bearbeitet werden, da die restlichen Werte nicht veränderbar sein sollten
 	public Notiz bearbeiten(Notiz n) {
 		Connection con = DBConnection.getConnection();
 		
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Notiz" + "SET Titel=\""
+          + n.getTitel() + "\", " + "Modifikationsdatum=\"" +n.getModifikationsdatum()+ "\", " + "Subtitel=\"" + n.getSubtitel()+ "\", " + "SET Inhalt=\"" + n.getInhalt()
+          + "WHERE id=" + n.getId());
 		}
 		
 		catch (SQLException e1) {
@@ -72,7 +75,7 @@ public class NotizMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("SQL");
+			stmt.executeUpdate("DELETE FROM Notiz " + "WHERE id=" + n.getId());
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();

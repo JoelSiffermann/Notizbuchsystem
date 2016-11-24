@@ -31,7 +31,8 @@ public class NotizbuchMapper {
 			// SQL Statement muss noch eingefügt werden
 			
 			
-			ResultSet rs = stmt.executeQuery("sql");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Notizbuch.Eintragung-ID) AS maxid "
+			          + "FROM Notizbuch");
 			
 			if (rs.next()) {
 				
@@ -39,7 +40,8 @@ public class NotizbuchMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Notizbuch (Eintragung-ID, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel) " + "VALUES ("
+				            + n.getId() + "," + n.getEigentuemer() + "," + n.getModifikationsdatum() + "," + n.getErstelldatum() + "," + n.getTitel());
 			}
 		}
 		
@@ -50,13 +52,17 @@ public class NotizbuchMapper {
 		return n;
 	}
 	
+	// Es könne nur die Attribute Titel, Modifikationsdatum und Erstelldatum geändert werden, da die restlichen Attribute nicht veränderbar sein sollten
+	
 	public Notizbuch bearbeiten(Notizbuch n) {
 		Connection con = DBConnection.getConnection();
 		
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Notizbuch" + "SET Titel=\""
+			          + n.getTitel() + "\", " + "Modifikationsdatum=\"" +n.getModifikationsdatum()+ "\", " + "Erstelldatum=\"" +n.getErstelldatum()+ ""
+			          + "WHERE id=" + n.getId());
 		}
 		
 		catch (SQLException e1) {
@@ -72,7 +78,7 @@ public class NotizbuchMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("SQL");
+			stmt.executeUpdate("DELTE FROM Notizbuch WHERE ID=" + n.getId());
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
