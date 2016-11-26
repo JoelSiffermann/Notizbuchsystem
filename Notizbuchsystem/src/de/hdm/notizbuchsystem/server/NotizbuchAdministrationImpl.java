@@ -246,6 +246,7 @@ public class NotizbuchAdministrationImpl {
 	
 	public Notiz zuweisungNotiz(Notizbuch notizbuch) throws IllegalArgumentException{
 		
+//	was ist die zuweisen-Methode?
 		return this.notizMapper.zuweisen(notizbuch);
 	}
 	

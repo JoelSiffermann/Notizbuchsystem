@@ -8,8 +8,8 @@ public class Notizbuch extends Eintragung{
 
 	private Vector<Notiz> enthalteneNotiz;
 	
-	public void setEnthalteneNotiz(Vector<Notiz> enthalteneNotiz){
-		this.enthalteneNotiz = enthalteneNotiz;
+	public void setEnthalteneNotiz(Vector<Notiz> notiz){
+		this.enthalteneNotiz = notiz;
 	}
 	
 	public Vector<Notiz> getEnthalteneNotiz(){
