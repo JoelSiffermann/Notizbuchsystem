@@ -23,9 +23,7 @@ public class NotizbuchAdministrationImpl {
 	private NotizquelleMapper notizquelleMapper;
 	
 	private FreigabeMapper freigabeMapper;
-	
-//	private EintragungMapper eintragungMapper;
-	
+		
 	public void login() throws IllegalArgumentException {
 		
 	}
@@ -48,8 +46,6 @@ public class NotizbuchAdministrationImpl {
 		
 		this.freigabeMapper = FreigabeMapper.freigabeMapper();
 		
-//		this.eintragungMapper = EintragungMapper.eintragungMapper();
-				
 	}
 	
 	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
@@ -114,8 +110,6 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
-//	Im Klassendiagramm steht Faelligkeit faelligkeit, sollen wir es lieber bei Date datum lassen?
-	
 	public Faelligkeit erstelleFaelligkeit(Date datum) throws IllegalArgumentException{
 		
 		Faelligkeit faelligkeit = new Faelligkeit();
@@ -160,15 +154,11 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
-//	fehlt in der Klasse NotizMapper nicht noch im Methoden-Parameter Eintragung eintragung? oder fehlt es in der Klasse Notiz/Eintragung irgendwelche Methoden?
-	
 	public Notiz bearbeiteNotiz(Notiz notiz) throws IllegalArgumentException{
 		
 		return this.notizMapper.bearbeiten(notiz);
 		
 	}
-	
-//	fehlt in der Klasse NotizbuchMapper nicht noch im Methoden-Parameter Eintragung eintragung? der fehlt es in der Klasse Notizbuch/Eintragung irgendwelche Methoden?
 	
 	public Notizbuch bearbeiteNotizbuch(Notizbuch notizbuch) throws IllegalArgumentException{
 		
@@ -244,9 +234,10 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
-	public Notiz zuweisungNotiz(Notizbuch notizbuch) throws IllegalArgumentException{
+	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException{
 		
-//	was ist die zuweisen-Methode?
+		notizbuch.setEnthalteneNotiz(notiz);
+		
 		return this.notizMapper.zuweisen(notizbuch);
 	}
 	
