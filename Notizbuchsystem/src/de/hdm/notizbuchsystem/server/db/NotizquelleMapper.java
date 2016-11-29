@@ -37,7 +37,8 @@ private static NotizquelleMapper notizquelleMapper = null;
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Notizquelle (URL) " + "VALUES ("
+			            + n.getUrl());
 			}
 		}
 		
@@ -54,7 +55,8 @@ private static NotizquelleMapper notizquelleMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Notizquelle " + "SET URL=\""
+			          + n.getUrl() + "WHERE id=" + n.getId());
 		}
 		
 		catch (SQLException e1) {

@@ -8,6 +8,10 @@ public class Notiz extends Eintragung{
 	
 	private String inhalt;
 	
+//	private Notiz notiz;
+	
+//	Sollte die Notiz nicht auch noch die Methode Titel haben?	
+
 	public void setSubtitel(String subtitel){
 		this.subtitel = subtitel;
 	}
@@ -23,4 +27,13 @@ public class Notiz extends Eintragung{
 	public String getInhalt(){
 		return this.inhalt;
 	}
+	
+//	public void setBearbeiteNotiz(Notiz notiz){
+//		this.notiz = notiz;
+//	}
+//	
+//	public Notiz getBearbeiteNotiz(){
+//		return this.notiz;
+//	}
+//		
 }
