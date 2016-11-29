@@ -37,7 +37,8 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Faelligkeit (Faelligkeit-ID, Datum) " + "VALUES (" + f.getId()
+						 + "," + f.getDatum() + " )");
 			}
 		}
 		
@@ -54,7 +55,7 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Faelligkeit " + "SET Datum=\"" + f.getDatum() + "\" " + "WHERE id=" + f.getId());
 		}
 		
 		catch (SQLException e1) {
