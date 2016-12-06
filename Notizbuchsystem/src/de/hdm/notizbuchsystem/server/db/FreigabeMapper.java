@@ -1,9 +1,6 @@
 package de.hdm.notizbuchsystem.server.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
@@ -37,11 +34,14 @@ private static FreigabeMapper freigabeMapper = null;
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Freigabe (Freigabe-ID, Eintragungs-ID, Loeschberechtigung, "
+						+ "Aenderungsberechtigung, Leseberechtigung) " + "VALUES (" + f.getId() + "," + 
+						f.getFreigegebeneEintragung() + "," + f.getLoeschberechtigung() + ","
+						+ f.getAenderungsberechtigung() + "," + f.getLeseberechtigung() + " )");
 			}
 		}
 		
-		catch(SQLException e1) {
+		catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		
@@ -54,7 +54,10 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Freigabe " + "SET Eintragungs-ID=\"" + f.getFreigegebeneEintragung()
+					+ "\", " + "Loeschberechtigung=\"" + f.getLoeschberechtigung() + "\", " + 
+					"Aenderungsberechtigung=\"" + f.getAenderungsberechtigung() + "\", " +
+					"Leseberechtigung=\"" + f.getLeseberechtigung() + "\" " + "WHERE id=" + f.getId());
 		}
 		
 		catch (SQLException e1) {

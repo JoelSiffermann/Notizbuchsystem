@@ -10,7 +10,8 @@ public abstract class Freigabe extends BusinessObject {
 	
 	private boolean loeschberechtigung;
 	
-	private String freigegebeneEmail;
+	//Hier brauchen wir die Eintragung, da die Beziehung zu Freigabe und Nutzer in einer Zwischentabelle ausgedrückt wird
+	private int freigegebeneEintragung;
 
 	public Freigabe(){
 		
@@ -40,13 +41,13 @@ public abstract class Freigabe extends BusinessObject {
 		return this.loeschberechtigung;
 	}
 	
-//	ist die Variable email nicht besser als die Variable freigegebeneEmail?
+//	gaändert zu freigegebeneEintragung!
 	
-	public void setFreigegebeneEmail(String freigegebeneEmail){
-		this.freigegebeneEmail = freigegebeneEmail;
+	public void setFreigegebeneEintragung(int freigegebeneEintragung){
+		this.freigegebeneEintragung = freigegebeneEintragung;
 	}
 	
-	public String getFreigegebeneEmail(){
-		return this.freigegebeneEmail;
+	public int getFreigegebeneEintragung(){
+		return this.freigegebeneEintragung;
 	}
 }

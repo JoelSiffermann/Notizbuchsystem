@@ -35,7 +35,9 @@ public class EintragungMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("sql");
+				stmt.executeUpdate("INSERT INTO Eintragung (Eintragungs-ID, Eigentuemer, Modifikationsdatum, "
+						+ "Erstelldatum, Titel) " + "VALUES (" + e.getId() + ", " + e.getEigentuemer() + ", "
+						 + e.getModifikationsdatum() + ", " + e.getErstelldatum() + ", " + e.getTitel() + " )");
 			}
 		}
 		
@@ -52,7 +54,8 @@ public class EintragungMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("sql");
+			stmt.executeUpdate("UPDATE Eintragung " + "SET Modifikationsdatum=\"" + e.getModifikationsdatum()
+					+ "\", " + "Titel=\"" + e.getTitel() + "\" " + "WHERE id=" + e.getId());
 		}
 		
 		catch (SQLException e1) {
