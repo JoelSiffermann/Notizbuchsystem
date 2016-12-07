@@ -11,9 +11,21 @@
     <servlet-class>de.hdm.notizbuchsystem.server.GreetingServiceImpl</servlet-class>
   </servlet>
   
+ 
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/notizbuchsystem/greet</url-pattern>
+  </servlet-mapping>
+  
+ //Für den Login/out 
+  <serlet>
+      <servlet-name>loginService</servlet-name>
+      <servlet-class>com.google.gwt.sample.notizbuchsystem.server.LoginServiceImpl</servlet-class>
+  </serlet>
+  
+  <servlet-mapping>
+      <servlet-name>loginService</servlet-name>
+      <url-pattern>/notizbuchsystem/login</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

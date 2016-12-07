@@ -10,7 +10,7 @@ import de.hdm.notizbuchsystem.client.LoginInfo;
 public interface LoginServiceAsync {
 	
 	/**
-	 * @see de.hdm.gruppe7.partnerboerse.server.LoginServiceImpl#login(String)
+	 * @see de.hdm.notizbuchsystem.server.LoginServiceImpl#login(String)
 	 */	
 	public void login(String requestUri, AsyncCallback<LoginInfo> callback);
 

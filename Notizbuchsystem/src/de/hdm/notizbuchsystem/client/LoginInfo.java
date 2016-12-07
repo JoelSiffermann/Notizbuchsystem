@@ -8,8 +8,8 @@ public class LoginInfo implements Serializable {
 	private String logoutUrl;
 	private String loginUrl;
 	private String emailAddress;
-	private String vorname;
-	private String name;
+	private String nickname;
+	
 	private boolean loggedIn = false;
 	
 	/**
@@ -31,22 +31,16 @@ public class LoginInfo implements Serializable {
 	}
 
 	/**
-	 * Getter, der den Vorname des Nutzers zurueckliefert
+	 * Getter, der den Nickname des Nutzers zurueckliefert
 	 * 
-	 * @return vorname
+	 * @return Nickname
 	 */
-	public String getVorname() {
-		return vorname;
+	public String getNickname() {
+		return nickname;
 	}
 
-	/**
-	 * Getter, der den Nachname des Nutzer zurueckliefert
-	 * 
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
+	
+	
 	/**
 	 * Legt die e-Mail Adresse des Nutzers fest
 	 * 
@@ -66,22 +60,15 @@ public class LoginInfo implements Serializable {
 	}
 
 	/**
-	 * Legt einen vorname fuer den Nutzer fest
+	 * Legt einen nickname fuer den Nutzer fest
 	 * 
-	 * @param vorname
+	 * @param nickname
 	 */
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	/**
-	 * Legt einen Nachname fuer den Nutzer fest
-	 * 
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	/**
 	 * Methode gibt zurueck ob ein Nutzer eingeloggt ist.
 	 * @return loggedIn

@@ -20,12 +20,12 @@ import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 import de.hdm.notizbuchsystem.shared.ReportGeneratorAsync;
 import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 
-
-
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * die klasse Notizbuchsystem implementiert den Entrypoint
  */
+
 public class Notizbuchsystem implements EntryPoint {
+	
 	/**
 	 * Neues Nutzerprofil erzeugen
 	 */
@@ -47,7 +47,7 @@ public class Notizbuchsystem implements EntryPoint {
 	private static Nutzer np = null;
 	private static LoginInfo loginInfo = null;
 	
-	private static String editorHtmlName = "Partnerboerse.html";
+	private static String editorHtmlName = "Notizbuchsystem.html";
 
 	private NotizSystemAdministrationAsync admin = ClientsideSettings.
 			getNotizSystemAdministration();
@@ -72,7 +72,7 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 	
 	/**
-	 * AsyncCallback fÃ¼r die Login-Mathode. Bei erhalt der LoginInfos wir die Methode
+	 * AsyncCallback für die Login-Mathode. Bei erhalt der LoginInfos wir die Methode
 	 * pruefeObMutzerNeu() aufgerufen.
 	 * 
 	 * @return
@@ -119,15 +119,15 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (!result) {
 			
-					admin.getNuterprofilByEmail(loginInfo.getEmailAddress(),
-							getNutzerprofilByEmailExecute(loginInfo.getEmailAddress()));
+					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
+							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
 					RootPanel.get("Details").add(begruessenN);
 					RootPanel.get("Details").add(begruessenN2);
 
 				} else {
 					
-					CreateNutzer createNutzerprofil = new CreateNutzer("Np");
+					ErstelleNutzer createNutzerprofil = new ErstelleNutzer("Np");
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(createNutzerprofil);
 					
@@ -141,7 +141,7 @@ public class Notizbuchsystem implements EntryPoint {
 	/**
 	 * Gibt das aktuell-eingeloggte Nutzerprofil zurueck
 	 * 
-	 * @return Nutzerprofil
+	 * @return Nutzer
 	 */
 	public static Nutzer getNp() {
 		return np;
@@ -163,8 +163,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * gespeichert.
 	 * @return
 	 */
-	private AsyncCallback<Nutzer> getNuterprofilByEmailExecute(
-			String email) {
+	private AsyncCallback<Nutzer>getNutzerByEmailExecute(String email) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {

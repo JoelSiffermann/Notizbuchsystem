@@ -12,7 +12,7 @@ import de.hdm.notizbuchsystem.client.LoginInfo;
 public interface LoginService extends RemoteService {
 	
 	/**
-	 * @see de.hdm.gruppe7.partnerboerse.server.LoginServiceImpl#login(String)
+	 * @see de.hdm.notizbuchsystem.server.LoginServiceImpl#login(String)
 	 */
 	public LoginInfo login(String requestUri) throws IllegalArgumentException;
 	

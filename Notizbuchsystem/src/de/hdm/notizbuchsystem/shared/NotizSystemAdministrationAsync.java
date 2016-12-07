@@ -12,6 +12,9 @@ public interface NotizSystemAdministrationAsync {
 
 	void login(AsyncCallback<Void> callback);
 	
+	//prüft ob der Nuter neu angelegt wird
+	void pruefeObNutzerNeu(String userEmail, AsyncCallback<Boolean> callback);
+	
 	void logout(AsyncCallback<Void> callback);
 	
 	void init(AsyncCallback<Void> callback);
