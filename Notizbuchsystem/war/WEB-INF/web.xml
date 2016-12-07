@@ -5,22 +5,24 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
-
   
-  <serlet>
-      <servlet-name>loginService</servlet-name>
-      <servlet-class>com.google.gwt.sample.notizbuchsystem.server.LoginServiceImpl</servlet-class>
-  </serlet>
-  
-  <servlet-mapping>
-      <servlet-name>loginService</servlet-name>
-      <url-pattern>/notizbuchsystem/login</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
+  <!-- Welcome Pages -->
   <welcome-file-list>
     <welcome-file>Notizbuchsystem.html</welcome-file>
   </welcome-file-list>
+
+  
+  <!-- Servlets -->
+  <servlet>
+      <servlet-name>loginServlet</servlet-name>
+      <servlet-class>com.google.gwt.sample.notizbuchsystem.server.LoginServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+      <servlet-name>loginServlet</servlet-name>
+      <url-pattern>/notizbuchsystem/login</url-pattern>
+  </servlet-mapping>
+  
+  
 
 </web-app>
