@@ -6,18 +6,8 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>de.hdm.notizbuchsystem.server.GreetingServiceImpl</servlet-class>
-  </servlet>
+
   
- 
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/notizbuchsystem/greet</url-pattern>
-  </servlet-mapping>
-  
- //Für den Login/out 
   <serlet>
       <servlet-name>loginService</servlet-name>
       <servlet-class>com.google.gwt.sample.notizbuchsystem.server.LoginServiceImpl</servlet-class>
