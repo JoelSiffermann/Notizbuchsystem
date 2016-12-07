@@ -2,23 +2,15 @@ package de.hdm.notizbuchsystem.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-
-import de.hdm.notizbuchsystem.client.ClientsideSettings;
-import de.hdm.notizbuchsystem.client.LoginInfo;
-import de.hdm.notizbuchsystem.shared.LoginServiceAsync;
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
-import de.hdm.notizbuchsystem.shared.ReportGeneratorAsync;
-import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
+import de.hdm.notizbuchsystem.client.ClientsideSettings;
+import de.hdm.notizbuchsystem.shared.LoginServiceAsync;
+
 
 /**
  * die klasse Notizbuchsystem implementiert den Entrypoint
@@ -27,24 +19,24 @@ import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 public class Notizbuchsystem implements EntryPoint {
 	
 	/**
-	 * Neues Nutzerprofil erzeugen
+	 * Neuen Nutzer erzeugen
 	 */
-	Nutzer nutzerprofil = new Nutzer();
+	Nutzer nutzer = new Nutzer();
 
 	
 	/**
-	 * Deklaration der Labels fuer die Startseite(n)
+	 * Deklaration der Labels fuer die Startseite
 	 */
-	private Label begruessenN = new Label(
+	private Label willkommenstext1 = new Label(
 			"Herzlich Willkommen bei Ihrem Notizbuch. ");
-	private Label begruessenN2 = new Label(
+	private Label willkommenstext2 = new Label(
 			"Verwalten Sie nun Ihr Notizbuch");
 
 		
 	/**
 	 * Deklaration fuer den Login und den Logout
 	 */
-	private static Nutzer np = null;
+	private static Nutzer nu = null;
 	private static LoginInfo loginInfo = null;
 	
 	private static String editorHtmlName = "Notizbuchsystem.html";
@@ -72,13 +64,13 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 	
 	/**
-	 * AsyncCallback für die Login-Mathode. Bei erhalt der LoginInfos wir die Methode
+	 * AsyncCallback für die Login-Mathode. Bei erhalt der LoginInfos wird die Methode
 	 * pruefeObMutzerNeu() aufgerufen.
 	 * 
 	 * @return
 	 */
 	private AsyncCallback<LoginInfo> loginExecute() {
-		AsyncCallback<LoginInfo> asynCallback = new AsyncCallback<LoginInfo>() {
+		AsyncCallback<LoginInfo> asyncCallback = new AsyncCallback<LoginInfo>() {
 			@Override
 			public void onFailure(Throwable caught) {
 			}
@@ -99,7 +91,7 @@ public class Notizbuchsystem implements EntryPoint {
 				}
 			}
 		};
-		return asynCallback;
+		return asyncCallback;
 	}
 	
 	/**
@@ -122,14 +114,14 @@ public class Notizbuchsystem implements EntryPoint {
 					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
 							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
-					RootPanel.get("Details").add(begruessenN);
-					RootPanel.get("Details").add(begruessenN2);
+					RootPanel.get("Details").add(willkommenstext1);
+					RootPanel.get("Details").add(willkommenstext2);
 
 				} else {
 					
-					ErstelleNutzer createNutzerprofil = new ErstelleNutzer("Np");
+					ErstelleNutzer erstelleNutzer = new ErstelleNutzer("Nu");
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(createNutzerprofil);
+					RootPanel.get("Details").add(erstelleNutzer);
 					
 				}
 
@@ -139,12 +131,12 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 
 	/**
-	 * Gibt das aktuell-eingeloggte Nutzerprofil zurueck
+	 * Gibt den aktuell-eingeloggte Nutzer zurueck
 	 * 
 	 * @return Nutzer
 	 */
-	public static Nutzer getNp() {
-		return np;
+	public static Nutzer getNutzer() {
+		return nu;
 	}
 
 	/**
@@ -173,7 +165,7 @@ public class Notizbuchsystem implements EntryPoint {
 			@Override
 			public void onSuccess(Nutzer result) {
 				
-				np = result;
+				nu = result;
 			getMenu();
 
 			}
@@ -185,8 +177,8 @@ public class Notizbuchsystem implements EntryPoint {
 	 * Methode legt die CSS-Styles fÃ¼r verschiedene Labels fest.
 	 */
 	private void setStyles() {
-		begruessenN.setStyleName("welcome-label");
-		begruessenN2.setStyleName("welcome-label2");
+		willkommenstext1.setStyleName("welcome-label");
+		willkommenstext2.setStyleName("welcome-label2");
 
 	}
 
@@ -194,7 +186,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * Methode erzeugt ruft das Panel auf, durch welches die Menubar sichtbar wird.
 	 */
 	public static void getMenu() {
-		RootPanel.get("Navigator").add(new Navigator(np));
+		RootPanel.get("Navigator").add(new Navigator(nu));
 	}
 
 }
