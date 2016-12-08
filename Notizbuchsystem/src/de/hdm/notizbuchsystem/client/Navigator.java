@@ -19,7 +19,7 @@ import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
  * 
  * @author Teuta
  */
-public class Navigator extends HorizontalPanel {
+public class Navigator extends VerticalPanel {
 
 	/**
 	 * Neues Nutzer-Objekt anlegen mit Login-Infos.
@@ -31,7 +31,7 @@ public class Navigator extends HorizontalPanel {
 	/**
 	 * Vertikales Panel erzeugen
 	 */
-	VerticalPanel verticalPanel1 = new VerticalPanel();
+	HorizontalPanel horizontalPanel1 = new HorizontalPanel();
 
 	/**
 	 * Konstruktor erzeugen
@@ -46,7 +46,7 @@ public class Navigator extends HorizontalPanel {
 	 * Methode erstellen, die den Aufbau der Seite startet.
 	 */
 	public void run() {
-		this.add(verticalPanel1);
+		this.add(horizontalPanel1);
 
 		/**
 		 * Ab hier wird die Menuebar erstellt. Dabei werden abhaengig von der
@@ -205,8 +205,8 @@ public class Navigator extends HorizontalPanel {
 		});
 
 		/**
-		 * Hinzufuegen der vertikalen Menueleisten nutzerMenu, notizMenu,
-		 * notizbuchMenu und ausloggenMenu zur horizontalen Hauptleiste "menu"
+		 * Hinzufuegen der horizontalen Menueleisten nutzerMenu, notizMenu,
+		 * notizbuchMenu und ausloggenMenu zur vertikalen Hauptleiste "menu"
 		 * und Benennung der Menueleisten in der Menuebar per String-Uebergabe.
 		 */
 
