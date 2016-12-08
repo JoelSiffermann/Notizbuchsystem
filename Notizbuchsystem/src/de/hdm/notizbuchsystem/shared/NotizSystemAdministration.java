@@ -8,9 +8,9 @@ import de.hdm.notizbuchsystem.shared.bo.*;
 
 public interface NotizSystemAdministration {
 	
-	public void login() throws IllegalArgumentException;
-	
-	public void logout() throws IllegalArgumentException;
+//	public void login() throws IllegalArgumentException;
+//	
+//	public void logout() throws IllegalArgumentException;
 	
 	public void init() throws IllegalArgumentException;
 	
