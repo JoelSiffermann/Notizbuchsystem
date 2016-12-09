@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Vector;
 import java.util.ArrayList;
 
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 public interface NotizSystemAdministrationAsync {
@@ -37,7 +38,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung, AsyncCallback<Void> callback);
 	
-	void loescheNutzer(Nutzer nutzer, AsyncCallback<Void> callback);
+	void loescheNutzer(int profilId, AsyncCallback<Void> callback);
 	
 	void loescheNotizquelle(Notizquelle notizquelle, AsyncCallback<Void> callback);
 	
@@ -69,6 +70,8 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNutzerByNotiz(Notiz notiz, AsyncCallback<Nutzer> callback);
 	
+	void getNutzerById(int profilId, AsyncCallback<Nutzer> callback);
+	
 	void getNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 	
 	void getNutzerByName(String name, String vorname, AsyncCallback<Vector<Nutzer>> callback);
@@ -87,4 +90,5 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNotizByNotizbuch(String titel, AsyncCallback<Vector<Notiz>> callback);
 	
+	void speicherNutzer(int profilId, String vorname, String Name, AsyncCallback<Void> callback);
 }
