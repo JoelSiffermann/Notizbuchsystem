@@ -30,9 +30,9 @@ public class ErstelleNutzer extends VerticalPanel {
 		/**
 		 * Aktuelle EmailAdresse aus Google-Account holen
 		 */
-		private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+		private String email = Notizbuchsystem.getLoginInfo().getEmail();
 
-		//Damit auf die Async Methoden zugegriffen werden kÃ¶nnen
+		//Damit auf die Async Methoden zugegriffen werden kann
 		private NotizSystemAdministrationAsync admin = ClientsideSettings
 				.getNotizSystemAdministration();
 		
@@ -65,7 +65,7 @@ public class ErstelleNutzer extends VerticalPanel {
 		 * Konstruktor erstellen.
 		 * 
 		 * @param profiltyp
-		 *            Der Profiltyp (Nutzerprofil).
+		 *            Der Profiltyp (Nutzer).
 		 */
 		public ErstelleNutzer(String profiltyp) {
 			this.profiltyp = profiltyp;
@@ -83,7 +83,6 @@ public class ErstelleNutzer extends VerticalPanel {
 			 * noch das Label für Überschrift eingeben!!!!!!!!!!!!!!!!!!!!!!!!!!
 			 */
 			ueberschriftLabel.addStyleName("");
-			warnungLabel.setStyleName("red_label");
 			createNutzerprofilFlexTable.addStyleName("FlexTable");
 			createNutzerprofilFlexTable.setCellPadding(6);
 			createNutzerprofilFlexTable.getColumnFormatter().addStyleName(0,
@@ -110,7 +109,7 @@ public class ErstelleNutzer extends VerticalPanel {
 			createNutzerprofilFlexTable.setText(2, 2, email);
 
 			/**
-			 * ClickHandler fuer den Button zum Anlegen eines Nutzerprofils
+			 * ClickHandler fuer den Button zum Anlegen eines Nutzers
 			 * erzeugen. Sobald dieser Button betaetigt wird, werden die Eingaben
 			 * sowohl auf Vollstaendigkeit als auch auf Korrektheit geprueft. Sind
 			 * die Eingaben unvollstaendig oder inkorrekt, wird eine entsprechende
@@ -136,7 +135,7 @@ public class ErstelleNutzer extends VerticalPanel {
 			
 			
 			/**
-			 * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzerprofils erzeugen.
+			 * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
 			 * Sobald dieser Button getaetigt wird, wird der Nutzer zurueck auf die Login-Seite geleitet.
 			 * Alle bisher im Formular eingetragenen Daten werden verworfen.
 			 */
@@ -176,7 +175,7 @@ public class ErstelleNutzer extends VerticalPanel {
 		}
 
 		/**
-		 * Methode erstellen, die ein neues Nutzerprofil anlegt. Dies fÃ¼rt zum
+		 * Methode erstellen, die einen neuen Nutzer anlegt. Dies führt zum
 		 * Speichern des Nutzerprofils in der Datenbank.
 		 */
 		public void nutzerprofilAnlegen() {
@@ -191,7 +190,7 @@ public class ErstelleNutzer extends VerticalPanel {
 		}
 
 		private AsyncCallback<Nutzer> erstelleNutzerExecute(
-				String vorname, String nachname,  String emailAddress) {
+				String vorname, String nachname,  String email) {
 			AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 				@Override
 				public void onFailure(Throwable caught) {

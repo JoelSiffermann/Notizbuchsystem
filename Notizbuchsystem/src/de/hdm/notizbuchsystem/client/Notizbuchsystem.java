@@ -80,9 +80,9 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (result.isLoggedIn()) {
 					loginInfo = result;
-					admin.pruefeObNutzerNeu(result.getEmailAddress(),
+					admin.pruefeObNutzerNeu(result.getEmail(),
 							pruefeObNutzerNeuExecute(result
-									.getEmailAddress()));
+									.getEmail()));
 
 
 				} else {
@@ -111,8 +111,8 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (!result) {
 			
-					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
-							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
+					admin.getNutzerByEmail(loginInfo.getEmail(),
+							getNutzerByEmailExecute(loginInfo.getEmail()));
 					
 					RootPanel.get("Details").add(willkommenstext1);
 					RootPanel.get("Details").add(willkommenstext2);
@@ -131,7 +131,7 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 
 	/**
-	 * Gibt den aktuell-eingeloggte Nutzer zurueck
+	 * Gibt den aktuell-eingeloggten Nutzer zurueck
 	 * 
 	 * @return Nutzer
 	 */
@@ -150,8 +150,8 @@ public class Notizbuchsystem implements EntryPoint {
 
 	
 	/**
-	 * AsyncCallback für die Methode getNuterprofilByEmail(). Wenn ein Nutzerprofil zurückgeliefert wird,
-	 * wird die Methode getMenu() aurgerufen und das zurückgelieferte Nutzerprofil in die Variable np 
+	 * AsyncCallback fuer die Methode getNutzerByEmail(). Wenn ein Nutzer zurueckgeliefert wird,
+	 * wird die Methode getMenu() aurgerufen und das zurueckgelieferte Nutzerprofil in die Variable np 
 	 * gespeichert.
 	 * @return
 	 */
@@ -174,7 +174,7 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 
 	/**
-	 * Methode legt die CSS-Styles für verschiedene Labels fest.
+	 * Methode legt die CSS-Styles fuer verschiedene Labels fest.
 	 */
 	private void setStyles() {
 		willkommenstext1.setStyleName("welcome-label");
@@ -183,7 +183,7 @@ public class Notizbuchsystem implements EntryPoint {
 	}
 
 	/**
-	 * Methode erzeugt ruft das Panel auf, durch welches die Menubar sichtbar wird.
+	 * Methode ruft das Panel auf, durch welches die Menubar sichtbar wird.
 	 */
 	public static void getMenu() {
 		RootPanel.get("Navigator").add(new Navigator(nu));

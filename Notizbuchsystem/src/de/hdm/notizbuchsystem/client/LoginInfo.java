@@ -7,7 +7,7 @@ public class LoginInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String logoutUrl;
 	private String loginUrl;
-	private String emailAddress;
+	private String email;
 	private String nickname;
 	
 	private boolean loggedIn = false;
@@ -17,8 +17,8 @@ public class LoginInfo implements Serializable {
 	 * 
 	 * @return email
 	 */
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmail() {
+		return email;
 	}
 
 	/**
@@ -44,10 +44,10 @@ public class LoginInfo implements Serializable {
 	/**
 	 * Legt die e-Mail Adresse des Nutzers fest
 	 * 
-	 * @param emailAddress
+	 * @param email
 	 */
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**

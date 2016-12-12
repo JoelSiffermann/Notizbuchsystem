@@ -33,12 +33,12 @@ public class VerwalteNutzer extends VerticalPanel {
 		 * Widgets erzeugen.
 		 */
 		private Label ueberschriftLabel = new Label("Profil bearbeiten:");
-		private FlexTable editNutzerprofilFlexTable = new FlexTable();
+		private FlexTable editNutzerFlexTable = new FlexTable();
 		private TextBox vornameTextBox = new TextBox();
 		private TextBox nachnameTextBox = new TextBox();
 		
 		private Label emailLabel = new Label();
-		private Button editNutzerprofilButton = new Button("Profil speichern");
+		private Button editNutzerButton = new Button("Profil speichern");
 		private Button abbrechenButton = new Button("Abbrechen");
 		
 		private Label infoLabel = new Label();
@@ -59,8 +59,8 @@ public class VerwalteNutzer extends VerticalPanel {
 
 		/**
 		 * Konstruktor erstellen.
-		 * @param profilId Die Profil-ID des aktuellen Nutzerprofils.  
-		 * @param profiltyp Der Profiltyp (Nutzerprofil). 
+		 * @param profilId Die Profil-ID des aktuellen Nutzers.  
+		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
 		public VerwalteNutzer(final int profilId, String profiltyp) {
 			this.profilId = profilId; 
@@ -78,39 +78,38 @@ public class VerwalteNutzer extends VerticalPanel {
 			 * CSS anwenden und die Tabelle formatieren.
 			 */
 			ueberschriftLabel.addStyleName("Notizbuchsystem-label");
-			warnungLabel.setStyleName("red_label");
-			editNutzerprofilFlexTable.addStyleName("FlexTable");
-			editNutzerprofilFlexTable.setCellPadding(6);
-			editNutzerprofilFlexTable.getColumnFormatter().addStyleName(0, "TableHeader");
+			editNutzerFlexTable.addStyleName("FlexTable");
+			editNutzerFlexTable.setCellPadding(6);
+			editNutzerFlexTable.getColumnFormatter().addStyleName(0, "TableHeader");
 			pfadLabelNpA.addStyleName("Notizbuchsystem-zurueckbutton");
 			
 			/**
 			 * Erste Spalte der Tabelle festlegen.
 			 */
-			editNutzerprofilFlexTable.setText(0, 0, "Vorname");
-			editNutzerprofilFlexTable.setText(1, 0, "Nachname");
-			editNutzerprofilFlexTable.setText(8, 0, "E-Mail");
+			editNutzerFlexTable.setText(0, 0, "Vorname");
+			editNutzerFlexTable.setText(1, 0, "Nachname");
+			editNutzerFlexTable.setText(2, 0, "E-Mail");
 
 			/**
 			 * Zweite und Dritte Spalte der Tabelle festlegen.
 			 * Die Widgets werden in die Tabelle eingefuegt und die Items fuer die ListBoxen werden gesetzt. 
 			 */
-			editNutzerprofilFlexTable.setWidget(0, 1, vornameTextBox);
-			editNutzerprofilFlexTable.setWidget(1, 1, nachnameTextBox);
-			editNutzerprofilFlexTable.setWidget(2, 1, emailLabel);
+			editNutzerFlexTable.setWidget(0, 1, vornameTextBox);
+			editNutzerFlexTable.setWidget(1, 1, nachnameTextBox);
+			editNutzerFlexTable.setWidget(2, 1, emailLabel);
 
 			befuelleTabelle(); 
 			
 			/**
-			 * ClickHandler fuer den Button zum Speichern des eigenen Nutzerprofils erzeugen. 
+			 * ClickHandler fuer den Button zum Speichern des eigenen Nutzers erzeugen. 
 			 * Sobald dieser Button betaetigt wird, werden die Eingaben sowohl auf 
 			 * Vollstaendigkeit als auch auf Korrektheit ueberprueft. Sind Eingaben
 			 * unvollstaendig oder inkorrekt, wird eine entsprechende Information 
 			 * ueber diesen Zustand ausgegeben. Andernfalls wird das Nutzerprofil 
 			 * gespeichert. Anschliessend wird die Seite zum Anzeigen des eigenen 
-			 * Nutzeprofils aufgerufen.
+			 * Nutzers aufgerufen.
 			 */
-			editNutzerprofilButton.addClickHandler(new ClickHandler() {
+			editNutzerButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					pruefeEingabe(); 
 				}
@@ -136,7 +135,7 @@ public class VerwalteNutzer extends VerticalPanel {
 			 */
 			pfadLabelNpA.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					//ZeigeNutzerprofil muss noch erstellt werden
+					
 					ZeigeNutzer showNp = new ZeigeNutzer(profilId, profiltyp);
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showNp);
@@ -148,8 +147,8 @@ public class VerwalteNutzer extends VerticalPanel {
 			 * Widgets den Panels hinzufuegen.
 			 */
 			verPanel.add(ueberschriftLabel);
-			verPanel.add(editNutzerprofilFlexTable);
-			buttonPanel.add(editNutzerprofilButton);
+			verPanel.add(editNutzerFlexTable);
+			buttonPanel.add(editNutzerButton);
 			buttonPanel.add(abbrechenButton);
 			verPanel.add(buttonPanel);
 			verPanel.add(infoLabel);
@@ -181,8 +180,8 @@ public class VerwalteNutzer extends VerticalPanel {
 			 */
 			verPanel.add(pfadLabelNpA);
 			verPanel.add(ueberschriftLabel);
-			verPanel.add(editNutzerprofilFlexTable);
-			verPanel.add(editNutzerprofilButton);
+			verPanel.add(editNutzerFlexTable);
+			verPanel.add(editNutzerButton);
 			verPanel.add(infoLabel);
 		}
 		
@@ -196,18 +195,18 @@ public class VerwalteNutzer extends VerticalPanel {
 
 			if (vornameTextBox.getText().length() == 0) {
 				warnungLabel.setText("Bitte geben Sie Ihren Vornamen an.");
-				editNutzerprofilFlexTable.setWidget(0, 3, warnungLabel);
+				editNutzerFlexTable.setWidget(0, 3, warnungLabel);
 			} else if (nachnameTextBox.getText().length() == 0) {
 				warnungLabel.setText("Bitte geben Sie Ihren Nachnamen an.");
-				editNutzerprofilFlexTable.setWidget(1, 3, warnungLabel);
+				editNutzerFlexTable.setWidget(1, 3, warnungLabel);
 			} else if (vornameWert == false) {
 				warnungLabel.setText("Ihr Vorname darf keine Zahlen enthalten.");
-				editNutzerprofilFlexTable.setWidget(0, 3, warnungLabel);
+				editNutzerFlexTable.setWidget(0, 3, warnungLabel);
 			} else if (nachnameWert == false) {
 				warnungLabel.setText("Ihr Nachname darf keine Zahlen enthalten.");
-				editNutzerprofilFlexTable.setWidget(1, 3, warnungLabel);
+				editNutzerFlexTable.setWidget(1, 3, warnungLabel);
 			} else {
-				aktualisiereNutzerprofil(); 
+				aktualisiereNutzer(); 
 			}
 		}
 		
@@ -215,7 +214,7 @@ public class VerwalteNutzer extends VerticalPanel {
 		 * Methode erstellen, die das eigene Nutzers aktualisiert. Dies führt zum wiederholten 
 		 * Schreiben des Nutzers in die Datenbank.
 		 */
-		public void aktualisiereNutzerprofil() {
+		public void aktualisiereNutzer() {
 			ClientsideSettings.getNotizSystemAdministration().speicherNutzer(
 					profilId, vornameTextBox.getText(),
 					nachnameTextBox.getText(),
