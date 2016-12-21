@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 
 public class DBConnection {
-	   // Zugangsdaten für DB anlegen 
+	   // Zugangsdaten fï¿½r DB anlegen 
 	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	   static final String DB_URL = "207.223.163.76";
 	   static final String USER = "NBS";
@@ -21,7 +21,7 @@ public class DBConnection {
 	   
 	   Class.forName("com.mysql.jdbc.Driver");
 	   
-	   
+	   //Ay Gudde
 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
 	   return conn;   
 	   }}
