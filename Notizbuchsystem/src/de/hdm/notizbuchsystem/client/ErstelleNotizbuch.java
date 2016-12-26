@@ -1,7 +1,13 @@
 package de.hdm.notizbuchsystem.client;
 
+
+
+import java.util.Date;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.apphosting.utils.config.AppYaml.AdminConsole;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -12,6 +18,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.hdm.notizbuchsystem.server.NotizbuchAdministrationImpl;
+import de.hdm.notizbuchsystem.shared.NotizSystemAdministration;
+import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
+import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 
 //Klasse zum Erstellen eines neuen Notizbuchs
 
@@ -29,7 +38,7 @@ public class ErstelleNotizbuch extends Showcase {
 	private FlexTable notizbuchFlexTable = new FlexTable();
 	private TextBox titelTextBox = new TextBox();
 	private TextBox subtitelTextBox = new TextBox();
-	private DateBox erstelldatumDateBox = new DateBox();
+	private Label erstelldatumDateBox = new Label(aktuellesDatum().toLocaleString());
 	private DateBox modifikationsdatumDateBox = new DateBox();
 
 
@@ -52,7 +61,7 @@ public class ErstelleNotizbuch extends Showcase {
     
     
     // Erstell- und Modifkationsdatumsboxen ausgeklammert, werden angepasst
-//    verPanel.add(erstelldatumDateBox);
+   verPanel.add(erstelldatumDateBox);
 //    verPanel.add(modifikationsdatumDateBox);
   
     
@@ -73,7 +82,7 @@ public class ErstelleNotizbuch extends Showcase {
 	 */
 	notizbuchFlexTable.setText(0, 0, "Titel");
 	notizbuchFlexTable.setText(1, 0, "Subtitel");
-//	notizbuchFlexTable.setText(2, 0, "Erstelldatum");
+	notizbuchFlexTable.setText(2, 0, "Erstelldatum");
 //	notizbuchFlexTable.setText(3, 0, "Modifikationsdatum");
 
 	/**
@@ -89,8 +98,8 @@ public class ErstelleNotizbuch extends Showcase {
 	
 	notizbuchFlexTable.setWidget(2, 2, warnLabel);
 	
-//	notizbuchFlexTable.setWidget(2, 2, erstelldatumDateBox);
-//	notizbuchFlexTable.setWidget(2, 3, reqLabel3);
+	notizbuchFlexTable.setWidget(2, 2, erstelldatumDateBox);
+
 //	
 //	notizbuchFlexTable.setWidget(3, 2, modifikationsdatumDateBox);
 //	notizbuchFlexTable.setWidget(3, 3, reqLabel3);
@@ -115,6 +124,8 @@ public class ErstelleNotizbuch extends Showcase {
   
   abbrechenButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
+			buttonPanel.clear();
+			verPanel.clear();
 			clear();
 			}
 	});
@@ -135,22 +146,28 @@ public class ErstelleNotizbuch extends Showcase {
 	  
   }
   
-  // Methode zum Anlegen eines neuen Notizbuchs und dessen Speicherung in der DB
-  public void notizbuchAnlegen(){
-	  	  
-	  
+ // Methode zum Anlegen eines neuen Notizbuchs und dessen Speicherung in der DB
+ public void notizbuchAnlegen(){
+//  	 ClientsideSettings.getNotizSystemAdministration().erstelleNotizbuch(titelTextBox.getText(), eigentümer, aktuellesDatum(), aktuellesDatum(), callback);
 	  
   }
   
   
-  
-  
-    
-    
-  }
+ // Methode zum Bestimmen der aktuellen DateTime
+ 
 
+ 
+ private static Date aktuellesDatum() {
+		return zeroTime(new Date()); 
+     }
+ 
+ private static Date zeroTime(final Date date) {
+		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
+				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date));
+	}
+	
   
-
+}
   
   
 

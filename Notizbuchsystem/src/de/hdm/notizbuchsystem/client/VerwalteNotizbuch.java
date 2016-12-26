@@ -19,7 +19,7 @@ public class VerwalteNotizbuch extends Showcase {
 	  
 	  
 	  final Button erstelleNotizbuchButton = new Button("Notizbuch Anlegen");
-	  final Button meinNotizbuchButton = new Button("Meine Notizbuecher Anzeigen");
+	  final Button alleNBButton = new Button("Meine Notizbuecher Anzeigen");
 	 
 	
 	  
@@ -29,7 +29,7 @@ public class VerwalteNotizbuch extends Showcase {
 			// TODO Auto-generated method stub
 			
 			buttonPanel.add(erstelleNotizbuchButton);
-			buttonPanel.add(meinNotizbuchButton);
+			buttonPanel.add(alleNBButton);
 			
 			
 			RootPanel.get("Details").add(verPanel);
@@ -54,7 +54,7 @@ public class VerwalteNotizbuch extends Showcase {
 			      }
 			    });
 			
-			meinNotizbuchButton.addClickHandler(new ClickHandler() {
+			alleNBButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
 			        /*
