@@ -43,9 +43,7 @@ public class ZeigeNotizbuch extends Showcase {
 		NBuebersicht.setText(0, 3, "Anzahl der Notizen");
 		NBuebersicht.setText(0, 4, "Anzeigen");
 		
-		
-		
-		
+				
 		abbrechenButton.addClickHandler(new ClickHandler() {
 		      @Override
 			public void onClick(ClickEvent event) {
@@ -56,6 +54,12 @@ public class ZeigeNotizbuch extends Showcase {
 		    });
 		
 	}
+	
+	
+	public void NBauflisten(){
+	//
+	}
+	
 
 }
 
