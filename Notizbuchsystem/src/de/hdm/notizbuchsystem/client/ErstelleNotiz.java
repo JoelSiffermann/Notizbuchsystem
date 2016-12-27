@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 //import com.google.gwt.user.datepicker.client.DateBox;
 
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
+
 
 /**
  * In diesem Showcase wird eine neue Notiz erstellt.
@@ -168,7 +170,7 @@ public void pruefeEingabe(){
 
 // Methode zum Anlegen einer neuen Notiz und dessen Speicherung in der DB
 public void notizAnlegen(){
-//	 ClientsideSettings.getNotizSystemAdministration().erstelleNotizbuch(titelTextBox.getText(), eigentümer, aktuellesDatum(), aktuellesDatum(), callback);
+//	 ClientsideSettings.getNotizSystemAdministration().erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum), callback);
 	  
 }
 
