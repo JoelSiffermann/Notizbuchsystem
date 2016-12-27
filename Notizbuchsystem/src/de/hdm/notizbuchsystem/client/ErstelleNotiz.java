@@ -1,5 +1,10 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Date;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,11 +14,11 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+//import com.google.gwt.user.datepicker.client.DateBox;
 
 
 /**
- * In diesem Showcase wird ein neues Konto für den Kunden mit der Kundennummer 1
- * erstellt.
+ * In diesem Showcase wird eine neue Notiz erstellt.
  * 
  * @author teuta
  * @version 1.0
@@ -31,12 +36,6 @@ public class ErstelleNotiz extends Showcase {
   protected String getHeadlineText() {
     return "Notiz Erstellen:";
   }
-
-  /**
-   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
-   * eine "Einschubmethode", die von einer Methode der Basisklasse
-   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
-   */
   
   private VerticalPanel verPanel = new VerticalPanel();
   private HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -46,8 +45,10 @@ public class ErstelleNotiz extends Showcase {
 	private TextBox titelTextBox = new TextBox();
 	private TextBox subtitelTextBox = new TextBox();
 	private TextArea inhaltTextArea = new TextArea();
-	private DateBox erstelldatumDateBox = new DateBox();
-	private DateBox modifikationsdatumDateBox = new DateBox();
+	private DateBox faelligkeitDateBox = new DateBox();
+	@SuppressWarnings("deprecation")
+	private Label erstelldatumDateBox = new Label(aktuellesDatum().toLocaleString());
+	//private DateBox modifikationsdatumDateBox = new DateBox();
 
 
 	private Button erstelleNotizButton = new Button("Notiz Anlegen");
@@ -55,6 +56,8 @@ public class ErstelleNotiz extends Showcase {
 	private Label reqLabel1 = new Label("* Pflichtfeld");
 	private Label reqLabel2 = new Label("* Pflichtfeld");
 	private Label reqLabel3 = new Label("* Pflichtfeld");
+	//private Label reqLabel4 = new Label("");
+	private Label warnLabel = new Label("");
 	
   
 	 /**
@@ -72,8 +75,9 @@ public class ErstelleNotiz extends Showcase {
   verPanel.add(titelTextBox);
   verPanel.add(subtitelTextBox);
   verPanel.add(inhaltTextArea);
+  verPanel.add(faelligkeitDateBox);
   verPanel.add(erstelldatumDateBox);
-  verPanel.add(modifikationsdatumDateBox);
+  //verPanel.add(modifikationsdatumDateBox);
 
   
   
@@ -81,6 +85,7 @@ public class ErstelleNotiz extends Showcase {
     reqLabel1.setStyleName("red_label");
 	reqLabel2.setStyleName("red_label");
 	reqLabel3.setStyleName("red_label");
+	warnLabel.setStyleName("red_label");
 	
 	notizFlexTable.addStyleName("FlexTable");
 	notizFlexTable.setCellPadding(6);
@@ -92,13 +97,13 @@ public class ErstelleNotiz extends Showcase {
 	notizFlexTable.setText(0, 0, "Titel");
 	notizFlexTable.setText(1, 0, "Subtitel");
 	notizFlexTable.setText(2, 0, "Inhalt");
-	notizFlexTable.setText(3, 0, "Erstelldatum");
-	notizFlexTable.setText(4, 0, "Modifikationsdatum");
+	notizFlexTable.setText(3, 0, "Fälligkeit");
+	notizFlexTable.setText(4, 0, "Erstelldatum");
+	//notizFlexTable.setText(4, 0, "Modifikationsdatum");
 
 	/**
 	 * Zweite und dritte Spalte der Tabelle festlegen. Die Widgets werden in
-	 * die Tabelle eingefuegt und die Items fuer die ListBoxen werden
-	 * gesetzt.
+	 * die Tabelle eingefuegt.
 	 */
 	notizFlexTable.setWidget(0, 2, titelTextBox);
 	notizFlexTable.setWidget(0, 3, reqLabel1);
@@ -109,11 +114,13 @@ public class ErstelleNotiz extends Showcase {
 	notizFlexTable.setWidget(2, 2, inhaltTextArea);
 	notizFlexTable.setWidget(2, 3, reqLabel3);
 	
-	notizFlexTable.setWidget(3, 2, erstelldatumDateBox);
-	notizFlexTable.setWidget(3, 3, reqLabel3);
+	notizFlexTable.setWidget(3, 2, faelligkeitDateBox);
 	
-	notizFlexTable.setWidget(4, 2, modifikationsdatumDateBox);
-	notizFlexTable.setWidget(4, 3, reqLabel3);
+	notizFlexTable.setWidget(4, 2, erstelldatumDateBox);
+	//notizFlexTable.setWidget(3, 3, reqLabel4);
+	
+	//notizFlexTable.setWidget(4, 2, modifikationsdatumDateBox);
+	//notizFlexTable.setWidget(4, 3, reqLabel3);
 
   // button panel erstellen.
   
@@ -125,15 +132,62 @@ public class ErstelleNotiz extends Showcase {
   RootPanel.get("Details").add(verPanel);
   RootPanel.get("Details").add(buttonPanel);
   
+  erstelleNotizButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+			pruefeEingabe();
+		}
+	});
+
+abbrechenButton.addClickHandler(new ClickHandler() {
+		public void onClick(ClickEvent event) {
+			buttonPanel.clear();
+			verPanel.clear();
+			clear();
+			}
+	});
 
 
- 
-  }
-  
-  
-  
+}
 
-  }
+// Methode zum Prüfen der Vollständigkeit der Eingabemaske für eine neue Notiz
 
-  
+public void pruefeEingabe(){
+	  
+	  if (titelTextBox.getText().length() == 0) {
+		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
+	  } else if(subtitelTextBox.getText().length() == 0) {
+		  warnLabel .setText("Bitte geben Sie einen Subtitel an!");
+	  } else if(inhaltTextArea.getText().length() == 0) {
+		  warnLabel .setText("Bitte geben Sie einen Inhalt an!");
+	  }	else {
+		  notizAnlegen();
+		  
+	  }
+	  
+}
+
+// Methode zum Anlegen einer neuen Notiz und dessen Speicherung in der DB
+public void notizAnlegen(){
+//	 ClientsideSettings.getNotizSystemAdministration().erstelleNotizbuch(titelTextBox.getText(), eigentümer, aktuellesDatum(), aktuellesDatum(), callback);
+	  
+}
+
+
+// Methode zum Bestimmen der aktuellen DateTime
+
+
+
+private static Date aktuellesDatum() {
+		return zeroTime(new Date()); 
+   }
+
+private static Date zeroTime(final Date date) {
+		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
+				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date));
+	}
+	
+
+}
+
+
 
