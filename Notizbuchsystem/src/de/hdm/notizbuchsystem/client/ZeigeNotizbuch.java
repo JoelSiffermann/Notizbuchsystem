@@ -3,7 +3,9 @@ package de.hdm.notizbuchsystem.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -15,62 +17,49 @@ public class ZeigeNotizbuch extends Showcase {
 		return "Meine Notizbuecher:";
 	}
 	private VerticalPanel verPanel = new VerticalPanel();
-	  private HorizontalPanel buttonPanel = new HorizontalPanel();
+	private HorizontalPanel buttonPanel = new HorizontalPanel();
+	
+	private FlexTable NBuebersicht = new FlexTable();
+	private Button abbrechenButton = new Button("Abbrechen");
 	  
-	  
-	  final Button bearbeiteNotizbuchButton = new Button("Notizbuch Bearbeiten");
-	  final Button notizbuchloeschenButton = new Button("Notizbuch Loeschen");
-	  final Button notizbuchnotizhinzufuegenButton = new Button("Notiz Hinzufuegen");
 
 	@Override
 	protected void run() {
 
-		buttonPanel.add(bearbeiteNotizbuchButton);
-		buttonPanel.add(notizbuchloeschenButton);
-		buttonPanel.add(notizbuchnotizhinzufuegenButton);
+		buttonPanel.add(abbrechenButton);
+		verPanel.add(NBuebersicht);
+				
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 		
-		bearbeiteNotizbuchButton.addClickHandler(new ClickHandler() {
-		      @Override
-			public void onClick(ClickEvent event) {
-		        /*
-		         * Showcase instantiieren.
-		         */
-		        Showcase showcase = new BearbeiteNotizbuch();
-
-		        /*
-		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-		         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-		         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-		         * Elemente dieses DIV.
-		         */
-		        RootPanel.get("Details").clear();
-		        RootPanel.get("Details").add(showcase);
-		      }
-		    });
+		NBuebersicht.addStyleName("FlexTable");
+		NBuebersicht.setCellPadding(6);
+		NBuebersicht.getColumnFormatter().addStyleName(0,
+				"TableHeader");
 		
-		notizbuchnotizhinzufuegenButton.addClickHandler(new ClickHandler() {
+		NBuebersicht.setText(0, 1, "Titel");
+		NBuebersicht.setText(0, 2, "Subtitel");
+		NBuebersicht.setText(0, 3, "Anzahl der Notizen");
+		NBuebersicht.setText(0, 4, "Anzeigen");
+		
+				
+		abbrechenButton.addClickHandler(new ClickHandler() {
 		      @Override
 			public void onClick(ClickEvent event) {
-		        /*
-		         * Showcase instantiieren.
-		         */
-		        Showcase showcase = new ErstelleNotiz();
+		        
+		    	RootPanel.get("Details").clear();
 
-		        /*
-		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-		         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-		         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-		         * Elemente dieses DIV.
-		         */
-		        RootPanel.get("Details").clear();
-		        RootPanel.get("Details").add(showcase);
 		      }
 		    });
 		
 	}
+	
+	
+	public void NBauflisten(){
+	//
+	}
+	
 
 }
 
