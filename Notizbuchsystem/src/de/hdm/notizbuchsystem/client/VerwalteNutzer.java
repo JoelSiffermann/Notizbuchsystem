@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import de.hdm.notizbuchsystem.client.Notizbuchsystem;
 
 public class VerwalteNutzer extends Showcase {
 	
@@ -47,7 +48,8 @@ public class VerwalteNutzer extends Showcase {
 			        /*
 			         * Showcase instantiieren.
 			         */
-			        Showcase showcase = new ErstelleNutzer();
+			    	  //Was kommt in den die Klammern bei erstelle Nutzer, beim aufruf des Konstruktors??
+			        Showcase showcase = new ErstelleNutzer(null);
 
 			        /*
 			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
@@ -60,28 +62,28 @@ public class VerwalteNutzer extends Showcase {
 			      }
 			    });
 			
-			meinProfilAnzeigenButton.addClickHandler(new ClickHandler() {
-			      @Override
-				public void onClick(ClickEvent event) {
-			        /*
-			         * Showcase instantiieren.
-			         */
-			        Showcase showcase = new ZeigeNutzer();
-
-			        /*
-			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-			         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-			         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-			         * Elemente dieses DIV.
-			         */
-			        RootPanel.get("Details").clear();
-			        RootPanel.get("Details").add(showcase);
-			      }
-			    });
-
 			
-		}
+		}}
+//			//public void onClick(ClickEvent event) {
+//		    /*
+//			         * Showcase instantiieren.
+//			         */
+//			        Showcase showcase = new ZeigeNutzer(profilId,profiltyp);
+//
+//			        /*
+//			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
+//			         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
+//			         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
+//			         * Elemente dieses DIV.
+//			         */
+//			        RootPanel.get("Details").clear();
+//			        RootPanel.get("Details").add(showcase);
+//			      }
+//			    });
+//
+//			
+//		}
 	  
-	}
+	
 
 
