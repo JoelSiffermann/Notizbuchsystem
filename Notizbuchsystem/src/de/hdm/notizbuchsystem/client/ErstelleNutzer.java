@@ -1,5 +1,10 @@
 package de.hdm.notizbuchsystem.client;
 
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -7,6 +12,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
+
+import de.hdm.notizbuchsystem.client.Notizbuchsystem;
+import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 
 /**
  * In diesem Showcase wird ein neuer Nutzer 
@@ -18,6 +28,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class ErstelleNutzer extends Showcase {
 
+	/**
+	 * Aktuelle EmailAdresse aus Google-Account holen
+	 */
+	private String email = Notizbuchsystem.getLoginInfo().getEmail();
+
+	//Damit auf die Async Methoden zugegriffen werden können
+	private NotizSystemAdministrationAsync admin = ClientsideSettings
+			.getNotizSystemAdministration();
+	
   /**
    * Jeder Showcase besitzt eine einleitende �berschrift, die durch diese
    * Methode zu erstellen ist.
@@ -49,7 +68,22 @@ public class ErstelleNutzer extends Showcase {
   
 
  
+	/**
+	 * Variable fuer den Profiltyp erstellen.
+	 */
+	private String profiltyp;
 
+	/**
+	 * Konstruktor erstellen.
+	 * 
+	 * @param profiltyp
+	 *            Der Profiltyp (Nutzer).
+	 */
+	public ErstelleNutzer(String profiltyp) {
+		this.profiltyp = profiltyp;
+		run();
+	}
+	
   /**
    * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
    * eine "Einschubmethode", die von einer Methode der Basisklasse
@@ -115,11 +149,114 @@ RootPanel.get("Details").add(verPanel);
 RootPanel.get("Details").add(buttonPanel);
 
 
+/**
+ * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
+ * Sobald dieser Button getaetigt wird, wird der Nutzer zurueck auf die Login-Seite geleitet.
+ * Alle bisher im Formular eingetragenen Daten werden verworfen.
+ */
+	abbrechenButton.addClickHandler(new ClickHandler() {
+	public void onClick(ClickEvent event) {
+		
+		Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
+	}
+	
+	});
+	}
+	
+
+	/**
+	 * Methode erstellen, die die Eingabe des Nutzers auf Vollstaendigkeit und
+	 * Korrektheit ueberprueft.
+	 */
+	
+  /**
+   * ______________________notwendig?____________________________
+   * public void pruefeEingabe() {
+		boolean vornameWert = isBuchstabe(vornameTextBox.getText());
+		boolean nameWert = isBuchstabe(nameTextBox.getText());
+		
+
+		if (vornameTextBox.getText().length() == 0) {
+			warnungLabel.setText("Bitte geben Sie Ihren Vornamen an.");
+			nutzerFlexTable.setWidget(0, 4, warnungLabel);
+		} else if (nameTextBox.getText().length() == 0) {
+			warnungLabel.setText("Bitte geben Sie Ihren Nachnamen an.");
+			nutzerFlexTable.setWidget(1, 4, warnungLabel);
+		} else if (vornameWert == false) {
+			warnungLabel.setText("Ihr Vorname darf nur Buchstaben enthalten.");
+			nutzerFlexTable.setWidget(0, 4, warnungLabel);
+		} else if (nameWert == false) {
+			warnungLabel.setText("Ihr Nachname darf nur Buchstaben enthalten.");
+			nutzerFlexTable.setWidget(1, 4, warnungLabel);
+		
+		} else {
+			nutzerAnlegen();
+		}
+
+	}
+*/
+
+	/**
+	 * Methode erstellen, die einen neuen Nutzer anlegt. Dies f�hrt zum
+	 * Speichern des Nutzers in der Datenbank.
+	 */
+	public void nutzerAnlegen() {
+		admin.erstelleNutzer(
+				vornameTextBox.getText(),
+				nameTextBox.getText(),
+				email,
+				ErstelleNutzerExecute(vornameTextBox.getText(),
+						nameTextBox.getText(),
+						email));
+	}
+
+	private AsyncCallback<Nutzer> ErstelleNutzerExecute(
+			String vorname, String name, String email) {
+		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
+			@Override
+			public void onFailure(Throwable caught) {
+
+			}
+
+			@Override
+			public void onSuccess(Nutzer result) {
+				
+			}
+		};
+		return asynCallback;
+	}
 
 
-}
 
+	/**
+	 * Methode erstellen, die ueberprueft, ob nur Buchstaben eingegeben wurden.
+	 * 
+	 * @param name
+	 *            Der String, der ueberprueft wird.
+	 * @return Boolscher Wert, der angibt, ob es sich um Buchstaben handelt.
+	 */
+	public boolean isBuchstabe(String name) {
+		return name.matches("^[a-zA-ZäöüÄÖÜß ]+$");
+	}
 
-  
+	/**
+	 * Methode erstellen, die ueberprueft, ob nur Zahlen eingegeben wurden.
+	 * 
+	 * @param name
+	 *            Der String, der ueberprueft wird.
+	 * @return Boolscher Wert, der angibt, ob es sich um Zahlen handelt.
+	 */
+	public boolean isZahl(String name) {
+		return name.matches("[0-9]+");
+	}}
 
-  }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

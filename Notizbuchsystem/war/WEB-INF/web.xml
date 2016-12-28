@@ -7,6 +7,16 @@
 
   <!-- Servlets -->
   
+  <servlet>
+      <servlet-name>loginService</servlet-name>
+      <servlet-class>de.hdm.notizbuchsystem.server.LoginServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+      <servlet-name>loginService</servlet-name>
+      <url-pattern>/notizbuchsystem/login</url-pattern>
+  </servlet-mapping>
+  
   
   
   <!-- Default page to serve -->

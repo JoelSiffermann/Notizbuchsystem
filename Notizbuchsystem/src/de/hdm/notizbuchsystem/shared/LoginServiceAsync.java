@@ -15,3 +15,4 @@ public interface LoginServiceAsync {
 	public void login(String requestUri, AsyncCallback<LoginInfo> callback);
 
 }
+

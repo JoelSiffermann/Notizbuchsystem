@@ -5,15 +5,15 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.notizbuchsystem.client.LoginInfo;
 
-/**
- * Synchrone Schnittstelle fuer den Login.
+@RemoteServiceRelativePath("loginservice")
+
+/*
+ * Dieses Interface beschreibt die synchrone Schnittstelle fuer das Login.
  */
-@RemoteServiceRelativePath("login")
-public interface LoginService extends RemoteService {
-	
-	/**
-	 * @see de.hdm.notizbuchsystem.server.LoginServiceImpl#login(String)
-	 */
+
+public interface LoginService extends RemoteService{
+
 	public LoginInfo login(String requestUri) throws IllegalArgumentException;
 	
+
 }
