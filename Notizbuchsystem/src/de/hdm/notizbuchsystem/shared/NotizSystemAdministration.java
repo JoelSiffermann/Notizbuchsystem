@@ -16,6 +16,8 @@ public interface NotizSystemAdministration {
 	
 	public void init() throws IllegalArgumentException;
 	
+	public void speichereNutzer(int profilId, String vorname, String name) throws IllegalArgumentException;
+	
 	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 
 	public Notizbuch erstelleNotizbuch(String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;

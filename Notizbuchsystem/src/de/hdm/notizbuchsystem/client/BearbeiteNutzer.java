@@ -1,10 +1,9 @@
 package de.hdm.notizbuchsystem.client;
 
-import java.util.Date;
+
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -197,7 +196,7 @@ public class BearbeiteNutzer extends Showcase {
 	public void aktualisiereNutzerprofil() {
 		ClientsideSettings.getNotizSystemAdministration().speichereNutzer(
 				profilId, vornameTextBox.getText(),
-				nameTextBox.getText(),emailTextBox.getText(),
+				nameTextBox.getText(),
 				new AsyncCallback<Void>() {
 			
 

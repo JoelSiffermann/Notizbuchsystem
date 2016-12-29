@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import de.hdm.notizbuchsystem.client.Notizbuchsystem;
+
 
 public class VerwalteNutzer extends Showcase {
 	
@@ -28,7 +28,29 @@ public class VerwalteNutzer extends Showcase {
 	  final Button erstelleNutzerButton = new Button("Nutzer Anlegen");
 	  final Button meinProfilAnzeigenButton = new Button("Mein Profil Anzeigen");
 	  
-	
+	  /**
+		 * Variable fuer die ProfilId erstellen.
+		 */
+		private int profilId;
+
+		/**
+		 * Variable fuer den Profiltyp erstellen.
+		 */
+		private String profiltyp;
+
+		/**
+		 * Konstruktor erstellen.
+		 * 
+		 * @param profilId
+		 *            Die Profil-ID des Nutzerprofils, das angezeigt werden soll.
+		 * @param profiltyp
+		 *            Der Profiltyp (Nutzerprofil).
+		 */
+		public VerwalteNutzer(int profilId, String profiltyp) {
+			this.profilId = profilId;
+			this.profiltyp = profiltyp;
+			run();
+		}
 	  
 		
 		@Override
@@ -60,29 +82,29 @@ public class VerwalteNutzer extends Showcase {
 			        RootPanel.get("Details").clear();
 			        RootPanel.get("Details").add(showcase);
 			      }
-			    });
+			    });}
 			
 			
-		}}
-//			//public void onClick(ClickEvent event) {
-//		    /*
-//			         * Showcase instantiieren.
-//			         */
-//			        Showcase showcase = new ZeigeNutzer(profilId,profiltyp);
-//
-//			        /*
-//			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-//			         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-//			         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-//			         * Elemente dieses DIV.
-//			         */
-//			        RootPanel.get("Details").clear();
-//			        RootPanel.get("Details").add(showcase);
-//			      }
-//			    });
-//
-//			
-//		}
+		
+			public void onClick(ClickEvent event) {
+					/*
+			         * Showcase instantiieren.
+			         */
+			        Showcase showcase = new ZeigeNutzer(profilId,profiltyp);
+
+			        /*
+			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
+			         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
+			         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
+			         * Elemente dieses DIV.
+			         */
+			        RootPanel.get("Details").clear();
+			        RootPanel.get("Details").add(showcase);
+			      }
+			    
+
+			
+		}
 	  
 	
 

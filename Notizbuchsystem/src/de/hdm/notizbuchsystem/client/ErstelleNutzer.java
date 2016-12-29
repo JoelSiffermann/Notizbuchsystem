@@ -220,7 +220,7 @@ RootPanel.get("Details").add(buttonPanel);
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				
+				//hier muss eventuell noch was rein
 			}
 		};
 		return asynCallback;

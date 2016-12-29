@@ -20,6 +20,9 @@ public interface NotizSystemAdministrationAsync {
 	
 	void init(AsyncCallback<Void> callback);
 	
+	void speichereNutzer(int profilId, String vorname, String name,
+			AsyncCallback<Void> callback);
+	
 	void erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum, AsyncCallback<Notiz> callback);
 
 	void erstelleNotizbuch(String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum, AsyncCallback<Notizbuch> callback);
