@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.google.appengine.api.utils.SystemProperty;
+
 
 
 
@@ -14,14 +16,34 @@ public class DBConnection {
 	   static final String DB_URL = "207.223.163.76";
 	   static final String USER = "NBS";
 	   static final String PASS = "notiz";
+	   static final String Local_URL = "Noch nicht erstellt";
 	   
-	public static Connection getConnection() throws ClassNotFoundException, SQLException {
-	   Connection conn = null;
+	   private static Connection con = null;
 	   
-	   
-	   Class.forName("com.mysql.jdbc.Driver");
-	   
-	   //Ay Gudde
-	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
-	   return conn;   
-	   }}
+	   public static Connection getConnection() {
+
+			if (con == null) {
+				String url = null;
+				try {
+					if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+						
+						Class.forName("com.mysql.jdbc.GoogleDriver");
+						url = DB_URL;
+						
+					} else {
+						
+						Class.forName("com.mysql.jdbc.Driver");
+						url = Local_URL;
+				}
+					
+					con = DriverManager.getConnection(url);
+				} catch (Exception e) {
+					con = null;
+					e.printStackTrace();
+				}
+			}
+
+			return con;
+		}
+
+}
