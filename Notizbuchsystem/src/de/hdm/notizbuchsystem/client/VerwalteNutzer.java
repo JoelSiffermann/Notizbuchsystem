@@ -46,9 +46,10 @@ public class VerwalteNutzer extends Showcase {
 		 * @param profiltyp
 		 *            Der Profiltyp (Nutzerprofil).
 		 */
-		public VerwalteNutzer(int profilId, String profiltyp) {
-			this.profilId = profilId;
-			this.profiltyp = profiltyp;
+		
+		// Konstruktor leer gemacht wegen Error
+		
+		public VerwalteNutzer(){
 			run();
 		}
 	  

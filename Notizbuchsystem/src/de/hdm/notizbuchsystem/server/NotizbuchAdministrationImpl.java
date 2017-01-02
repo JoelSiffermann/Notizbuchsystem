@@ -48,6 +48,15 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	public boolean pruefeObNutzerNeu(String Email) throws IllegalArgumentException {
+
+		if (nutzerMapper.getNutzerByEmail(Email) == null) {
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
