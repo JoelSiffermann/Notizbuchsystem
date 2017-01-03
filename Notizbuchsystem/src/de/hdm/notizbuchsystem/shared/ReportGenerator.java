@@ -2,9 +2,12 @@ package de.hdm.notizbuchsystem.shared;
 
 import java.util.Date;
 
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import de.hdm.notizbuchsystem.shared.bo.*;
 import de.hdm.notizbuchsystem.shared.report.*;
 
+@RemoteServiceRelativePath("reportGenerator")
 public interface ReportGenerator {
 	
 	public void setNutzer(Nutzer nutzer) throws IllegalArgumentException;

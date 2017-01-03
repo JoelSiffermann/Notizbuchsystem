@@ -1,6 +1,8 @@
 package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.*;
+import java.util.Vector;
+
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 
@@ -117,7 +119,7 @@ public Nutzer getNutzerByID(int ID) {
   }
 
 
-public Nutzer getNutzerByName(String name) {
+public Vector<Nutzer> getNutzerByName(String name, String vorname) {
     
     Connection con = DBConnection.getConnection();
 

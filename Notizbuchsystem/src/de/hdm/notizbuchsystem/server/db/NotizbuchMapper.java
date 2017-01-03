@@ -84,6 +84,16 @@ public class NotizbuchMapper {
 			e1.printStackTrace();
 		}
 	}
+
+	public Vector<Notiz> getNotizByTitel(String titel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Vector<Notizbuch> getNotizbuchByTitel(String titel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

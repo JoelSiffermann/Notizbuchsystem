@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
@@ -76,5 +78,10 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

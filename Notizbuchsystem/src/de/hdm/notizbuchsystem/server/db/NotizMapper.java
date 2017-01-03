@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
@@ -80,6 +81,26 @@ public class NotizMapper {
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public Notiz zuweisen(Notizbuch notizbuch) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Vector<Notiz> getNotizByModifikationsdatum(Date modifikationsdatum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Vector<Notiz> getNotizByNotizbuch(String titel) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

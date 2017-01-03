@@ -14,9 +14,28 @@
   
   <servlet-mapping>
       <servlet-name>loginService</servlet-name>
-      <url-pattern>/notizbuchsystem/login</url-pattern>
+      <url-pattern>/NotizbuchSystem/login</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+		<servlet-name>NotizSystemServlet</servlet-name>
+		<servlet-class>de.hdm.notizbuchsystem.server.NotizbuchAdministrationImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>NotizSystemServlet</servlet-name>
+		<url-pattern>/NotizbuchSystem/NotizSystem</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>reportGeneratorServlet</servlet-name>
+		<servlet-class>de.hdm.notizbuchsystem.server.report.ReportGeneratorImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>reportGeneratorServlet</servlet-name>
+		<url-pattern>/NotizbuchSystem/reportGenerator</url-pattern>
+	</servlet-mapping>
   
   
   <!-- Default page to serve -->

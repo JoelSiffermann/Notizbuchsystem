@@ -1,11 +1,13 @@
 package de.hdm.notizbuchsystem.shared;
 
 import java.util.Date;
-
 import java.util.Vector;
+
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
+@RemoteServiceRelativePath("NotizSystem")
 public interface NotizSystemAdministration {
 	
 //	public void login() throws IllegalArgumentException;
@@ -28,9 +30,9 @@ public interface NotizSystemAdministration {
 	
 	public Faelligkeit erstelleFaelligkeit(Date datum) throws IllegalArgumentException;
 	
-	public Freigabe erstelleNotizFreigabe(Boolean leseberechtigung, Boolean aenderungsberechtigung, Boolean loeschberechtigung, String email) throws IllegalArgumentException;
+	public Freigabe erstelleNotizFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email) throws IllegalArgumentException;
 	
-	public Freigabe erstelleNotizbuchFreigabe(Boolean leseberechtigung, Boolean aenderungsberechtigung, Boolean loeschberechtigung, String email) throws IllegalArgumentException;
+	public Freigabe erstelleNotizbuchFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException;
 	
 	public void loescheNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException;
 	
@@ -58,7 +60,7 @@ public interface NotizSystemAdministration {
 
 	public Freigabe bearbeiteNotizbuchFreigabe(Freigabe notizbuchfreigabe) throws IllegalArgumentException;
 
-	public Notiz zuweisungNotiz(Notizbuch notizbuch) throws IllegalArgumentException;
+	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException;
 	
 	public Notiz getNotizByFaelligkeit(Faelligkeit faelligkeit) throws IllegalArgumentException;
 	
@@ -85,6 +87,14 @@ public interface NotizSystemAdministration {
 	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum) throws IllegalArgumentException;
 	
 	public Vector<Notiz> getNotizByNotizbuch(String titel) throws IllegalArgumentException;
+
+	public Faelligkeit bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum)
+			throws IllegalArgumentException;
+
+	public Freigabe erstelleNotizfreigabe(boolean leseberechtigung,
+			boolean aenderungsberechtigung, boolean loeschberechtigung
+			) throws IllegalArgumentException;
+
 	
 }
 

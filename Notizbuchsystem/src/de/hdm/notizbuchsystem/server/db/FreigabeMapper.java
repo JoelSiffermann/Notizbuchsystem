@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.*;
+import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
@@ -78,5 +79,10 @@ private static FreigabeMapper freigabeMapper = null;
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public Vector<Freigabe> getFreigabeByNotiz(Notiz notiz) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

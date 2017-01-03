@@ -1,16 +1,13 @@
 package de.hdm.notizbuchsystem.server;
 
 import java.util.Date;
-
 import java.util.Vector;
 
 import de.hdm.notizbuchsystem.server.db.*;
-
 import de.hdm.notizbuchsystem.shared.bo.*;
-
 import de.hdm.notizbuchsystem.shared.*;
 
-public class NotizbuchAdministrationImpl {
+public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 	
 	private NutzerMapper nutzerMapper;
 	
@@ -28,10 +25,12 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	
 	public void logout() throws IllegalArgumentException {
 		
 	}
 	
+	@Override
 	public void init() throws IllegalArgumentException {
 		
 		this.nutzerMapper = NutzerMapper.nutzerMapper();
@@ -48,6 +47,7 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public boolean pruefeObNutzerNeu(String Email) throws IllegalArgumentException {
 
 		if (nutzerMapper.getNutzerByEmail(Email) == null) {
@@ -57,6 +57,7 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
@@ -77,6 +78,7 @@ public class NotizbuchAdministrationImpl {
 						 
 	}
 	
+	@Override
 	public Notizbuch erstelleNotizbuch(String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
@@ -93,6 +95,7 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public Nutzer erstelleNutzer(String name, String vorname, String email) throws IllegalArgumentException{
 		
 		Nutzer nutzer = new Nutzer();
@@ -109,6 +112,7 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 
+	@Override
 	public Notizquelle erstelleNotizquelle(String url) throws IllegalArgumentException{
 		
 		Notizquelle notizquelle = new Notizquelle();
@@ -119,6 +123,7 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public Faelligkeit erstelleFaelligkeit(Date datum) throws IllegalArgumentException{
 		
 		Faelligkeit faelligkeit = new Faelligkeit();
@@ -129,9 +134,9 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
-	public Freigabe erstelleNotizfreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email) throws IllegalArgumentException{
-		
-// 	Ist new Notizfreigabe() richtig?		
+	@Override
+	public Freigabe erstelleNotizfreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
+	
 		
 		Freigabe freigabeNotiz = new NotizFreigabe();
 		
@@ -141,13 +146,13 @@ public class NotizbuchAdministrationImpl {
 		
 		freigabeNotiz.setLoeschberechtigung(loeschberechtigung);
 		
-		freigabeNotiz.setFreigegebeneEmail(email);
 		
 		return this.freigabeMapper.erstellen(freigabeNotiz);
 		
 	}
 	
-	public Freigabe erstelleNotizbuchFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email) throws IllegalArgumentException{
+	@Override
+	public Freigabe erstelleNotizbuchFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
 		
 		Freigabe freigabeNotizbuch = new NotizbuchFreigabe();
 		
@@ -157,36 +162,40 @@ public class NotizbuchAdministrationImpl {
 		
 		freigabeNotizbuch.setLoeschberechtigung(loeschberechtigung);
 		
-		freigabeNotizbuch.setFreigegebeneEmail(email);
 		
 		return this.freigabeMapper.erstellen(freigabeNotizbuch);
 		
 	}
 	
-	public Notiz bearbeiteNotiz(Notiz notiz) throws IllegalArgumentException{
+	@Override
+	public Notiz bearbeiteNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException{
 		
 		return this.notizMapper.bearbeiten(notiz);
 		
 	}
 	
-	public Notizbuch bearbeiteNotizbuch(Notizbuch notizbuch) throws IllegalArgumentException{
+	@Override
+	public Notizbuch bearbeiteNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException{
 		
 		return this.notizbuchMapper.bearbeiten(notizbuch);
 				
 	}
 	
+	@Override
 	public Nutzer bearbeiteNutzer(Nutzer nutzer) throws IllegalArgumentException{
 		
 		return this.nutzerMapper.bearbeiten(nutzer);
 		
 	}
-		
+	
+	@Override
 	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
 		
 		return this.notizquelleMapper.bearbeiten(notizquelle);
 		
 	}
 	
+	@Override
 	public Faelligkeit bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum) throws IllegalArgumentException {
 		
 		faelligkeit.setDatum(datum);
@@ -195,35 +204,41 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public Freigabe bearbeiteNotizFreigabe(Freigabe notizFreigabe) throws IllegalArgumentException{
 		
 		return this.freigabeMapper.bearbeiten(notizFreigabe);
 		
 	}
 	
+	@Override
 	public Freigabe bearbeiteNotizbuchFreigabe(Freigabe notizbuchFreigabe) throws IllegalArgumentException{
 		
 		return this.freigabeMapper.bearbeiten(notizbuchFreigabe);
 	}
 	
-	public void loescheNotiz(Notiz notiz) throws IllegalArgumentException {
+	@Override
+	public void loescheNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException {
 		
 		this.notizMapper.loeschen(notiz);
 		
 	}
 	
-	public void loescheNotizbuch(Notizbuch notizbuch) throws IllegalArgumentException{
+	@Override
+	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException{
 		
 		this.notizbuchMapper.loeschen(notizbuch);
 
 	}
 	
+	@Override
 	public void loescheNutzer(Nutzer nutzer) throws IllegalArgumentException{
 		
 		this.nutzerMapper.loeschen(nutzer);
 		
 	}
 	
+	@Override
 	public void loescheNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
 		
 		this.notizquelleMapper.loeschen(notizquelle);
@@ -231,18 +246,21 @@ public class NotizbuchAdministrationImpl {
 		
 	}
 	
+	@Override
 	public void loescheFaelligkeit(Faelligkeit faelligkeit) throws IllegalArgumentException{
 		
 		this.faelligkeitMapper.loeschen(faelligkeit);
 		
 	}
 	
+	@Override
 	public void loescheFreigabe(Freigabe freigabe) throws IllegalArgumentException{
 		
 		this.freigabeMapper.loeschen(freigabe);
 		
 	}
 	
+	@Override
 	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException{
 		
 		notizbuch.setEnthalteneNotiz(notiz);
@@ -301,6 +319,86 @@ public class NotizbuchAdministrationImpl {
 	public Vector<Notiz> getNotizByNotizbuch(String titel) throws IllegalArgumentException{
 		
 		return this.notizMapper.getNotizByNotizbuch(titel);
+	}
+
+
+	@Override
+	public void speichereNutzer(int profilId, String vorname, String name)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Freigabe erstelleNotizFreigabe(boolean leseberechtigung,
+			boolean aenderungsberechtigung, boolean loeschberechtigung,
+			String email) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Faelligkeit bearbeiteFaelligkeit(Date faelligkeit)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Notiz getNotizByFaelligkeit(Faelligkeit faelligkeit)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Notiz getNotizByNutzer(Nutzer nutzer)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Freigabe getBerechtigungByNutzer(Nutzer nutzer)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Nutzer getNutzerByNotiz(Notiz notiz) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Nutzer getNutzerByEmail(String email)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Vector<Notiz> getNotizByEDatum(Date erstelldatum)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
