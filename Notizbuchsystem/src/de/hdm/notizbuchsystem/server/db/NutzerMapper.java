@@ -66,7 +66,7 @@ public Nutzer bearbeiten(Nutzer n) {
   }
 
 
-public void löschen(Nutzer n) {
+public void loeschen(Nutzer n) {
     Connection con = DBConnection.getConnection();
 
     try {
@@ -81,7 +81,7 @@ public void löschen(Nutzer n) {
 
 
 // Methode zum suchen und ausgeben eines bestimmten Nutzers anhand seiner ID
-public Customer getNutzerByID(int ID) {
+public Nutzer getNutzerByID(int ID) {
     
     Connection con = DBConnection.getConnection();
 
@@ -102,8 +102,8 @@ public Customer getNutzerByID(int ID) {
         // Ergebnis-Tupel in Objekt umwandeln
         Nutzer n = new Nutzer();
         n.setId(rs.getInt("ID"));
-        n.setFirstName(rs.getString("Name"));
-        n.setLastName(rs.getString("Vorname"));
+        n.setName(rs.getString("Name"));
+        n.setVorname(rs.getString("Vorname"));
 
         return n;
       }
@@ -140,7 +140,7 @@ public Nutzer getNutzerByName(String name) {
 	return null;
 }
 
-public Nutzer getNutzerByName(String Email) {
+public Nutzer getNutzerByEmail(String Email) {
     
     Connection con = DBConnection.getConnection();
 

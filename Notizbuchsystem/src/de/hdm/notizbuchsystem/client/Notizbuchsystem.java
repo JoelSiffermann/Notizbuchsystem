@@ -1,78 +1,193 @@
 package de.hdm.notizbuchsystem.client;
 
-import com.google.gwt.core.client.EntryPoint;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
+
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
-import de.hdm.notizbuchsystem.shared.ReportGeneratorAsync;
-import de.hdm.notizbuchsystem.shared.bo.Notizbuch;;
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
+import de.hdm.notizbuchsystem.client.ClientsideSettings;
+import de.hdm.notizbuchsystem.client.ErstelleNutzer;
+import de.hdm.notizbuchsystem.client.LoginInfo;
+import de.hdm.notizbuchsystem.shared.LoginServiceAsync;
+
 
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * Entry-Point-Klasse des Projekts <b>BankProjekt</b>.
  */
-public class Notizbuchsystem implements EntryPoint, ClickHandler {
+public class Notizbuchsystem implements EntryPoint {
 	
-	public void onClick(ClickEvent event){
-		 Window.alert("Sie sind eingeloggt");
-		  }
-	 
-	 
-		public void onModuleLoad() {
-			// Make some text boxes. The password text box is identical to the text
-		    // box, except that the input is visually masked by the browser.
-		    PasswordTextBox ptb = new PasswordTextBox();
-		    TextBox tb = new TextBox();
-		    
-		    final Button button = new Button("Einloggen");
-		    final Button button1 = new Button("Profil verwalten");
-		    final Button button2 = new Button("Notizbuch verwalten");
-		    final Button button3 = new Button("Notizbuch erstellen");
-		    final Button button4 = new Button("Notizbuch erstellen");
-		    final Button button5 = new Button("Notizerstellen");
-		    final Label label = new Label();
-		    //VerticalPanel navPanel = new VerticalPanel();
-		    RootPanel.get("Navigator1").add(button1);
-		   
-			button.addClickHandler(new Notizbuchsystem());
-			
-		   
-		    RootPanel.get("Navigator2").add(button2);
-		    RootPanel.get("Navigator3").add(button3);
-		    RootPanel.get("Navigator4").add(button4);
-		    RootPanel.get("Navigator5").add(button5);
-		    
-		    RootPanel.get("slot1").add(tb);
-		    RootPanel.get("slot2").add(ptb);
-		    RootPanel.get("slot3").add(button);
-		    RootPanel.get().add(label);
-		    
-		   /** NotizSystemAdministrationAsync nbVerwaltung = ClientsideSettings.getNutzer();
-		    *Notizbuch nb = new Notizbuch();
-		    *nb.setEnthalteneNotiz(enthalteneNotiz);
-		    *nb.setTitel("Notizbuch1");
-		    *nb.setErstelldatum(15.06);
-		    *nb.setModifikationsdatum(modifikationsdatum);
-		    *nb.setEigentuemer(eigentuemer);
-		    *nb.setErstellungsZeitpunkt(erstellungszeitpunkt);
-		    *nb.setId(id);
-		    
-		    *ReportGeneratorAsync reportGenerator = ClientsideSettings
-		    *       .getReportGenerator();
-		    *  reportGenerator.setBank(nb, new SetBankCallback());?!?
-		    *  
-		    * 
 
-		    */
-		    
-		    
-		}}
-		     
+	/**
+	 * Neues Nutzerprofil erzeugen
+	 */
+	Nutzer nutzerprofil = new Nutzer();
+
+	
+	/**
+	 * Deklaration der Labels fuer die Startseite(n)
+	 */
+	private Label begruessenN = new Label(
+			"Herzlich Willkommen bei Ihrem Notizbuchsystem. ");
+	
+	/**
+	 * Deklaration fuer den Login und den Logout
+	 */
+	private static Nutzer np = null;
+	private static LoginInfo loginInfo = null;
+	
+	private static String editorHtmlName = "Notizbuchsystem.html";
+
+	private NotizSystemAdministrationAsync admin = ClientsideSettings
+			.getNotizSystemAdministration();
+	private LoginServiceAsync loginService = ClientsideSettings
+			.getLoginService();
+
+	
+	public void onModuleLoad() {
+		setStyles();
+
+		/**
+		 * Login-Methode aufrufen und anschließend auf die Hostpage leiten.
+		 */
+		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName,
+				loginExecute());
+	}
+		
+	
+	/**
+	 * AsyncCallback für die Login-Methode. Bei erhalt der LoginInfos wird die Methode
+	 * pruefeObMutzerNeu() aufgerufen.
+	 */
+	
+	private AsyncCallback<LoginInfo> loginExecute() {
+		AsyncCallback<LoginInfo> asynCallback = new AsyncCallback<LoginInfo>() {
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(LoginInfo result) {
+
+				if (result.isLoggedIn()) {
+					loginInfo = result;
+					admin.pruefeObNutzerNeu(result.getEmail(),
+							pruefeObNutzerNeuExecute(result
+									.getEmail()));
+
+
+				} else {
+					
+					Window.Location.replace(result.getLoginUrl());
+				}
+			}
+		};
+
+		return asynCallback;
+	}
+	
+	/**
+	 * AsyncCallback für die Methode pruefeObNutzerNeu(). Falls der Wert false ist wird die Methode
+	 * getNutzerByEmail() aufgerufen, sonst wird der Nutzer auf ErstelleNutzer() weitergeleitet.
+	 * 
+	 * @return
+	 */
+	private AsyncCallback<Boolean> pruefeObNutzerNeuExecute(String email) {
+		AsyncCallback<Boolean> asynCallback = new AsyncCallback<Boolean>() {
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+
+				if (!result) {
 			
+					admin.getNutzerByEmail(loginInfo.getEmail(),
+							getNutzerByEmailExecute(loginInfo.getEmail()));
+					
+					RootPanel.get("Details").add(begruessenN);
+					
+				} else {
+					
+					ErstelleNutzer erstelleNutzer = new ErstelleNutzer("np");
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(erstelleNutzer);
+					
+				}
+
+			}
+		};
+
+		return asynCallback;
+	}
+
+	/**
+	 * Gibt den aktuell-eingeloggten Nutzer zurueck
+	 * 
+	 * @return Nutzer
+	 */
+	public static Nutzer getNp() {
+		return np;
+	}
+
+	/**
+	 * Gibt die LoginInfos des aktuell-eingeloggten Nutzers zurueck
+	 * 
+	 * @return loginInfo LoginInfo
+	 */
+	public static LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
+
+	
+	/**
+	 * AsyncCallback für die Methode getNutzerByEmail(). Wenn ein Nutzer zurueckgeliefert wird,
+	 * wird die Methode getMenu() aufgerufen und der zurueckgelieferte Nutzer in die Variable np 
+	 * gespeichert.
+	 * @return
+	 */
+	private AsyncCallback<Nutzer> getNutzerByEmailExecute(
+			String email) {
+		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
+			@Override
+			public void onFailure(Throwable caught) {
+
+			}
+
+			@Override
+			public void onSuccess(Nutzer result) {
+				
+				np = result;
+				
+
+			}
+		};
+		return asynCallback;
+		
+	}
+		
+		//  Methode erzeugt ruft das Panel auf, das den Navigator erzeugt
+	
+		public void getMenu() {
+			Navigator navigator = new Navigator();
+			RootPanel.get("Navigator").add(navigator);
+		}
+		
+
+  
+	private void setStyles() {
+		begruessenN.setStyleName("welcome-label");
+		}
+	
+	
+}
+

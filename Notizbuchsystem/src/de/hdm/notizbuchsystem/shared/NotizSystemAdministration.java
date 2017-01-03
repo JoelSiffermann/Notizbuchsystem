@@ -8,11 +8,15 @@ import de.hdm.notizbuchsystem.shared.bo.*;
 
 public interface NotizSystemAdministration {
 	
-	public void login() throws IllegalArgumentException;
+//	public void login() throws IllegalArgumentException;
+//	
+//	public void logout() throws IllegalArgumentException;
 	
-	public void logout() throws IllegalArgumentException;
+	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException;
 	
 	public void init() throws IllegalArgumentException;
+	
+	public void speichereNutzer(int profilId, String vorname, String name) throws IllegalArgumentException;
 	
 	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 
