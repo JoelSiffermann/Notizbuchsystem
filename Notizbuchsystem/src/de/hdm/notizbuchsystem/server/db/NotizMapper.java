@@ -40,7 +40,7 @@ public class NotizMapper {
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate("INSERT INTO Notiz (Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt) " + "VALUES ("
-		            + n.getId() + "," + n.getEigentuemer() + "," + n.getModifikationsdatum() + n.getErstelldatum() + "," n.getTitel() + "," n.getSubtitel() + "," n.getInhalt() +" )");
+		            + n.getId() + "," + n.getEigentuemer() + "," + n.getModifikationsdatum() + n.getErstelldatum() + "," + n.getTitel() + "," + n.getSubtitel() + "," + n.getInhalt() +" )");
 			}
 		}
 		
