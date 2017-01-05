@@ -28,26 +28,20 @@ public class ZeigeNutzer extends Showcase {
 	  final Button meinProfilloeschenButton = new Button("Mein Profil Loeschen");
 
 	  /**
-		 * Variable fuer die ProfilId erstellen.
+		 * Variable fuer die NutzerId erstellen.
 		 */
-		private int profilId;
+		private int nutzerId;
 
-		/**
-		 * Variable fuer den Profiltyp erstellen.
-		 */
-		private String profiltyp;
-
+		
 		/**
 		 * Konstruktor erstellen.
 		 * 
-		 * @param profilId
-		 *            Die Profil-ID des Nutzerprofils, das angezeigt werden soll.
-		 * @param profiltyp
-		 *            Der Profiltyp (Nutzerprofil).
+		 * @param nutzerId
+		 *            Die Nutzer-ID des Nutzer, das angezeigt werden soll.
 		 */
-		public ZeigeNutzer(int profilId, String profiltyp) {
-			this.profilId = profilId;
-			this.profiltyp = profiltyp;
+		public ZeigeNutzer(int nutzerId) {
+			this.nutzerId = nutzerId;
+			
 			run();
 		}
 	@Override
@@ -66,7 +60,7 @@ public class ZeigeNutzer extends Showcase {
 		        /*
 		         * Showcase instantiieren.
 		         */
-		        Showcase showcase = new BearbeiteNutzer(profilId,profiltyp);
+		        Showcase showcase = new BearbeiteNutzer(nutzerId);
 
 		        /*
 		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"

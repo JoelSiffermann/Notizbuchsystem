@@ -29,7 +29,7 @@ public class Notizbuchsystem implements EntryPoint {
 	/**
 	 * Neues Nutzerprofil erzeugen
 	 */
-	Nutzer nutzerprofil = new Nutzer();
+	Nutzer nutzer = new Nutzer();
 
 	
 	/**
@@ -79,9 +79,9 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (result.isLoggedIn()) {
 					loginInfo = result;
-					admin.pruefeObNutzerNeu(result.getEmail(),
+					admin.pruefeObNutzerNeu(result.getEmailAddress(),
 							pruefeObNutzerNeuExecute(result
-									.getEmail()));
+									.getEmailAddress()));
 
 
 				} else {
@@ -100,7 +100,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * 
 	 * @return
 	 */
-	private AsyncCallback<Boolean> pruefeObNutzerNeuExecute(String email) {
+	private AsyncCallback<Boolean> pruefeObNutzerNeuExecute(String emailAddress) {
 		AsyncCallback<Boolean> asynCallback = new AsyncCallback<Boolean>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -111,14 +111,14 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (!result) {
 			
-					admin.getNutzerByEmail(loginInfo.getEmail(),
-							getNutzerByEmailExecute(loginInfo.getEmail()));
+					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
+							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
 					RootPanel.get("Details").add(begruessenN);
 					
 				} else {
 					
-					ErstelleNutzer erstelleNutzer = new ErstelleNutzer("np");
+					ErstelleNutzer erstelleNutzer = new ErstelleNutzer();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(erstelleNutzer);
 					
@@ -156,7 +156,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * @return
 	 */
 	private AsyncCallback<Nutzer> getNutzerByEmailExecute(
-			String email) {
+			String emailAddress) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -177,7 +177,7 @@ public class Notizbuchsystem implements EntryPoint {
 		
 		//  Methode erzeugt ruft das Panel auf, das den Navigator erzeugt
 	
-		public void getMenu() {
+		public void getNavigator() {
 			Navigator navigator = new Navigator();
 			RootPanel.get("Navigator").add(navigator);
 		}

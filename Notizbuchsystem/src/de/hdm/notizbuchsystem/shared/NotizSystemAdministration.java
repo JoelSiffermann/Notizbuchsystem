@@ -3,56 +3,69 @@ package de.hdm.notizbuchsystem.shared;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
-@RemoteServiceRelativePath("NotizSystem")
-public interface NotizSystemAdministration {
+@RemoteServiceRelativePath("admin")
+public interface NotizSystemAdministration extends RemoteService {
+	
+	/**
+	 * @see de.hdm.notizbuchsystem.server.NotizSystemAdministrationImpl#init()
+	 */
+	public void init() throws IllegalArgumentException;
+	/*
+	 * *************************************************************************
+	 * ** ABSCHNITT, Beginn: Nutzer
+	 * *************************************************************************
+	 * **
+	 */
+	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException;
+	
+	public Nutzer getNutzerByEmail (String email)  throws IllegalArgumentException;
+
 	
 //	public void login() throws IllegalArgumentException;
 //	
 //	public void logout() throws IllegalArgumentException;
 	
-	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException;
-	
-	public void init() throws IllegalArgumentException;
-	
-	public void speichereNutzer(int profilId, String vorname, String name) throws IllegalArgumentException;
-	
-	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 
-	public Notizbuch erstelleNotizbuch(String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
+
 	
-	public Nutzer erstelleNutzer(String name, String vorname, String email) throws IllegalArgumentException;
+	public void speicherNutzer(int NutzerId, String vorname, String name) throws IllegalArgumentException;
 	
-	public Notizquelle erstelleNotizquelle(String url) throws IllegalArgumentException;
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
+
+	public Notizbuch erstelleNotizbuch(int notizbuchID, String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 	
-	public Faelligkeit erstelleFaelligkeit(Date datum) throws IllegalArgumentException;
+	public Nutzer erstelleNutzer(String name, String vorname, String emailAddress) throws IllegalArgumentException;
 	
-	public Freigabe erstelleNotizFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email) throws IllegalArgumentException;
+	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException;
 	
-	public Freigabe erstelleNotizbuchFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException;
+	public Faelligkeit erstelleFaelligkeit(int faelligkeitId, Date datum) throws IllegalArgumentException;
 	
-	public void loescheNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException;
+	public Freigabe erstelleNotizFreigabe(int notizfreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException;
 	
-	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException;
+	public Freigabe erstelleNotizbuchFreigabe(int notizbuchFreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException;
 	
-	public void loescheNutzer(Nutzer nutzer) throws IllegalArgumentException;
+	public void loescheNotiz(Notiz notiz, Eintragung eintragung, int notizid) throws IllegalArgumentException;
 	
-	public void loescheNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException;
+	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung, int notizbuchid) throws IllegalArgumentException;
 	
-	public void loescheFaelligkeit(Faelligkeit faelligkeit) throws IllegalArgumentException;
+	public void loescheNutzer(int Nutzerid) throws IllegalArgumentException;
 	
-	public void loescheFreigabe(Freigabe freigabe) throws IllegalArgumentException;
+	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid) throws IllegalArgumentException;
+	
+	public void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid) throws IllegalArgumentException;
+	
+	public void loescheFreigabe(Freigabe freigabe, int freigabeId) throws IllegalArgumentException;
 	
 	public Notiz bearbeiteNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException;
 	
 	public Notizbuch bearbeiteNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException;
 	
 	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException;
-	
-	public Faelligkeit bearbeiteFaelligkeit(Date faelligkeit) throws IllegalArgumentException;
 	
 	public Nutzer bearbeiteNutzer(Nutzer nutzer) throws IllegalArgumentException;
 	
@@ -69,8 +82,9 @@ public interface NotizSystemAdministration {
 	public Freigabe getBerechtigungByNutzer(Nutzer nutzer) throws IllegalArgumentException;
 	
 	public Nutzer getNutzerByNotiz(Notiz notiz) throws IllegalArgumentException;
+
+	public Nutzer getNutzerById(int nutzerId) throws IllegalArgumentException;
 	
-	public Nutzer getNutzerByEmail(String email) throws IllegalArgumentException;
 	
 	public Vector<Nutzer> getNutzerByName(String name, String vorname) throws IllegalArgumentException;
 	
@@ -90,11 +104,7 @@ public interface NotizSystemAdministration {
 
 	public Faelligkeit bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum)
 			throws IllegalArgumentException;
-
-	public Freigabe erstelleNotizfreigabe(boolean leseberechtigung,
-			boolean aenderungsberechtigung, boolean loeschberechtigung
-			) throws IllegalArgumentException;
-
+	
 	
 }
 

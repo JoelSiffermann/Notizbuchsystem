@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
-
 import de.hdm.notizbuchsystem.client.Notizbuchsystem;
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 
@@ -31,7 +30,7 @@ public class ErstelleNutzer extends Showcase {
 	/**
 	 * Aktuelle EmailAdresse aus Google-Account holen
 	 */
-	private String email = Notizbuchsystem.getLoginInfo().getEmail();
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
 
 	//Damit auf die Async Methoden zugegriffen werden können
 	private NotizSystemAdministrationAsync admin = ClientsideSettings
@@ -69,22 +68,32 @@ public class ErstelleNutzer extends Showcase {
 
  
 	/**
-	 * Variable fuer den Profiltyp erstellen.
+	 * Variable fuer den NutzerId erstellen.
 	 */
-	private String profiltyp;
+	//private int nutzerId;
+
+	private Nutzer np;
 
 	/**
 	 * Konstruktor erstellen.
 	 * 
-	 * @param profiltyp
-	 *            Der Profiltyp (Nutzer).
+	 * @param nutzer
+	 *            Der Nutzer.
 	 */
-	public ErstelleNutzer(String profiltyp) {
-		this.profiltyp = profiltyp;
+	public ErstelleNutzer() {
+		this.np = np;
 		run();
 	}
 	
-  /**
+ 
+
+
+
+
+
+
+
+/**
    * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
    * eine "Einschubmethode", die von einer Methode der Basisklasse
    * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
@@ -211,7 +220,7 @@ RootPanel.get("Details").add(buttonPanel);
 	}
 
 	private AsyncCallback<Nutzer> ErstelleNutzerExecute(
-			String vorname, String name, String email) {
+			String vorname, String name, String emailAddress) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {

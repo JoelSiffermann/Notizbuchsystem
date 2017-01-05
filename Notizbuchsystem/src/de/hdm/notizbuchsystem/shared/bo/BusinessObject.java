@@ -3,7 +3,9 @@ package de.hdm.notizbuchsystem.shared.bo;
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class BusinessObject implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public abstract class BusinessObject implements IsSerializable,Serializable {
 
 	private static final long serialVersionUID = 1601371118492937261L;
 

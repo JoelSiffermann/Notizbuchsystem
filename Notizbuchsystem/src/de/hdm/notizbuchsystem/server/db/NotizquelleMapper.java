@@ -78,4 +78,17 @@ private static NotizquelleMapper notizquelleMapper = null;
 			e1.printStackTrace();
 		}
 	}
+
+	public Notizquelle insertNotizquelle(Notizquelle notizquelle,
+			int notizquelleId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	public void loeschenotizquelle(int notizquelleId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

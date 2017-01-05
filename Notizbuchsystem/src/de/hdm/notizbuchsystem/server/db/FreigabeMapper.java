@@ -85,4 +85,31 @@ private static FreigabeMapper freigabeMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Freigabe insertNotizFreigabe(Freigabe notizFreigabe,
+			int notizFreigabeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Freigabe insertNotizbuchFreigabe(Freigabe notizbuchFreigabe,
+			int notizbuchFreigabeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void loescheNotizFreigabe(int notizFreigabeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void loescheNotizbuchFreigabe(int notizbuchFreigabeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void bearbeiteNotizbuchFreigabe(NotizbuchFreigabe notizbuchFreigabe) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -24,7 +24,7 @@ public static NutzerMapper nutzerMapper(){
 	 return nutzerMapper;
 }
 
-public Nutzer erstellen(Nutzer n) {
+public Nutzer erstellen(Nutzer nutzer) {
 	Connection con = DBConnection.getConnection();
 	
 	try{
@@ -34,47 +34,47 @@ public Nutzer erstellen(Nutzer n) {
 		          + "FROM Nutzer ");
 		
 		   if (rs.next()) {
-		     n.setId(rs.getInt("maxid") + 1);
+		     nutzer.setId(rs.getInt("maxid") + 1);
 
 		        stmt = con.createStatement();
 
 		        
 		        stmt.executeUpdate("INSERT INTO Nutzer (ID, Name, Vorname, E-Mail) " + "VALUES ("
-		            + n.getId() + "," + n.getName() + "," + n.getVorname() + n.getEmail() +" )");
+		            + nutzer.getId() + "," + nutzer.getName() + "," + nutzer.getVorname() + nutzer.getEmailAddress() +" )");
 		      }}
 		   catch (SQLException e1) {
 			      e1.printStackTrace();
 			    }
-	return n;
+	return nutzer;
 }
 	
 
-public Nutzer bearbeiten(Nutzer n) {
+public Nutzer bearbeiten(Nutzer nutzer) {
     Connection con = DBConnection.getConnection();
 
     try {
       Statement stmt = con.createStatement();
 
       stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\""
-          + n.getName() + "\", " + "Vorname=\"" +n.getVorname() + "\" "
-          + "WHERE id=" + n.getId());
+          + nutzer.getName() + "\", " + "Vorname=\"" +nutzer.getVorname() + "\" "
+          + "WHERE id=" + nutzer.getId());
 
     }
     catch (SQLException e) {
       e.printStackTrace();
     }
 
-    return n;
+    return nutzer;
   }
 
 
-public void loeschen(Nutzer n) {
+public void loeschen(Nutzer nutzer) {
     Connection con = DBConnection.getConnection();
 
     try {
       Statement stmt = con.createStatement();
 
-      stmt.executeUpdate("DELETE FROM Nutzer " + "WHERE id=" + n.getId());
+      stmt.executeUpdate("DELETE FROM Nutzer " + "WHERE id=" + nutzer.getId());
     }
     catch (SQLException e) {
       e.printStackTrace();
@@ -102,12 +102,12 @@ public Nutzer getNutzerByID(int ID) {
        */
       if (rs.next()) {
         // Ergebnis-Tupel in Objekt umwandeln
-        Nutzer n = new Nutzer();
-        n.setId(rs.getInt("ID"));
-        n.setName(rs.getString("Name"));
-        n.setVorname(rs.getString("Vorname"));
+        Nutzer nutzer = new Nutzer();
+        nutzer.setId(rs.getInt("ID"));
+        nutzer.setName(rs.getString("Name"));
+        nutzer.setVorname(rs.getString("Vorname"));
 
-        return n;
+        return nutzer;
       }
     }
     catch (SQLException e) {
@@ -162,6 +162,32 @@ public Nutzer getNutzerByEmail(String Email) {
           e.printStackTrace();
           return null;  }
 
+	return null;
+}
+
+public Nutzer insertNutzer(Nutzer nutzer) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+
+public Nutzer findByNutzerMitEmail(String email) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public void updateNutzer(Nutzer nutzer) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void loeschenutzer(int nutzerId) {
+	// TODO Auto-generated method stub
+	
+}
+
+public Nutzer findByNutzerId(int nutzerId) {
+	// TODO Auto-generated method stub
 	return null;
 }
 

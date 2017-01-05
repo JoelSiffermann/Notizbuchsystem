@@ -94,6 +94,18 @@ public class NotizbuchMapper {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Notizbuch insertNotizbuch(Notizbuch notizbuch, int notizbuchId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	public void loeschenotizbuch(int notizbuchId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

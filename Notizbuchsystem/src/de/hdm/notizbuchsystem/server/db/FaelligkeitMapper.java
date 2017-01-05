@@ -84,4 +84,15 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Faelligkeit insertNotizquelle(Faelligkeit faelligkeit,
+			int faelligkeitId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void loescheFaelligkeit(int faelligkeitId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

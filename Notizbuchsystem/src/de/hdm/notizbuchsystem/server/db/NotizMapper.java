@@ -102,6 +102,18 @@ public class NotizMapper {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Notiz insertNotiz(Notiz notiz, int notizId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	public void loeschenotiz(int notizId) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

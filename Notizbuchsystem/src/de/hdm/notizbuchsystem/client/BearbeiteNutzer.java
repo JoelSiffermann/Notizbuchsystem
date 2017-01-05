@@ -45,21 +45,18 @@ public class BearbeiteNutzer extends Showcase {
 		/**
 		 * Variable fuer die Profil-ID erzeugen. 
 		 */
-		private int profilId; 
+		private int nutzerId; 
 		
-		/**
-		 * Variable fuer den Profiltyp erzeugen. 
-		 */
-		private String profiltyp; 
+		
 
 		/**
 		 * Konstruktor erstellen.
 		 * @param profilId Die Profil-ID des aktuellen Nutzerprofils.  
 		 * @param profiltyp Der Profiltyp (Nutzerprofil). 
 		 */
-		public BearbeiteNutzer(final int profilId, String profiltyp) {
-			this.profilId = profilId; 
-			this.profiltyp = profiltyp; 
+		public BearbeiteNutzer(final int nutzerId) {
+			this.nutzerId = nutzerId; 
+			
 			run(); 
 		}
 		
@@ -137,7 +134,7 @@ public class BearbeiteNutzer extends Showcase {
 	 * Tabelle eintraegt. 
 	 */
 	public void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNutzerById(profilId,
+		ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
 				new AsyncCallback<Nutzer>() {
 
 					public void onFailure(Throwable caught) {
@@ -149,7 +146,7 @@ public class BearbeiteNutzer extends Showcase {
 
 						nameTextBox.setText(result.getName());
 
-						emailTextBox.setText(result.getEmail());
+						emailTextBox.setText(result.getEmailAddress());
 					}
 		});
 	}
@@ -194,8 +191,8 @@ public class BearbeiteNutzer extends Showcase {
 	 * Schreiben des Nutzers in die Datenbank.
 	 */
 	public void aktualisiereNutzerprofil() {
-		ClientsideSettings.getNotizSystemAdministration().speichereNutzer(
-				profilId, vornameTextBox.getText(),
+		ClientsideSettings.getNotizSystemAdministration().speicherNutzer(
+				nutzerId, vornameTextBox.getText(),
 				nameTextBox.getText(),
 				new AsyncCallback<Void>() {
 			
@@ -204,7 +201,7 @@ public class BearbeiteNutzer extends Showcase {
 						}
 
 						public void onSuccess(Void result) {
-						ZeigeNutzer showNutzer = new ZeigeNutzer(profilId, profiltyp);
+						ZeigeNutzer showNutzer = new ZeigeNutzer(nutzerId);
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(showNutzer);
 					}

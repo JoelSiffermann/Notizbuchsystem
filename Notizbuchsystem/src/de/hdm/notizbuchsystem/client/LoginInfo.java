@@ -9,18 +9,19 @@
 		private static final long serialVersionUID = 1L;
 		private String logoutUrl;
 		private String loginUrl;
-		private String email;
+		private String emailAddress;
 		private String nickname;
 		
 		private boolean loggedIn = false;
+		
 		
 		/**
 		 * Getter, der die e-Mail Adresse des Nutzers zurueckliefert
 		 * 
 		 * @return email
 		 */
-		public String getEmail() {
-			return email;
+		public String getEmailAddress() {
+			return emailAddress;
 		}
 
 		/**
@@ -48,8 +49,8 @@
 		 * 
 		 * @param email
 		 */
-		public void setEmail(String email) {
-			this.email = email;
+		public void setEmailAddress(String email) {
+			this.emailAddress = email;
 		}
 
 		/**
@@ -102,6 +103,7 @@
 		public void setLoginUrl(String loginUrl) {
 			this.loginUrl = loginUrl;
 		}
+
 	}
 
 

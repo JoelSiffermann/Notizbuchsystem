@@ -29,30 +29,33 @@ public class VerwalteNutzer extends Showcase {
 	  final Button meinProfilAnzeigenButton = new Button("Mein Profil Anzeigen");
 	  
 	  /**
-		 * Variable fuer die ProfilId erstellen.
+		 * Variable fuer die NutzerId erstellen.
 		 */
-		private int profilId;
+		private int nutzerId;
 
-		/**
-		 * Variable fuer den Profiltyp erstellen.
-		 */
-		private String profiltyp;
-
+		
 		/**
 		 * Konstruktor erstellen.
 		 * 
-		 * @param profilId
-		 *            Die Profil-ID des Nutzerprofils, das angezeigt werden soll.
-		 * @param profiltyp
-		 *            Der Profiltyp (Nutzerprofil).
+		 * @param nutzerId
+		 *            Die NutzerId-ID des Nutzers, das angezeigt werden soll.
+		 
+		**/
+		// Konstruktor leer gemacht wegen Error
+		//public VerwalteNutzer(final int nutzerId) {
+		//	this.nutzerId = nutzerId; 
+		//	 
+		//	run(); 
+		//}
+	
+		public VerwalteNutzer() {
+			// TODO Auto-generated constructor stub
+		}
+
+		/**
+		 * Methode erstellen, die den Aufbau der Seite startet. 
 		 */
 		
-		// Konstruktor leer gemacht wegen Error
-		
-		public VerwalteNutzer(){
-			run();
-		}
-	  
 		
 		@Override
 		protected void run() {
@@ -72,7 +75,7 @@ public class VerwalteNutzer extends Showcase {
 			         * Showcase instantiieren.
 			         */
 			    	  //Was kommt in den die Klammern bei erstelle Nutzer, beim aufruf des Konstruktors??
-			        Showcase showcase = new ErstelleNutzer(null);
+			        Showcase showcase = new ErstelleNutzer();
 
 			        /*
 			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
@@ -91,7 +94,7 @@ public class VerwalteNutzer extends Showcase {
 					/*
 			         * Showcase instantiieren.
 			         */
-			        Showcase showcase = new ZeigeNutzer(profilId,profiltyp);
+			        Showcase showcase = new ZeigeNutzer(nutzerId);
 
 			        /*
 			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"

@@ -3,32 +3,47 @@ package de.hdm.notizbuchsystem.server;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.hdm.notizbuchsystem.server.db.*;
 import de.hdm.notizbuchsystem.shared.bo.*;
 import de.hdm.notizbuchsystem.shared.*;
 
-public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
+/**
+ * Implementierungsklasse des Interface NotizSystemAdministration.
+ * @see NotizSystemAdministration
+ * @see NotizSystemAdministrationAsync
+ * @see RemoteServiceServlet
+ */
+
+@SuppressWarnings("serial")
+public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements NotizSystemAdministration{
 	
-	private NutzerMapper nutzerMapper;
+	private NutzerMapper nutzerMapper = null;
 	
-	private NotizMapper notizMapper;
+	private NotizMapper notizMapper= null;
 	
-	private NotizbuchMapper notizbuchMapper;
+	private NotizbuchMapper notizbuchMapper = null;
 	
-	private FaelligkeitMapper faelligkeitMapper;
+	private FaelligkeitMapper faelligkeitMapper = null;
 	
-	private NotizquelleMapper notizquelleMapper;
+	private NotizquelleMapper notizquelleMapper = null;
 	
-	private FreigabeMapper freigabeMapper;
-		
-	public void login() throws IllegalArgumentException {
-		
+	private FreigabeMapper freigabeMapper = null;
+	
+	/**
+	 * No-Argument-Konstruktor, der dazu dient, Client-seitig ein RemoteServiceServlet 
+	 * GWT.create(Klassenname.class) zu erzeugen. 
+	 * @see #init()
+	 * @throws IllegalArgumentException
+	 */
+	public NotizbuchAdministrationImpl() throws IllegalArgumentException {
 	}
 	
-	
-	public void logout() throws IllegalArgumentException {
-		
-	}
+	/**
+	 * Initialisierungsmethode. 
+	 * @throws IllegalArgumentException
+	 */
 	
 	@Override
 	public void init() throws IllegalArgumentException {
@@ -47,18 +62,125 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 		
 	}
 	
+	
+	/* 
+	 * Gibt das aktuelle Profil anhand der EMail zur�ck
+	 * return nutzer
+	 */
 	@Override
-	public boolean pruefeObNutzerNeu(String Email) throws IllegalArgumentException {
+	public Nutzer getNutzerByEmail (String email) {
+		return nutzerMapper.findByNutzerMitEmail(email);
 
-		if (nutzerMapper.getNutzerByEmail(Email) == null) {
+	}
+
+	/*
+	 * *************************************************************************
+	 * ** ABSCHNITT, Beginn: Nutzerprofil
+	 * *************************************************************************
+	 * **
+	 */
+	/**
+	 * Pruefen, ob der Nutzer in der Datenbank schon existiert.
+	 * 
+	 * @see de.hdm.notizbuchsystem.shared.NotizSystemAdministration#login(String)
+	 */
+	
+	
+	@Override
+	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException {
+
+		if (nutzerMapper.findByNutzerMitEmail(userEmail) == null) {
 			return true;
 		}
 		return false;
 		
 	}
 	
+	/**
+	 * Ein Nutzer-Objekt anlegen.
+	 * @param vorname Vorname.
+	 * @param nach Name.
+	 * @param emailAddress E-Mail.
+	 * @return Das angelegte Nutzerprofil-Objekt.
+	 * @throws IllegalArgumentException
+	 */
+	
 	@Override
-	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
+	public Nutzer erstelleNutzer(String name, String vorname, String emailAddress) throws IllegalArgumentException{
+		
+		Nutzer nutzer = new Nutzer();
+		
+		nutzer.setName(name);
+		
+		nutzer.setVorname(vorname);
+		
+		nutzer.setEmailAddress(emailAddress);
+		
+		nutzer.setNutzerId(1);
+		
+		nutzer = this.nutzerMapper.insertNutzer(nutzer);
+
+		return nutzer;
+		
+	}
+	
+	/**
+	 * Ein Nutzer-Objekt aktualisieren.
+	 * @param nutzerId Nutzer-ID des Nutzers, das aktualisiert werden soll.
+	 * @param vorname Vorname.
+	 * @param name Name.
+	 * @throws IllegalArgumentException
+	 */
+	public void saveNutzer(int nutzerId, String vorname, String name)
+			throws IllegalArgumentException {
+
+		Nutzer nutzer = new Nutzer();
+		nutzer.setVorname(vorname);
+		nutzer.setName(name);
+	
+
+		nutzer.setNutzerId(nutzerId);
+
+		this.nutzerMapper.updateNutzer(nutzer);
+	}
+
+	/**
+	 * Ein Nutzer-Objekt loeschen.
+	 * @param nutzerId Die Nutzer-ID des Nutzers, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNutzer(int nutzerId)
+			throws IllegalArgumentException {
+		this.nutzerMapper.loeschenutzer(nutzerId);
+	}
+	
+	/**
+	 * Ein Nutzer-Objekt anhand der Nutzer-ID auslesen.
+	 * @param nutzerId Nutzer-ID des Nutzers, das ausgelesen werden soll. 
+	 * @return Das ausgelesene Nutzer-Objekt.
+	 * @throws IllegalArgumentException
+	 */
+	public Nutzer getNutzerById(int nutzerId)
+			throws IllegalArgumentException {
+		return this.nutzerMapper.findByNutzerId(nutzerId);
+	}
+
+		
+	/**
+	 * Ein Notiz-Objekt anlegen.
+	 * @param notizId Notiz-ID der Notiz, das angelegt werden soll. 
+	 * @param titel Titel. 
+	 * @param subtitel Subtitel. 
+	 * @param inhalt Inhalt. 
+	 * @param eigentuemer Eigentuemer. 
+	 * @param erstelldatum Erstelldatum.
+	 * @param modifikationsdatum Modifikationsdatum.  
+	 * @return Das angelegte Notiz-Objekt.
+	 * @throws IllegalArgumentException
+	 */
+	
+	@Override
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -74,12 +196,33 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 		
 		notiz.setModifikationsdatum(modifikationsdatum);
 	
-		return this.notizMapper.erstellen(notiz);
+		return this.notizMapper.insertNotiz(notiz, notizId);
 						 
 	}
 	
+	/**
+	 * Ein Notiz-Objekt loeschen.
+	 * @param notizId Die Notiz-ID der Notiz, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNotiz(int notizId)
+			throws IllegalArgumentException {
+		this.notizMapper.loeschenotiz(notizId);
+	}
+	
+	/**
+	 * Ein Notizbuch-Objekt anlegen.
+	 * @param notizbuchId Notizbuch-ID des Notizbuches, das angelegt werden soll. 
+	 * @param titel Titel.   
+	 * @param eigentuemer Eigentuemer. 
+	 * @param erstelldatum Erstelldatum.
+	 * @param modifikationsdatum Modifikationsdatum.  
+	 * @return Das angelegte Notizbuch-Objekt.
+	 * @throws IllegalArgumentException
+	 */
+	
 	@Override
-	public Notizbuch erstelleNotizbuch(String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
+	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
 		
@@ -91,81 +234,162 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 		
 		notizbuch.setModifikationsdatum(modifikationsdatum);
 	
-		return this.notizbuchMapper.erstellen(notizbuch);
+		return this.notizbuchMapper.insertNotizbuch(notizbuch, notizbuchId);
 		
 	}
 	
-	@Override
-	public Nutzer erstelleNutzer(String name, String vorname, String email) throws IllegalArgumentException{
-		
-		Nutzer nutzer = new Nutzer();
-		
-		nutzer.setName(name);
-		
-		nutzer.setVorname(vorname);
-		
-		nutzer.setEmail(email);
-		
-		nutzer.setId(1);
-		
-		return this.nutzerMapper.erstellen(nutzer);
-		
+	/**
+	 * Ein Notizbuch-Objekt loeschen.
+	 * @param notizbuchId Die Notizbuch-ID des Notizbuches, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNotizbuch(int notizbuchId)
+			throws IllegalArgumentException {
+		this.notizbuchMapper.loeschenotizbuch(notizbuchId);
 	}
+	
+	
+	/**
+	 * Ein Notizquelle-Objekt anlegen.
+	 * @param notizquelleId Notizquelle-ID der Notizquelle, das angelegt werden soll. 
+	 * @param url Url.  
+	 * @return Das angelegte Notizquelle-Objekt.
+	 * @throws IllegalArgumentException
+	 */
 
 	@Override
-	public Notizquelle erstelleNotizquelle(String url) throws IllegalArgumentException{
+	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException{
 		
 		Notizquelle notizquelle = new Notizquelle();
 		
 		notizquelle.setUrl(url);
 		
-		return this.notizquelleMapper.erstellen(notizquelle);
+		return this.notizquelleMapper.insertNotizquelle(notizquelle, notizquelleId);
 		
 	}
 	
+	/**
+	 * Ein Notizquelle-Objekt loeschen.
+	 * @param notizquelleId Die Notizquelle-ID der Notizquelle, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNotizquelle(int notizquelleId)
+			throws IllegalArgumentException {
+		this.notizquelleMapper.loeschenotizquelle(notizquelleId);
+	}
+	
+	
+	/**
+	 * Ein Faelligkeit-Objekt anlegen.
+	 * @param faelligkeitId Faelligkeit-ID der Faelligkeit, das angelegt werden soll. 
+	 * @param datum Datum.  
+	 * @return Das angelegte Faelligkeit-Objekt.
+	 * @throws IllegalArgumentException
+	 */
+
+	
 	@Override
-	public Faelligkeit erstelleFaelligkeit(Date datum) throws IllegalArgumentException{
+	public Faelligkeit erstelleFaelligkeit(int faelligkeitId, Date datum) throws IllegalArgumentException{
 		
 		Faelligkeit faelligkeit = new Faelligkeit();
 		
 		faelligkeit.setDatum(datum);
 		
-		return this.faelligkeitMapper.erstellen(faelligkeit);
+		return this.faelligkeitMapper.insertNotizquelle(faelligkeit, faelligkeitId);
 		
 	}
+	
+	/**
+	 * Ein Faelligkeit-Objekt loeschen.
+	 * @param faelligkeitId Die Faelligkeit-ID der Faelligkeit, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheFaelligkeit(int faelligkeitId)
+			throws IllegalArgumentException {
+		this.faelligkeitMapper.loescheFaelligkeit(faelligkeitId);
+	}
+	
+	
+	/**
+	 * Ein NotizFreigabe-Objekt anlegen.
+	 * @param notizfreigabeId Notizfreigabe-ID der NotizFreigabe, das angelegt werden soll. 
+	 * @param leseberechtigung Leseberechtigung. 
+	 * @param aenderungsberechtigung Aenderungsberechtigung.
+	 * @param loeschberechtigung Loeschberechtigung. 
+	 * @return Das angelegte NotizFreigabe-Objekt.
+	 * @throws IllegalArgumentException
+	 */
 	
 	@Override
-	public Freigabe erstelleNotizfreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
+	public Freigabe erstelleNotizFreigabe(int notizFreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
 	
 		
-		Freigabe freigabeNotiz = new NotizFreigabe();
+		NotizFreigabe NotizFreigabe = new NotizFreigabe();
 		
-		freigabeNotiz.setLeseberechtigung(leseberechtigung);
+		NotizFreigabe.setLeseberechtigung(leseberechtigung);
 		
-		freigabeNotiz.setAenderungsberechtigung(aenderungsberechtigung);
+		NotizFreigabe.setAenderungsberechtigung(aenderungsberechtigung);
 		
-		freigabeNotiz.setLoeschberechtigung(loeschberechtigung);
+		NotizFreigabe.setLoeschberechtigung(loeschberechtigung);
 		
 		
-		return this.freigabeMapper.erstellen(freigabeNotiz);
+		return this.freigabeMapper.insertNotizFreigabe(NotizFreigabe, notizFreigabeId);
 		
 	}
+	
+
+	/**
+	 * Ein NotizFreigabe-Objekt loeschen.
+	 * @param notizFreigabeId Die NotizFreigabe-ID der NotizFreigabe, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNotizFreigabe(int notizFreigabeId)
+			throws IllegalArgumentException {
+		this.freigabeMapper.loescheNotizFreigabe(notizFreigabeId);
+	}
+	
+	
+	
+	/**
+	 * Ein NotizbuchFreigabe-Objekt anlegen.
+	 * @param notizbuchfreigabeId Notizbuchfreigabe-ID der NotizbuchFreigabe, das angelegt werden soll. 
+	 * @param leseberechtigung Leseberechtigung. 
+	 * @param aenderungsberechtigung Aenderungsberechtigung.
+	 * @param loeschberechtigung Loeschberechtigung. 
+	 * @return Das angelegte NotizbuchFreigabe-Objekt.
+	 * @throws IllegalArgumentException
+	 */
 	
 	@Override
-	public Freigabe erstelleNotizbuchFreigabe(boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
+	public Freigabe erstelleNotizbuchFreigabe(int notizbuchFreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
 		
-		Freigabe freigabeNotizbuch = new NotizbuchFreigabe();
+		NotizbuchFreigabe NotizbuchFreigabe = new NotizbuchFreigabe();
 		
-		freigabeNotizbuch.setLeseberechtigung(leseberechtigung);
+		NotizbuchFreigabe.setLeseberechtigung(leseberechtigung);
 		
-		freigabeNotizbuch.setAenderungsberechtigung(aenderungsberechtigung);
+		NotizbuchFreigabe.setAenderungsberechtigung(aenderungsberechtigung);
 		
-		freigabeNotizbuch.setLoeschberechtigung(loeschberechtigung);
+		NotizbuchFreigabe.setLoeschberechtigung(loeschberechtigung);
 		
 		
-		return this.freigabeMapper.erstellen(freigabeNotizbuch);
+		return this.freigabeMapper.insertNotizbuchFreigabe(NotizbuchFreigabe, notizbuchFreigabeId);
 		
 	}
+	
+	
+	/**
+	 * Ein NotizbuchFreigabe-Objekt loeschen.
+	 * @param notizbuchFreigabeId Die NotizbuchFreigabe-ID der NotizbuchFreigabe, das geloescht werden soll.
+	 * @throws IllegalArgumentException
+	 */
+	public void loescheNotizbuchFreigabe(int notizbuchFreigabeId)
+			throws IllegalArgumentException {
+		this.freigabeMapper.loescheNotizbuchFreigabe(notizbuchFreigabeId);
+	}
+	
+	
+	
+	
 	
 	@Override
 	public Notiz bearbeiteNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException{
@@ -217,48 +441,12 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 		return this.freigabeMapper.bearbeiten(notizbuchFreigabe);
 	}
 	
-	@Override
-	public void loescheNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException {
-		
-		this.notizMapper.loeschen(notiz);
-		
-	}
 	
-	@Override
-	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException{
-		
-		this.notizbuchMapper.loeschen(notizbuch);
-
-	}
 	
-	@Override
-	public void loescheNutzer(Nutzer nutzer) throws IllegalArgumentException{
-		
-		this.nutzerMapper.loeschen(nutzer);
-		
-	}
 	
-	@Override
-	public void loescheNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
-		
-		this.notizquelleMapper.loeschen(notizquelle);
-
-		
-	}
 	
-	@Override
-	public void loescheFaelligkeit(Faelligkeit faelligkeit) throws IllegalArgumentException{
 		
-		this.faelligkeitMapper.loeschen(faelligkeit);
-		
-	}
 	
-	@Override
-	public void loescheFreigabe(Freigabe freigabe) throws IllegalArgumentException{
-		
-		this.freigabeMapper.loeschen(freigabe);
-		
-	}
 	
 	@Override
 	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException{
@@ -322,29 +510,13 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 	}
 
 
-	@Override
-	public void speichereNutzer(int profilId, String vorname, String name)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
-	@Override
-	public Freigabe erstelleNotizFreigabe(boolean leseberechtigung,
-			boolean aenderungsberechtigung, boolean loeschberechtigung,
-			String email) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
-	@Override
-	public Faelligkeit bearbeiteFaelligkeit(Date faelligkeit)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 
 	@Override
@@ -378,12 +550,7 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 	}
 
 
-	@Override
-	public Nutzer getNutzerByEmail(String email)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 	@Override
@@ -399,6 +566,56 @@ public class NotizbuchAdministrationImpl implements NotizSystemAdministration{
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void speicherNutzer(int NutzerId, String vorname, String name)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void loescheNotiz(Notiz notiz, Eintragung eintragung, int notizid)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung,
+			int notizbuchid) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
+
+	@Override
+	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void loescheFreigabe(Freigabe freigabe, int freigabeId)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
