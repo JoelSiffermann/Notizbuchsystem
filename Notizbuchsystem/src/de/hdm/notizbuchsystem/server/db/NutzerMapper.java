@@ -155,9 +155,18 @@ public Nutzer getNutzerByEmail(String Email) {
           .executeQuery("SELECT id, Name, Vorname, Email FROM Nutzer "
               + "WHERE E-Mail=" + Email + " ORDER BY Name");
 
-      // Methode zum prüfen ob ein Ergebnis vorliegt nicht implementiert, da Email kein PK ist
+    if (rs.next()) {  
       
-    }
+   Nutzer n = new Nutzer();
+   n.setEmailAddress(rs.getString("Email"));
+   n.setId(rs.getInt("id"));
+   n.setName(rs.getString("Name"));
+   n.setVorname(rs.getString("Vorname"));
+   
+   return n;
+    }}
+      
+	
     catch (SQLException e) {
           e.printStackTrace();
           return null;  }

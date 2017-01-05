@@ -6,13 +6,19 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
+
 public class Navigator extends VerticalPanel {
 
-	VerticalPanel navPanel = new VerticalPanel();
+	private VerticalPanel navPanel = new VerticalPanel();
 	private Button nutzerButton = new Button("Verwalte Nutzer");
 	private Button notizButton = new Button("Verwalte Notizen");
 	private Button notizbuchButton = new Button("Verwalte Notizbuecher");
 	private Button logoutButton = new Button("Logout");
+	
+	private Nutzer nutzer = Notizbuchsystem.getNp();
+	private String logoutUrl = Notizbuchsystem.getLoginInfo().getLogoutUrl();
+	
 	
 	
 	public Navigator(){
@@ -20,6 +26,7 @@ public class Navigator extends VerticalPanel {
 	}
 	
 	public void run() {
+	
 	
     nutzerButton.setStylePrimaryName("test-menubutton");
     notizbuchButton.setStylePrimaryName("test-menubutton");
