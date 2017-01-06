@@ -14,7 +14,7 @@
   
   <servlet-mapping>
       <servlet-name>loginService</servlet-name>
-      <url-pattern>/NotizbuchSystem/login</url-pattern>
+      <url-pattern>/notizbuchsystem/login</url-pattern>
   </servlet-mapping>
   
   <servlet>

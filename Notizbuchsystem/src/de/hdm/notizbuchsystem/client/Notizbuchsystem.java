@@ -2,14 +2,14 @@ package de.hdm.notizbuchsystem.client;
 
 
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.client.ui.*;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
 
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
@@ -21,22 +21,20 @@ import de.hdm.notizbuchsystem.shared.LoginServiceAsync;
 
 
 /**
- * Entry-Point-Klasse des Projekts <b>BankProjekt</b>.
+ * Entry-Point-Klasse des Projekts <b>NotizbuchSystem</b>.
  */
 public class Notizbuchsystem implements EntryPoint {
-	
+	private Button nutzerButton = new Button("Verwalte Nutzer");
+	private Button notizButton = new Button("Verwalte Notizen");
+	private Button notizbuchButton = new Button("Verwalte Notizbuecher");
+	private Button logoutButton = new Button("Logout");
 
 	/**
 	 * Neues Nutzerprofil erzeugen
 	 */
 	Nutzer nutzer = new Nutzer();
 
-	
-	/**
-	 * Deklaration der Labels fuer die Startseite(n)
-	 */
-	private Label begruessenN = new Label(
-			"Herzlich Willkommen bei Ihrem Notizbuchsystem. ");
+
 	
 	/**
 	 * Deklaration fuer den Login und den Logout
@@ -53,7 +51,58 @@ public class Notizbuchsystem implements EntryPoint {
 
 	
 	public void onModuleLoad() {
-		setStyles();
+		
+		VerticalPanel navPanel = new VerticalPanel();
+
+	    nutzerButton.setStylePrimaryName("test-menubutton");
+	    notizbuchButton.setStylePrimaryName("test-menubutton");
+	    notizButton.setStylePrimaryName("test-menubutton");
+	    logoutButton.setStylePrimaryName("test-menubutton");
+	        
+	    navPanel.add(nutzerButton);
+	    navPanel.add(notizbuchButton);
+	    navPanel.add(notizButton);
+	    navPanel.add(logoutButton);
+	    
+	    notizbuchButton.addClickHandler(new ClickHandler() {
+	      @Override
+		public void onClick(ClickEvent event) {
+	    
+	        Showcase showcase = new VerwalteNotizbuch();
+	       
+	        RootPanel.get("Details").clear();
+	        RootPanel.get("Details").add(showcase);
+	      }
+	    });
+
+	   
+	    notizButton.addClickHandler(new ClickHandler() {
+	      @Override
+		public void onClick(ClickEvent event) {
+	        /*
+	         * Showcase instantiieren.
+	         */
+	        Showcase showcase = new VerwalteNotiz();
+
+	        RootPanel.get("Details").clear();
+	        RootPanel.get("Details").add(showcase);
+	      }
+	    });
+
+	   
+	      nutzerButton.addClickHandler(new ClickHandler() {
+	        @Override
+	  	public void onClick(ClickEvent event) {
+	      
+	          Showcase showcase = new VerwalteNutzer();
+	     
+	          RootPanel.get("Details").clear();
+	          RootPanel.get("Details").add(showcase);
+	        }
+	      });
+	  	RootPanel.get("Navigator").add(navPanel);
+	
+		
 
 		/**
 		 * Login-Methode aufrufen und anschlieﬂend auf die Hostpage leiten.
@@ -114,7 +163,7 @@ public class Notizbuchsystem implements EntryPoint {
 					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
 							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
-					RootPanel.get("Details").add(begruessenN);
+					
 					
 				} else {
 					
@@ -175,19 +224,6 @@ public class Notizbuchsystem implements EntryPoint {
 		
 	}
 		
-		//  Methode erzeugt ruft das Panel auf, das den Navigator erzeugt
-	
-		public void getNavigator() {
-			Navigator navigator = new Navigator();
-			RootPanel.get("Navigator").add(navigator);
-		}
-		
-
-  
-	private void setStyles() {
-		begruessenN.setStyleName("welcome-label");
-		}
-	
 	
 }
 
