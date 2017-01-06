@@ -515,14 +515,15 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 	
 
-
+//TODO?
 	
 
 
 	@Override
 	public Notiz getNotizByFaelligkeit(Faelligkeit faelligkeit)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		//return this.notizMapper.getNotizByFaelligkeit(faelligkeit);
 		return null;
 	}
 
@@ -530,7 +531,8 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	@Override
 	public Notiz getNotizByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		//return this.notizMapper.getNotizByNutzer(nutzer);
 		return null;
 	}
 
@@ -538,14 +540,16 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	@Override
 	public Freigabe getBerechtigungByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		//return this.freigabeMapper.getBerechtigungByNutzer(nutzer);
 		return null;
 	}
 
 
 	@Override
 	public Nutzer getNutzerByNotiz(Notiz notiz) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		//return this.nutzerMapper.getNutzerByNotiz(notiz);
 		return null;
 	}
 

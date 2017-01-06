@@ -8,7 +8,10 @@ import de.hdm.notizbuchsystem.shared.report.NotizNachTitelUndDatumReport;
 
 import java.util.Date;
 
-public class ReportGeneratorImpl implements ReportGenerator {
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+@SuppressWarnings("serial")
+public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	public ReportGeneratorImpl() throws IllegalArgumentException{
 		
