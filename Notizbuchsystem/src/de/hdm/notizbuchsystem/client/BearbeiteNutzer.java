@@ -114,21 +114,22 @@ public class BearbeiteNutzer extends Showcase {
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 
-/**
- * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
- * Sobald dieser Button getaetigt wird, wird der Nutzer zurueck auf die Login-Seite geleitet.
- * Alle bisher im Formular eingetragenen Daten werden verworfen.
- */
-	abbrechenButton.addClickHandler(new ClickHandler() {
-	public void onClick(ClickEvent event) {
-		
-		      
-	          Showcase showcase = new VerwalteNutzer();
-	     
-	          RootPanel.get("Details").clear();
-	          RootPanel.get("Details").add(showcase);
-	        }
-	      });
+		/**
+		 * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
+		 * Sobald dieser Button getaetigt wird, wird der Nutzer zurueck auf die Login-Seite geleitet.
+		 * Alle bisher im Formular eingetragenen Daten werden verworfen.
+		 */
+			abbrechenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+				      
+			          Showcase showcase = new ZeigeNutzer(nutzerId);
+			     
+			          RootPanel.get("Details").clear();
+			          RootPanel.get("Details").add(showcase);
+			        }
+			      });
+			
 	}
 	
 	

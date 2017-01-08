@@ -2,6 +2,8 @@ package de.hdm.notizbuchsystem.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -72,7 +74,43 @@ public class ZeigeNutzer extends Showcase {
 		        RootPanel.get("Details").add(showcase);
 		      }
 		    });
-		
-	}
 
-}
+/**
+		 * ClickHandler fuer den Button zum Loeschen des Nutzerprofils erzeugen.
+		 * Sobald der Button betaetigt wird, erscheint eine Bildschrimmeldung,
+		 * die hinterfragt, ob das Nutzerprofil tatsaechlich geloescht werden
+		 * soll. Wird diese mit "Ok" bestaetigt, wird das Nutzerprofil aus der
+		 * Datenbank entfernt. Zudem wird der Nutzer ausgeloggt und auf die
+		 * Login-Seite weitergeleitet.
+		 */
+		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loescheNutzer();
+			}
+		});}
+
+		/**
+		 * Methode erstellen, die das eigene Nutzerprofil loescht.
+		 */
+		public void loescheNutzer() {
+			if (Window.confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
+
+				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
+
+					public void onFailure(Throwable caught) {
+					}
+
+					public void onSuccess(Void result) {
+
+						Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
+
+					}
+				});
+		
+		
+
+			}
+	
+		
+	}}
+
