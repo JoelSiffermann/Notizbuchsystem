@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
+
 
 public class VerwalteNutzer extends Showcase {
 	
@@ -71,11 +73,12 @@ public class VerwalteNutzer extends Showcase {
 			erstelleNutzerButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
+			    	  Nutzer np = null;
 			        /*
 			         * Showcase instantiieren.
 			         */
 			    	  //Was kommt in den die Klammern bei erstelle Nutzer, beim aufruf des Konstruktors??
-			        Showcase showcase = new ErstelleNutzer();
+			        Showcase showcase = new ErstelleNutzer(np);
 
 			        /*
 			         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"

@@ -54,7 +54,7 @@ public class ErstelleNutzer extends Showcase {
 	private FlexTable nutzerFlexTable = new FlexTable();
 	private TextBox vornameTextBox = new TextBox();
 	private TextBox nameTextBox = new TextBox();
-	private TextBox emailTextBox = new TextBox();
+	
 
 
 
@@ -62,7 +62,7 @@ public class ErstelleNutzer extends Showcase {
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
 	private Label reqLabel2 = new Label("* Pflichtfeld");
-	private Label reqLabel3 = new Label("* Pflichtfeld");
+	
 	
   
 
@@ -80,7 +80,7 @@ public class ErstelleNutzer extends Showcase {
 	 * @param nutzer
 	 *            Der Nutzer.
 	 */
-	public ErstelleNutzer() {
+	public ErstelleNutzer(Nutzer np) {
 		this.np = np;
 		run();
 	}
@@ -108,7 +108,7 @@ public class ErstelleNutzer extends Showcase {
   verPanel.add(nutzerFlexTable);
   verPanel.add(vornameTextBox);
   verPanel.add(nameTextBox);
-  verPanel.add(emailTextBox);
+ 
   
 
   
@@ -116,7 +116,7 @@ public class ErstelleNutzer extends Showcase {
   
     reqLabel1.setStyleName("red_label");
 	reqLabel2.setStyleName("red_label");
-	reqLabel3.setStyleName("red_label");
+	
 	
 	nutzerFlexTable.addStyleName("FlexTable");
 	nutzerFlexTable.setCellPadding(6);
@@ -142,8 +142,8 @@ public class ErstelleNutzer extends Showcase {
 	nutzerFlexTable.setWidget(1, 2, nameTextBox);
 	nutzerFlexTable.setWidget(1, 3, reqLabel2);
 	
-	nutzerFlexTable.setWidget(2, 2, emailTextBox);
-	nutzerFlexTable.setWidget(2, 3, reqLabel3);
+	nutzerFlexTable.setText(2, 2, email);
+	
 	
 	
 
@@ -220,7 +220,7 @@ RootPanel.get("Details").add(buttonPanel);
 	}
 
 	private AsyncCallback<Nutzer> ErstelleNutzerExecute(
-			String vorname, String name, String emailAddress) {
+			String vorname, String name, String email) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -229,7 +229,11 @@ RootPanel.get("Details").add(buttonPanel);
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				//hier muss eventuell noch was rein
+				ZeigeNutzer zeigenutzer = new ZeigeNutzer(result.getNutzerId());
+				RootPanel.get("Details").clear();
+			
+				RootPanel.get("Details").add(zeigenutzer); 
+		
 			}
 		};
 		return asynCallback;

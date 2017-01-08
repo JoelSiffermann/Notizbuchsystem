@@ -164,7 +164,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * 
 	 * @return
 	 */
-	private AsyncCallback<Boolean> pruefeObNutzerNeuExecute(String emailAddress) {
+	private AsyncCallback<Boolean> pruefeObNutzerNeuExecute(String email) {
 		AsyncCallback<Boolean> asynCallback = new AsyncCallback<Boolean>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -222,7 +222,7 @@ public class Notizbuchsystem implements EntryPoint {
 	 * @return
 	 */
 	private AsyncCallback<Nutzer> getNutzerByEmailExecute(
-			String emailAddress) {
+			String email) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {
