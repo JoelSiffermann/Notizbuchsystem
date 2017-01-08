@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
+
+
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 import de.hdm.notizbuchsystem.client.ClientsideSettings;
@@ -100,8 +102,17 @@ public class Notizbuchsystem implements EntryPoint {
 	          RootPanel.get("Details").add(showcase);
 	        }
 	      });
+	
+	      
+	      logoutButton.addClickHandler (new ClickHandler(){
+	    	  public void onClick(ClickEvent event){
+	    		  Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
+	    	  }
+	      });
+	      
 	  	RootPanel.get("Navigator").add(navPanel);
 	
+	  	
 		
 
 		/**
@@ -143,6 +154,10 @@ public class Notizbuchsystem implements EntryPoint {
 		return asynCallback;
 	}
 	
+
+	
+
+	
 	/**
 	 * AsyncCallback für die Methode pruefeObNutzerNeu(). Falls der Wert false ist wird die Methode
 	 * getNutzerByEmail() aufgerufen, sonst wird der Nutzer auf ErstelleNutzer() weitergeleitet.
@@ -167,7 +182,7 @@ public class Notizbuchsystem implements EntryPoint {
 					
 				} else {
 					
-					ErstelleNutzer erstelleNutzer = new ErstelleNutzer();
+					ErstelleNutzer erstelleNutzer = new ErstelleNutzer(np);
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(erstelleNutzer);
 					
@@ -196,6 +211,8 @@ public class Notizbuchsystem implements EntryPoint {
 	public static LoginInfo getLoginInfo() {
 		return loginInfo;
 	}
+	
+	
 
 	
 	/**
