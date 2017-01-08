@@ -89,11 +89,12 @@ public class VerwalteNutzer extends Showcase {
 			        RootPanel.get("Details").clear();
 			        RootPanel.get("Details").add(showcase);
 			      }
-			    });}
+			    });
 			
 			
-		
+			meinProfilAnzeigenButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
+					
 					/*
 			         * Showcase instantiieren.
 			         */
@@ -108,10 +109,12 @@ public class VerwalteNutzer extends Showcase {
 			        RootPanel.get("Details").clear();
 			        RootPanel.get("Details").add(showcase);
 			      }
-			    
+			});}
+		
 
+}
 			
-		}
+		
 	  
 	
 

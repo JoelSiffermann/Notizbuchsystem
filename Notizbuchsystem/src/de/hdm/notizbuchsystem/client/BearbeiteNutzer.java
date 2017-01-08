@@ -122,11 +122,17 @@ public class BearbeiteNutzer extends Showcase {
 	abbrechenButton.addClickHandler(new ClickHandler() {
 	public void onClick(ClickEvent event) {
 		
-		Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl()); //WAS PASSIERT BEI ABBRUCH
+		      
+	          Showcase showcase = new VerwalteNutzer();
+	     
+	          RootPanel.get("Details").clear();
+	          RootPanel.get("Details").add(showcase);
+	        }
+	      });
 	}
 	
-	});
-	}
+	
+	
 	
 	
 	/**
