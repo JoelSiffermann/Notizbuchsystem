@@ -20,7 +20,7 @@ public class ZeigeNotizbuch extends Showcase {
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	private FlexTable NBuebersicht = new FlexTable();
-	private Label pfadLabelNA = new Label("Zurueck zu: Meine Notizbuecher");
+	private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizbuecher");
 	private Button abbrechenButton = new Button("Abbrechen");
 	  
 

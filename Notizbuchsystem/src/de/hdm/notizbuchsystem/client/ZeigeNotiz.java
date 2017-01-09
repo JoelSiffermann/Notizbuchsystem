@@ -22,7 +22,7 @@ public class ZeigeNotiz extends Showcase {
 	  private HorizontalPanel buttonPanel = new HorizontalPanel();
 	  
 	  private FlexTable Nuebersicht = new FlexTable();
-	  private Label pfadLabelNA = new Label("Zurueck zu: Meine Notizen");
+	  private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizen");
 	  final private Button abbrechenButton = new Button("Abbrechen");
 	  final Button notizNotizbuchZuweisenButton = new Button("Notizbuch Zuweisen");
 
@@ -43,7 +43,7 @@ public class ZeigeNotiz extends Showcase {
 		
 		pfadLabelNA.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Showcase showcase = new ZeigeNotiz();
+				Showcase showcase = new VerwalteNotiz();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(showcase);
 			}
