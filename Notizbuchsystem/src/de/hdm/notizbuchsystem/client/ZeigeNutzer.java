@@ -5,9 +5,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 public class ZeigeNutzer extends Showcase {
 
@@ -25,7 +28,7 @@ public class ZeigeNutzer extends Showcase {
 	  private VerticalPanel verPanel = new VerticalPanel();
 	  private HorizontalPanel buttonPanel = new HorizontalPanel();
 	  
-	  
+	  private FlexTable nutzerFlexTable = new FlexTable();
 	  final Button bearbeiteNutzerButton = new Button("Mein Profil Bearbeiten");
 	  final Button meinProfilloeschenButton = new Button("Mein Profil Loeschen");
 
@@ -33,6 +36,11 @@ public class ZeigeNutzer extends Showcase {
 		 * Variable fuer die NutzerId erstellen.
 		 */
 		private int nutzerId;
+		
+		/**
+		 * Variable fuer die ProfilId erstellen.
+		 */
+		private String profiltyp;
 
 		
 		/**
@@ -40,9 +48,11 @@ public class ZeigeNutzer extends Showcase {
 		 * 
 		 * @param nutzerId
 		 *            Die Nutzer-ID des Nutzer, das angezeigt werden soll.
+		 * @param profiltyp 
 		 */
-		public ZeigeNutzer(int nutzerId) {
+		public ZeigeNutzer(int nutzerId, String profiltyp) {
 			this.nutzerId = nutzerId;
+			this.profiltyp = profiltyp;
 			
 			run();
 		}
@@ -51,10 +61,29 @@ public class ZeigeNutzer extends Showcase {
 
 		buttonPanel.add(bearbeiteNutzerButton);
 		buttonPanel.add(meinProfilloeschenButton);
+		verPanel.add(nutzerFlexTable);
 		
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
+		
+		nutzerFlexTable.addStyleName("FlexTable");
+		nutzerFlexTable.setCellPadding(6);
+		nutzerFlexTable.getColumnFormatter().addStyleName(0,
+				"TableHeader");
+		
+		
+		/**
+		 * Erste Spalte der Tabelle festlegen.
+		 */
+		nutzerFlexTable.setText(0, 0, "Vorname:");
+		nutzerFlexTable.setText(1, 0, "Name:");
+		nutzerFlexTable.setText(2, 0, "Email:");
+		
+		befuelleTabelle();
+		
+		
+		
 		
 		bearbeiteNutzerButton.addClickHandler(new ClickHandler() {
 		      @Override
@@ -62,7 +91,7 @@ public class ZeigeNutzer extends Showcase {
 		        /*
 		         * Showcase instantiieren.
 		         */
-		        Showcase showcase = new BearbeiteNutzer(nutzerId);
+		        Showcase showcase = new BearbeiteNutzer(nutzerId, profiltyp);
 
 		        /*
 		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
@@ -76,10 +105,10 @@ public class ZeigeNutzer extends Showcase {
 		    });
 
 /**
-		 * ClickHandler fuer den Button zum Loeschen des Nutzerprofils erzeugen.
+		 * ClickHandler fuer den Button zum Loeschen des Nutzers erzeugen.
 		 * Sobald der Button betaetigt wird, erscheint eine Bildschrimmeldung,
 		 * die hinterfragt, ob das Nutzerprofil tatsaechlich geloescht werden
-		 * soll. Wird diese mit "Ok" bestaetigt, wird das Nutzerprofil aus der
+		 * soll. Wird diese mit "Ok" bestaetigt, wird der Nutzer aus der
 		 * Datenbank entfernt. Zudem wird der Nutzer ausgeloggt und auf die
 		 * Login-Seite weitergeleitet.
 		 */
@@ -88,12 +117,33 @@ public class ZeigeNutzer extends Showcase {
 				loescheNutzer();
 			}
 		});}
+	
+	/**
+	 * Methode erstellen, die den eigenen Nutzer anhand der Nutzer-ID
+	 * ausliest und die Profildaten in die Tabelle einfuegt.
+	 */
+	public void befuelleTabelle() {
+		ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+				new AsyncCallback<Nutzer>() {
+
+					public void onFailure(Throwable caught) {
+					}
+
+					public void onSuccess(Nutzer result) {
+						nutzerFlexTable.setText(0, 1, result.getVorname());
+						nutzerFlexTable.setText(1, 1, result.getName());
+						nutzerFlexTable.setText(2, 1, result.getEmailAddress());
+					}
+				});
+	}
+	
+	
 
 		/**
 		 * Methode erstellen, die das eigene Nutzerprofil loescht.
 		 */
 		public void loescheNutzer() {
-			if (Window.confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
+			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
 
 				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
 

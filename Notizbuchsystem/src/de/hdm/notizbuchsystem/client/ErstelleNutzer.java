@@ -62,7 +62,7 @@ public class ErstelleNutzer extends Showcase {
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
 	private Label reqLabel2 = new Label("* Pflichtfeld");
-	
+	private Label warnungLabel = new Label();
 	
   
 
@@ -72,7 +72,7 @@ public class ErstelleNutzer extends Showcase {
 	 */
 	//private int nutzerId;
 
-	private Nutzer np;
+	private String profiltyp;
 
 	/**
 	 * Konstruktor erstellen.
@@ -80,8 +80,8 @@ public class ErstelleNutzer extends Showcase {
 	 * @param nutzer
 	 *            Der Nutzer.
 	 */
-	public ErstelleNutzer(Nutzer np) {
-		this.np = np;
+	public ErstelleNutzer(String profiltyp) {
+		this.profiltyp = profiltyp;
 		run();
 	}
 	
@@ -133,8 +133,7 @@ public class ErstelleNutzer extends Showcase {
 
 	/**
 	 * Zweite und dritte Spalte der Tabelle festlegen. Die Widgets werden in
-	 * die Tabelle eingefuegt und die Items fuer die ListBoxen werden
-	 * gesetzt.
+	 * die Tabelle eingefuegt 
 	 */
 	nutzerFlexTable.setWidget(0, 2, vornameTextBox);
 	nutzerFlexTable.setWidget(0, 3, reqLabel1);
@@ -159,6 +158,21 @@ RootPanel.get("Details").add(buttonPanel);
 
 
 /**
+ * ClickHandler fuer den Button zum Anlegen eines Nutzers
+ * erzeugen. Sobald dieser Button betaetigt wird, werden die Eingaben
+ * sowohl auf Vollstaendigkeit als auch auf Korrektheit geprueft. Sind
+ * die Eingaben unvollstaendig oder inkorrekt, wird eine entsprechende
+ * Fehlermeldung ueber diesen Zustand ausgegeben. Andernfalls wird der
+ * Nutzer angelegt. 
+ */
+erstelleNutzerButton.addClickHandler(new ClickHandler() {
+	public void onClick(ClickEvent event) {
+		pruefeEingabe();
+	}
+});
+
+
+/**
  * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
  * Sobald dieser Button getaetigt wird, wird der Nutzer zurueck auf die Login-Seite geleitet.
  * Alle bisher im Formular eingetragenen Daten werden verworfen.
@@ -178,9 +192,8 @@ RootPanel.get("Details").add(buttonPanel);
 	 * Korrektheit ueberprueft.
 	 */
 	
-  /**
-   * ______________________notwendig?____________________________
-   * public void pruefeEingabe() {
+  
+   public void pruefeEingabe() {
 		boolean vornameWert = isBuchstabe(vornameTextBox.getText());
 		boolean nameWert = isBuchstabe(nameTextBox.getText());
 		
@@ -203,8 +216,6 @@ RootPanel.get("Details").add(buttonPanel);
 		}
 
 	}
-*/
-
 	/**
 	 * Methode erstellen, die einen neuen Nutzer anlegt. Dies führt zum
 	 * Speichern des Nutzers in der Datenbank.
@@ -214,13 +225,13 @@ RootPanel.get("Details").add(buttonPanel);
 				vornameTextBox.getText(),
 				nameTextBox.getText(),
 				email,
-				ErstelleNutzerExecute(vornameTextBox.getText(),
+				erstelleNutzerExecute(vornameTextBox.getText(),
 						nameTextBox.getText(),
 						email));
 	}
 
-	private AsyncCallback<Nutzer> ErstelleNutzerExecute(
-			String vorname, String name, String email) {
+	private AsyncCallback<Nutzer> erstelleNutzerExecute(
+			String vorname, String name, String emailAddress) {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -229,15 +240,23 @@ RootPanel.get("Details").add(buttonPanel);
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				ZeigeNutzer zeigenutzer = new ZeigeNutzer(result.getNutzerId());
+				Showcase showcase = new ZeigeNutzer(result.getNutzerId(), result.getEmailAddress());
 				RootPanel.get("Details").clear();
 			
-				RootPanel.get("Details").add(zeigenutzer); 
+				RootPanel.get("Details").add(showcase); 
 		
 			}
 		};
 		return asynCallback;
 	}
+
+
+
+
+
+
+
+
 
 
 

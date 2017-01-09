@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.notizbuchsystem.client.ZeigeNutzer;
 import de.hdm.notizbuchsystem.client.ClientsideSettings;
@@ -33,30 +34,35 @@ public class BearbeiteNutzer extends Showcase {
 	  private FlexTable nutzerFlexTable = new FlexTable();
 		private TextBox vornameTextBox = new TextBox();
 		private TextBox nameTextBox = new TextBox();
-		private TextBox emailTextBox = new TextBox();
+		private Label emailLabel = new Label();
 	
 	    
 	  final Button speichernButton = new Button("Nutzer Speichern");
 	  final Button abbrechenButton = new Button("Abbrechen");
 	  private Label reqLabel1 = new Label("* Pflichtfeld");
 		private Label reqLabel2 = new Label("* Pflichtfeld");
-		private Label reqLabel3 = new Label("* Pflichtfeld");
+		
+		private Label warnungLabel = new Label();
+		private Label pfadLabelNA = new Label("Zurueck zu: Profil anzeigen");
 	  
 		/**
-		 * Variable fuer die Profil-ID erzeugen. 
+		 * Variable fuer die Nutzer-ID erzeugen. 
 		 */
 		private int nutzerId; 
 		
-		
+		/**
+		 * Variable fuer den Profiltyp erzeugen. 
+		 */
+		private String profiltyp; 
 
 		/**
 		 * Konstruktor erstellen.
-		 * @param profilId Die Profil-ID des aktuellen Nutzerprofils.  
-		 * @param profiltyp Der Profiltyp (Nutzerprofil). 
+		 * @param nutzerId Die Nutzer-ID des aktuellen Nutzers.  
+		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
-		public BearbeiteNutzer(final int nutzerId) {
+		public BearbeiteNutzer(final int nutzerId, String profiltyp) {
 			this.nutzerId = nutzerId; 
-			
+			this.profiltyp = profiltyp;
 			run(); 
 		}
 		
@@ -68,20 +74,24 @@ public class BearbeiteNutzer extends Showcase {
 		  verPanel.add(nutzerFlexTable);
 		  verPanel.add(vornameTextBox);
 		  verPanel.add(nameTextBox);
-		  verPanel.add(emailTextBox);
+		  verPanel.add(emailLabel);
 		  
 
-		  
+		  /**
+			 * CSS anwenden und die Tabelle formatieren.
+			 */
 		  
 		  
 		    reqLabel1.setStyleName("red_label");
 			reqLabel2.setStyleName("red_label");
-			reqLabel3.setStyleName("red_label");
+			
 			
 			nutzerFlexTable.addStyleName("FlexTable");
 			nutzerFlexTable.setCellPadding(6);
 			nutzerFlexTable.getColumnFormatter().addStyleName(0,
 					"TableHeader");
+			pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
+			
 			
 			/**
 			 * Erste Spalte der Tabelle festlegen.
@@ -93,18 +103,17 @@ public class BearbeiteNutzer extends Showcase {
 
 			/**
 			 * Zweite und dritte Spalte der Tabelle festlegen. Die Widgets werden in
-			 * die Tabelle eingefuegt und die Items fuer die ListBoxen werden
-			 * gesetzt.
+			 * die Tabelle eingefuegt 
 			 */
-			nutzerFlexTable.setWidget(0, 2, vornameTextBox);
-			nutzerFlexTable.setWidget(0, 3, reqLabel1);
+			nutzerFlexTable.setWidget(0, 1, vornameTextBox);
+			nutzerFlexTable.setWidget(0, 2, reqLabel1);
 
-			nutzerFlexTable.setWidget(1, 2, nameTextBox);
-			nutzerFlexTable.setWidget(1, 3, reqLabel2);
+			nutzerFlexTable.setWidget(1, 1, nameTextBox);
+			nutzerFlexTable.setWidget(1, 2, reqLabel2);
 			
-			nutzerFlexTable.setWidget(2, 2, emailTextBox);
-			nutzerFlexTable.setWidget(2, 3, reqLabel3);
+			nutzerFlexTable.setWidget(2, 1, emailLabel);
 			
+			befuelleTabelle();
 			
 
 		buttonPanel.add(speichernButton);
@@ -113,6 +122,21 @@ public class BearbeiteNutzer extends Showcase {
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
+		
+		/**
+		 * ClickHandler fuer den Button zum Speichern des eigenen Nutzers erzeugen. 
+		 * Sobald dieser Button betaetigt wird, werden die Eingaben sowohl auf 
+		 * Vollstaendigkeit als auch auf Korrektheit ueberprueft. Sind Eingaben
+		 * unvollstaendig oder inkorrekt, wird eine entsprechende Information 
+		 * ueber diesen Zustand ausgegeben. Andernfalls wird der Nutzer 
+		 * gespeichert. Anschliessend wird die Seite zum Anzeigen des eigenen 
+		 * Nutzers aufgerufen.
+		 */
+		speichernButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				pruefeEingabe(); 
+			}
+		}); 
 
 		/**
 		 * ClickHandler fuer den Button zum Abbrechen des Anlegevorgangs eines Nutzers erzeugen.
@@ -123,40 +147,66 @@ public class BearbeiteNutzer extends Showcase {
 			public void onClick(ClickEvent event) {
 				
 				      
-			          Showcase showcase = new ZeigeNutzer(nutzerId);
+			          Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
 			     
 			          RootPanel.get("Details").clear();
 			          RootPanel.get("Details").add(showcase);
 			        }
 			      });
-			
-	}
-	
-	
-	
-	
-	
-	/**
-	 * Methode erstellen, die den eigenen Nutzer ausliest und die Profildaten in die 
-	 * Tabelle eintraegt. 
-	 */
-	public void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
-				new AsyncCallback<Nutzer>() {
+			/**
+			 * ClickHandler fuer das Label zum Zurueckkehren zum Nutzer erzeugen. 
+			 * Sobald dieses Label betaetigt wird, wird die Seite zum Anzeigen des eigenen 
+			 * Nutzers aufgerufen.
+			 */
+			pfadLabelNA.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(showcase);
+				}
 
+			});}
+			
+			
+	
+
+			/**
+			 * Methode erstellen, die den eigene Nutzer ausliest und die Profildaten in die 
+			 * Tabelle eintraegt. 
+			 */
+			public void befuelleTabelle(){
+				
+				ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+						new AsyncCallback<Nutzer>() {
 					public void onFailure(Throwable caught) {
 					}
-
+					
 					public void onSuccess(Nutzer result) {
 
 						vornameTextBox.setText(result.getVorname());
 
 						nameTextBox.setText(result.getName());
-
-						emailTextBox.setText(result.getEmailAddress());
+					
+						emailLabel.setText(result.getEmailAddress());
 					}
-		});
-	}
+				});
+				
+				/**
+				 * Widgets dem Panel hinzufuegen.
+				 */
+				verPanel.add(pfadLabelNA);
+			//	verPanel.add(editNutzerprofilFlexTable);
+			//	verPanel.add(editNutzerprofilButton);
+				
+			}
+			
+			
+	
+	
+	
+	
+
+	
 				
 
 
@@ -166,38 +216,36 @@ public class BearbeiteNutzer extends Showcase {
 	 * Korrektheit ueberprueft.
 	 */
 	
-  /**
-   * ______________________notwendig?____________________________
-   * public void pruefeEingabe() {
+  public void pruefeEingabe() {
 		boolean vornameWert = isBuchstabe(vornameTextBox.getText());
 		boolean nameWert = isBuchstabe(nameTextBox.getText());
 		
 
 		if (vornameTextBox.getText().length() == 0) {
 			warnungLabel.setText("Bitte geben Sie Ihren Vornamen an.");
-			nutzerFlexTable.setWidget(0, 4, warnungLabel);
+			nutzerFlexTable.setWidget(0, 3, warnungLabel);
 		} else if (nameTextBox.getText().length() == 0) {
 			warnungLabel.setText("Bitte geben Sie Ihren Nachnamen an.");
-			nutzerFlexTable.setWidget(1, 4, warnungLabel);
+			nutzerFlexTable.setWidget(1, 3, warnungLabel);
 		} else if (vornameWert == false) {
 			warnungLabel.setText("Ihr Vorname darf nur Buchstaben enthalten.");
-			nutzerFlexTable.setWidget(0, 4, warnungLabel);
+			nutzerFlexTable.setWidget(0, 3, warnungLabel);
 		} else if (nameWert == false) {
 			warnungLabel.setText("Ihr Nachname darf nur Buchstaben enthalten.");
-			nutzerFlexTable.setWidget(1, 4, warnungLabel);
+			nutzerFlexTable.setWidget(1, 3, warnungLabel);
 		
 		} else {
-			nutzerAnlegen();
+			aktualisiereNutzer();
 		}
 
 	}
-*/
+
 
 	/**
 	 * Methode erstellen, die den eigene Nutzer aktualisiert. Dies führt zum wiederholten 
 	 * Schreiben des Nutzers in die Datenbank.
 	 */
-	public void aktualisiereNutzerprofil() {
+	public void aktualisiereNutzer() {
 		ClientsideSettings.getNotizSystemAdministration().speicherNutzer(
 				nutzerId, vornameTextBox.getText(),
 				nameTextBox.getText(),
@@ -208,9 +256,9 @@ public class BearbeiteNutzer extends Showcase {
 						}
 
 						public void onSuccess(Void result) {
-						ZeigeNutzer showNutzer = new ZeigeNutzer(nutzerId);
+						Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
 						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(showNutzer);
+						RootPanel.get("Details").add(showcase);
 					}
 			});
 	}

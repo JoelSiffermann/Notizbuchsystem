@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+import com.google.gwt.user.client.ui.Label;
 
 
 
@@ -26,7 +26,7 @@ import de.hdm.notizbuchsystem.shared.LoginServiceAsync;
  * Entry-Point-Klasse des Projekts <b>NotizbuchSystem</b>.
  */
 public class Notizbuchsystem implements EntryPoint {
-	private Button nutzerButton = new Button("Verwalte Nutzer");
+	private Button nutzerButton = new Button("Mein Profil");
 	private Button notizButton = new Button("Verwalte Notizen");
 	private Button notizbuchButton = new Button("Verwalte Notizbuecher");
 	private Button logoutButton = new Button("Logout");
@@ -36,7 +36,13 @@ public class Notizbuchsystem implements EntryPoint {
 	 */
 	Nutzer nutzer = new Nutzer();
 
-
+	/**
+	 * Deklaraion der Labels fuer die Startseite(n)
+	 */
+	private Label begruessenN = new Label(
+			"Herzlich Willkommen bei Notizi. ");
+	private Label begruessenN2 = new Label(
+			"Klicke dich nun durch die Webseite und verwalte deine Notizen");
 	
 	/**
 	 * Deklaration fuer den Login und den Logout
@@ -53,6 +59,7 @@ public class Notizbuchsystem implements EntryPoint {
 
 	
 	public void onModuleLoad() {
+		setStyles();
 		
 		VerticalPanel navPanel = new VerticalPanel();
 
@@ -93,10 +100,11 @@ public class Notizbuchsystem implements EntryPoint {
 
 	   
 	      nutzerButton.addClickHandler(new ClickHandler() {
-	        @Override
-	  	public void onClick(ClickEvent event) {
-	      
-	          Showcase showcase = new VerwalteNutzer();
+	    	    @Override
+	    	  	public void onClick(ClickEvent event) {
+	    	        	
+	    
+			Showcase showcase = new ZeigeNutzer(0, null);
 	     
 	          RootPanel.get("Details").clear();
 	          RootPanel.get("Details").add(showcase);
@@ -111,6 +119,8 @@ public class Notizbuchsystem implements EntryPoint {
 	      });
 	      
 	  	RootPanel.get("Navigator").add(navPanel);
+	  	RootPanel.get("Details").add(begruessenN);
+	  	RootPanel.get("Details").add(begruessenN2);
 	
 	  	
 		
@@ -178,13 +188,14 @@ public class Notizbuchsystem implements EntryPoint {
 					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
 							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
-					
+					RootPanel.get("Details").add(begruessenN);
+					RootPanel.get("Details").add(begruessenN2);
 					
 				} else {
 					
-					ErstelleNutzer erstelleNutzer = new ErstelleNutzer(np);
+					Showcase showcase = new ErstelleNutzer("Np");
 					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(erstelleNutzer);
+					RootPanel.get("Details").add(showcase);
 					
 				}
 
@@ -239,8 +250,15 @@ public class Notizbuchsystem implements EntryPoint {
 		};
 		return asynCallback;
 		
-	}
-		
 	
+	}
+	/**
+	 * Methode legt die CSS-Styles für verschiedene Labels fest.
+	 */
+	private void setStyles() {
+		begruessenN.setStyleName("welcomelabel");
+		begruessenN2.setStyleName("welcomelabel2");
+
+	}
 }
 

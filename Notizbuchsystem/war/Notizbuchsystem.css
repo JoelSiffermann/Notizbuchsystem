@@ -3,9 +3,9 @@
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-size: 2em;
+  font-size: 5em;
   font-weight: bold;
-  color: #4B0082;
+  color: #000080;
   margin: 40px 0px 70px;
   text-align: center;
 }
@@ -118,4 +118,27 @@ div#Trailer {
 	height: 12px;
 	overflow: auto;
 	background: #B0C4DE;
+}
+
+
+.welcomelabel {
+	font-size: 200%;
+	font-weight: bold;
+  	font-family: Arial Unicode MS, Arial, sans-serif;
+	color:  #000080;
+ 	text-align: center;
+}
+
+.welcomelabel2 {
+	font-size: 150%;
+	font-weight: bold;
+  	font-family: Arial Unicode MS, Arial, sans-serif;
+ 	text-align: center;
+}
+
+.notizbuchsystem-zurueckbutton {
+	font-size: 100%;
+	font-weight: bold; 
+	color: #0b0259;
+	text-align: right;
 }
