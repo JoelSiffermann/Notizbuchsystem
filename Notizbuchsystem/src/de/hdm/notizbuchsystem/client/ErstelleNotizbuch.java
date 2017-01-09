@@ -3,6 +3,7 @@ package de.hdm.notizbuchsystem.client;
 
 
 import java.util.Date;
+
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.apphosting.utils.config.AppYaml.AdminConsole;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -124,11 +125,14 @@ public class ErstelleNotizbuch extends Showcase {
   
   abbrechenButton.addClickHandler(new ClickHandler() {
 		public void onClick(ClickEvent event) {
-			buttonPanel.clear();
-			verPanel.clear();
-			clear();
-			}
-	});
+			
+			      
+		          Showcase showcase = new VerwalteNotizbuch();
+		     
+		          RootPanel.get("Details").clear();
+		          RootPanel.get("Details").add(showcase);
+		        }
+		      });
  
   }
   // Methode zum Prüfen der Vollständigkeit der Eingabemaske für ein neues Notizbuch

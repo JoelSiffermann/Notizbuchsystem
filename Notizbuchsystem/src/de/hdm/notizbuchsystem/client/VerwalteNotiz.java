@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -19,6 +20,7 @@ public class VerwalteNotiz extends Showcase {
 	  
 	  final Button erstelleNotizButton = new Button("Notiz Anlegen");
 	  final Button meinNotizButton = new Button("Meine Notizen Anzeigen");
+	  private Label pfadLabelNA = new Label("Zurueck zu: Startseite");
 	  
 	
 	  
@@ -27,9 +29,20 @@ public class VerwalteNotiz extends Showcase {
 		protected void run() {
 			// TODO Auto-generated method stub
 			
+			
+			
+			pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
+			
+			pfadLabelNA.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					RootPanel.get("Details").clear();
+				}
+
+			});
+			
 			buttonPanel.add(erstelleNotizButton);
 			buttonPanel.add(meinNotizButton);
-			
+			buttonPanel.add(pfadLabelNA);
 			
 			RootPanel.get("Details").add(verPanel);
 			RootPanel.get("Details").add(buttonPanel);

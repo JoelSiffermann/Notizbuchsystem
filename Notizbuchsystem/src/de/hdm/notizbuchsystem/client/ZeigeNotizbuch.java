@@ -20,6 +20,7 @@ public class ZeigeNotizbuch extends Showcase {
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	private FlexTable NBuebersicht = new FlexTable();
+	private Label pfadLabelNA = new Label("Zurueck zu: Meine Notizbuecher");
 	private Button abbrechenButton = new Button("Abbrechen");
 	  
 
@@ -27,12 +28,25 @@ public class ZeigeNotizbuch extends Showcase {
 	protected void run() {
 
 		buttonPanel.add(abbrechenButton);
+		buttonPanel.add(pfadLabelNA);
 		verPanel.add(NBuebersicht);
 				
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 		
+
+		
+		pfadLabelNA.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new VerwalteNotizbuch();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+			}
+
+		});
+		
+		pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
 		NBuebersicht.addStyleName("FlexTable");
 		NBuebersicht.setCellPadding(6);
 		NBuebersicht.getColumnFormatter().addStyleName(0,
@@ -48,7 +62,10 @@ public class ZeigeNotizbuch extends Showcase {
 		      @Override
 			public void onClick(ClickEvent event) {
 		        
-		    	RootPanel.get("Details").clear();
+		    	  Showcase showcase = new VerwalteNotizbuch();
+				     
+		          RootPanel.get("Details").clear();
+		          RootPanel.get("Details").add(showcase);
 
 		      }
 		    });

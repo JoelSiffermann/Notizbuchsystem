@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 //import com.google.gwt.user.datepicker.client.DateBox;
 
+
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 
@@ -141,13 +142,15 @@ public class ErstelleNotiz extends Showcase {
 	});
 
 abbrechenButton.addClickHandler(new ClickHandler() {
-		public void onClick(ClickEvent event) {
-			buttonPanel.clear();
-			verPanel.clear();
-			clear();
-			}
-	});
-
+	public void onClick(ClickEvent event) {
+		
+		      
+	          Showcase showcase = new VerwalteNotiz();
+	     
+	          RootPanel.get("Details").clear();
+	          RootPanel.get("Details").add(showcase);
+	        }
+	      });
 
 }
 

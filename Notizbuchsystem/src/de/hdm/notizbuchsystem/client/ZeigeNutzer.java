@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -31,6 +32,7 @@ public class ZeigeNutzer extends Showcase {
 	  private FlexTable nutzerFlexTable = new FlexTable();
 	  final Button bearbeiteNutzerButton = new Button("Mein Profil Bearbeiten");
 	  final Button meinProfilloeschenButton = new Button("Mein Profil Loeschen");
+	  private Label pfadLabelNA = new Label("Zurueck zu: Startseite");
 
 	  /**
 		 * Variable fuer die NutzerId erstellen.
@@ -58,19 +60,29 @@ public class ZeigeNutzer extends Showcase {
 		}
 	@Override
 	protected void run() {
-
+		
 		buttonPanel.add(bearbeiteNutzerButton);
 		buttonPanel.add(meinProfilloeschenButton);
+		buttonPanel.add(pfadLabelNA);
 		verPanel.add(nutzerFlexTable);
 		
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 		
+		
 		nutzerFlexTable.addStyleName("FlexTable");
 		nutzerFlexTable.setCellPadding(6);
 		nutzerFlexTable.getColumnFormatter().addStyleName(0,
 				"TableHeader");
+		pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
+		
+		pfadLabelNA.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+			}
+
+		});
 		
 		
 		/**

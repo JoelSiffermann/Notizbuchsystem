@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -21,6 +22,7 @@ public class ZeigeNotiz extends Showcase {
 	  private HorizontalPanel buttonPanel = new HorizontalPanel();
 	  
 	  private FlexTable Nuebersicht = new FlexTable();
+	  private Label pfadLabelNA = new Label("Zurueck zu: Meine Notizen");
 	  final private Button abbrechenButton = new Button("Abbrechen");
 	  final Button notizNotizbuchZuweisenButton = new Button("Notizbuch Zuweisen");
 
@@ -30,11 +32,25 @@ public class ZeigeNotiz extends Showcase {
 		verPanel.add(Nuebersicht);
 		buttonPanel.add(abbrechenButton);
 		buttonPanel.add(notizNotizbuchZuweisenButton);
+		buttonPanel.add(pfadLabelNA);
 		
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 		
+		
+
+		
+		pfadLabelNA.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Showcase showcase = new ZeigeNotiz();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(showcase);
+			}
+
+		});
+		
+		pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
 		Nuebersicht.addStyleName("FlexTable");
 		Nuebersicht.setCellPadding(6);
 		Nuebersicht.getColumnFormatter().addStyleName(0,
@@ -69,7 +85,10 @@ public class ZeigeNotiz extends Showcase {
 		      @Override
 			public void onClick(ClickEvent event) {
 		        
-		    	RootPanel.get("Details").clear();
+		    	  Showcase showcase = new VerwalteNotiz();
+				     
+		          RootPanel.get("Details").clear();
+		          RootPanel.get("Details").add(showcase);
 
 		      }
 		    });

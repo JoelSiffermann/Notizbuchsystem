@@ -43,7 +43,7 @@ public class BearbeiteNutzer extends Showcase {
 		private Label reqLabel2 = new Label("* Pflichtfeld");
 		
 		private Label warnungLabel = new Label();
-		private Label pfadLabelNA = new Label("Zurueck zu: Profil anzeigen");
+		
 	  
 		/**
 		 * Variable fuer die Nutzer-ID erzeugen. 
@@ -90,7 +90,6 @@ public class BearbeiteNutzer extends Showcase {
 			nutzerFlexTable.setCellPadding(6);
 			nutzerFlexTable.getColumnFormatter().addStyleName(0,
 					"TableHeader");
-			pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
 			
 			
 			/**
@@ -153,19 +152,7 @@ public class BearbeiteNutzer extends Showcase {
 			          RootPanel.get("Details").add(showcase);
 			        }
 			      });
-			/**
-			 * ClickHandler fuer das Label zum Zurueckkehren zum Nutzer erzeugen. 
-			 * Sobald dieses Label betaetigt wird, wird die Seite zum Anzeigen des eigenen 
-			 * Nutzers aufgerufen.
-			 */
-			pfadLabelNA.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(showcase);
-				}
-
-			});}
+	}
 			
 			
 	
@@ -194,7 +181,7 @@ public class BearbeiteNutzer extends Showcase {
 				/**
 				 * Widgets dem Panel hinzufuegen.
 				 */
-				verPanel.add(pfadLabelNA);
+				
 			//	verPanel.add(editNutzerprofilFlexTable);
 			//	verPanel.add(editNutzerprofilButton);
 				
