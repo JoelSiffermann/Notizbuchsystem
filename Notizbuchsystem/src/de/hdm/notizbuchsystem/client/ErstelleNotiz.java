@@ -17,6 +17,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 //import com.google.gwt.user.datepicker.client.DateBox;
 
 
+
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 
@@ -60,7 +61,7 @@ public class ErstelleNotiz extends Showcase {
 	private Label reqLabel2 = new Label("* Pflichtfeld");
 	private Label reqLabel3 = new Label("* Pflichtfeld");
 	//private Label reqLabel4 = new Label("");
-	private Label warnLabel = new Label("");
+	private Label warnLabel = new Label();
 	
   
 	 /**
@@ -157,13 +158,19 @@ abbrechenButton.addClickHandler(new ClickHandler() {
 // Methode zum Prüfen der Vollständigkeit der Eingabemaske für eine neue Notiz
 
 public void pruefeEingabe(){
+	
+	
+	
 	  
 	  if (titelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
+		  notizFlexTable.setWidget(0, 3, warnLabel);
 	  } else if(subtitelTextBox.getText().length() == 0) {
 		  warnLabel .setText("Bitte geben Sie einen Subtitel an!");
+		  notizFlexTable.setWidget(1, 3, warnLabel);
 	  } else if(inhaltTextArea.getText().length() == 0) {
 		  warnLabel .setText("Bitte geben Sie einen Inhalt an!");
+		  notizFlexTable.setWidget(2, 3, warnLabel);
 	  }	else {
 		  notizAnlegen();
 		  
@@ -176,6 +183,7 @@ public void notizAnlegen(){
 //	 ClientsideSettings.getNotizSystemAdministration().erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum), callback);
 	  
 }
+
 
 
 // Methode zum Bestimmen der aktuellen DateTime

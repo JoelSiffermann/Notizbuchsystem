@@ -42,7 +42,7 @@ public class BearbeiteNutzer extends Showcase {
 	  private Label reqLabel1 = new Label("* Pflichtfeld");
 		private Label reqLabel2 = new Label("* Pflichtfeld");
 		
-		private Label warnungLabel = new Label();
+		private Label warnLabel = new Label();
 		
 	  
 		/**
@@ -209,17 +209,17 @@ public class BearbeiteNutzer extends Showcase {
 		
 
 		if (vornameTextBox.getText().length() == 0) {
-			warnungLabel.setText("Bitte geben Sie Ihren Vornamen an.");
-			nutzerFlexTable.setWidget(0, 3, warnungLabel);
+			warnLabel.setText("Bitte geben Sie Ihren Vornamen an.");
+			nutzerFlexTable.setWidget(0, 3, warnLabel);
 		} else if (nameTextBox.getText().length() == 0) {
-			warnungLabel.setText("Bitte geben Sie Ihren Nachnamen an.");
-			nutzerFlexTable.setWidget(1, 3, warnungLabel);
+			warnLabel.setText("Bitte geben Sie Ihren Nachnamen an.");
+			nutzerFlexTable.setWidget(1, 3, warnLabel);
 		} else if (vornameWert == false) {
-			warnungLabel.setText("Ihr Vorname darf nur Buchstaben enthalten.");
-			nutzerFlexTable.setWidget(0, 3, warnungLabel);
+			warnLabel.setText("Ihr Vorname darf nur Buchstaben enthalten.");
+			nutzerFlexTable.setWidget(0, 3, warnLabel);
 		} else if (nameWert == false) {
-			warnungLabel.setText("Ihr Nachname darf nur Buchstaben enthalten.");
-			nutzerFlexTable.setWidget(1, 3, warnungLabel);
+			warnLabel.setText("Ihr Nachname darf nur Buchstaben enthalten.");
+			nutzerFlexTable.setWidget(1, 3, warnLabel);
 		
 		} else {
 			aktualisiereNutzer();

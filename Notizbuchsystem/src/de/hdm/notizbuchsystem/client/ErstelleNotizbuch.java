@@ -48,7 +48,7 @@ public class ErstelleNotizbuch extends Showcase {
 	private Label reqLabel1 = new Label("* Pflichtfeld");
 	private Label reqLabel2 = new Label("* Pflichtfeld");
 	private Label reqLabel3 = new Label("* Pflichtfeld");
-	private Label warnLabel = new Label("");
+	private Label warnLabel = new Label();
   
  
   protected void run() {
@@ -141,8 +141,10 @@ public class ErstelleNotizbuch extends Showcase {
 	  
 	  if (titelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
+		  notizbuchFlexTable.setWidget(0, 3, warnLabel);
 	  } else if(subtitelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Subtitel an!");
+		  notizbuchFlexTable.setWidget(1, 3, warnLabel);
 	  }	else {
 		  notizbuchAnlegen();
 		  
