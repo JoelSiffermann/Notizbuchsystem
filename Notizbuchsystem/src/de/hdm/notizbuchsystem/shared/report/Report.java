@@ -61,7 +61,7 @@ public abstract class Report implements Serializable {
    * 
    * @param imprint Text des Impressums
    */
-  public void setImprint(Absatz impressum) {
+  public void setImpressum(Absatz impressum) {
     this.impressum = impressum;
   }
 

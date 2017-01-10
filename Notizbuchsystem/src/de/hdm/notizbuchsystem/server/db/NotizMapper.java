@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
+
 public class NotizMapper {
 
 	private static NotizMapper notizMapper = null;
@@ -83,6 +84,43 @@ public class NotizMapper {
 		}
 	}
 
+	public Vector<Notiz> getNotizenByNutzer(Nutzer n) {
+		
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notiz> result = new Vector<Notiz>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		    		  + "Eigentuemer FROM Eintragung WHERE Eigentuemer =" + n.getEmailAddress()
+		          + " ORDER BY Eintragung-ID");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      while (rs.next()) {
+		        Notiz e = new Notiz();
+		        e.setId(rs.getInt("Eintragungs-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+		        e.setSubtitel(rs.getString("Subtitel"));
+		        e.setInhalt(rs.getString("Inhalt"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(e);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+		  }
+	
+	
 	public Notiz zuweisen(Notizbuch notizbuch) {
 		// TODO Auto-generated method stub
 		return null;

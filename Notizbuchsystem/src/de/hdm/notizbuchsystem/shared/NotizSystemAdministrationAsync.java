@@ -19,10 +19,10 @@ public interface NotizSystemAdministrationAsync {
 	void init(AsyncCallback<Void> callback);
 	
 	void erstelleNotiz(int notizId, String titel, String subtitel,
-			String inhalt, Nutzer eigentuemer, Date erstelldatum,
+			String inhalt, String eigentuemer, Date erstelldatum,
 			Date modifikationsdatum, AsyncCallback<Notiz> callback);
 
-	void erstelleNotizbuch(int notizbuchID, String titel, Nutzer eigentuemer,
+	void erstelleNotizbuch(int notizbuchID, String titel, String eigentuemer,
 			Date erstelldatum, Date modifikationsdatum,
 			AsyncCallback<Notizbuch> callback);
 	
@@ -109,6 +109,8 @@ public interface NotizSystemAdministrationAsync {
 	void speicherNutzer(int notizId, String vorname, String Name, AsyncCallback<Void> callback);
 
 	void getNutzerById(int nutzerId, AsyncCallback<Nutzer> asyncCallback);
+
+	void getNotizenByNutzer(Nutzer nutzer, AsyncCallback<Vector<Notiz>> callback);
 
 	
 

@@ -2,6 +2,10 @@ package de.hdm.notizbuchsystem.shared.report;
 
 import de.hdm.notizbuchsystem.shared.report.NotizNachNutzerUndBerechtigungReport;
 import de.hdm.notizbuchsystem.shared.report.NotizNachTitelUndDatumReport;
+import de.hdm.notizbuchsystem.shared.report.NotizenBzglTitelReport;
+import de.hdm.notizbuchsystem.shared.report.NotizenBzglDatumReport;
+import de.hdm.notizbuchsystem.shared.report.NotizTeilhabeReport;
+import de.hdm.notizbuchsystem.shared.report.NutzerBerechtigungReport;
 
 /**
  * <p>
@@ -20,20 +24,9 @@ import de.hdm.notizbuchsystem.shared.report.NotizNachTitelUndDatumReport;
  */
 public abstract class ReportWriter {
 
-  /**
-   * Übersetzen eines <code>AllAccountsOfCustomerReport</code> in das
-   * Zielformat.
-   * 
-   * @param r der zu übersetzende Report
-   */
+ 
   public abstract void process(NotizNachNutzerUndBerechtigungReport r);
 
-  /**
-   * Übersetzen eines <code>AllAccountsOfAllCustomersReport</code> in das
-   * Zielformat.
-   * 
-   * @param r der zu übersetzende Report
-   */
   public abstract void process(NotizNachTitelUndDatumReport r);
 
 }

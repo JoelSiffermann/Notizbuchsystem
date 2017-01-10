@@ -12,7 +12,7 @@ import de.hdm.notizbuchsystem.shared.report.Absatz;
  * 
  * @author Thies
  */
-public class einfacherAbsatz extends Absatz implements Serializable {
+public class EinfacherAbsatz extends Absatz implements Serializable {
 
   /**
    * TODO
@@ -41,7 +41,7 @@ public class einfacherAbsatz extends Absatz implements Serializable {
    * 
    * @see #einfacherAbsatz(String)
    */
-  public einfacherAbsatz() {
+  public EinfacherAbsatz() {
   }
 
   /**
@@ -51,7 +51,7 @@ public class einfacherAbsatz extends Absatz implements Serializable {
    * @param value der Inhalt des Absatzes
    * @see #SimpleParagraph()
    */
-  public einfacherAbsatz(String wert) {
+  public EinfacherAbsatz(String wert) {
     this.text = wert;
   }
 

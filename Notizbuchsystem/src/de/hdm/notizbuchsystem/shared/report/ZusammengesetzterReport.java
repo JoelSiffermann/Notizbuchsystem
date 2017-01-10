@@ -7,7 +7,7 @@ import java.util.*;
  * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von 
  * Teil-Reports (vgl. Attribut <code>subReports</code>) bestehen.
  */
-public abstract class zusammengesetzterReport 
+public abstract class ZusammengesetzterReport 
 	extends Report 
 	implements Serializable {
 

@@ -35,9 +35,9 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public void speicherNutzer(int NutzerId, String vorname, String name) throws IllegalArgumentException;
 	
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 
-	public Notizbuch erstelleNotizbuch(int notizbuchID, String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notizbuch erstelleNotizbuch(int notizbuchID, String titel, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 	
 	public Nutzer erstelleNutzer(String name, String vorname, String emailAddress) throws IllegalArgumentException;
 	
@@ -103,6 +103,9 @@ public interface NotizSystemAdministration extends RemoteService {
 	public Vector<Notiz> getNotizByNotizbuch(String titel) throws IllegalArgumentException;
 
 	public Faelligkeit bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum)
+			throws IllegalArgumentException;
+	
+	Vector<Notiz> getNotizenByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException;
 	
 	

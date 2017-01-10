@@ -3,7 +3,7 @@ package de.hdm.notizbuchsystem.shared.report;
 import java.io.Serializable;
 
 import de.hdm.notizbuchsystem.shared.report.Zeile;
-import de.hdm.notizbuchsystem.shared.report.einfacherAbsatz;
+import de.hdm.notizbuchsystem.shared.report.EinfacherAbsatz;
 
 /**
  * Spalte eines <code>Row</code>-Objekts. <code>Column</code>-Objekte

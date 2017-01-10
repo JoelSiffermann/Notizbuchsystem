@@ -4,11 +4,11 @@ import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.report.NotizNachNutzerUndBerechtigungReport;
 import de.hdm.notizbuchsystem.shared.report.NotizNachTitelUndDatumReport;
-import de.hdm.notizbuchsystem.shared.report.zusammengesetzterAbsatz;
+import de.hdm.notizbuchsystem.shared.report.ZusammengesetzterAbsatz;
 import de.hdm.notizbuchsystem.shared.report.Absatz;
 import de.hdm.notizbuchsystem.shared.report.ReportWriter;
 import de.hdm.notizbuchsystem.shared.report.Zeile;
-import de.hdm.notizbuchsystem.shared.report.einfacherAbsatz;
+import de.hdm.notizbuchsystem.shared.report.EinfacherAbsatz;
 
 /**
  * Ein <code>ReportWriter</code>, der Reports mittels HTML formatiert. Das im
@@ -40,11 +40,11 @@ public class HTMLReport extends ReportWriter {
    * @return HTML-Text
    */
   public String absatz2HTML(Absatz a) {
-    if (a instanceof zusammengesetzterAbsatz) {
-      return this.absatz2HTML((zusammengesetzterAbsatz) a);
+    if (a instanceof ZusammengesetzterAbsatz) {
+      return this.absatz2HTML((ZusammengesetzterAbsatz) a);
     }
     else {
-      return this.absatz2HTML((einfacherAbsatz) a);
+      return this.absatz2HTML((EinfacherAbsatz) a);
     }
   }
 
@@ -54,7 +54,7 @@ public class HTMLReport extends ReportWriter {
    * @param p der CompositeParagraph
    * @return HTML-Text
    */
-  public String absatz2HTML(zusammengesetzterAbsatz a) {
+  public String absatz2HTML(ZusammengesetzterAbsatz a) {
     StringBuffer result = new StringBuffer();
 
     for (int i = 0; i < a.getAnzahlAbschnitte(); i++) {
@@ -70,7 +70,7 @@ public class HTMLReport extends ReportWriter {
    * @param p der SimpleParagraph
    * @return HTML-Text
    */
-  public String absatz2HTML(einfacherAbsatz a) {
+  public String absatz2HTML(EinfacherAbsatz a) {
     return "<p>" + a.toString() + "</p>";
   }
 

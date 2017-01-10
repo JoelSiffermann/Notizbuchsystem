@@ -12,7 +12,7 @@ public abstract class Eintragung extends BusinessObject {
 
 	private Date modifikationsdatum;
 
-	private Nutzer eigentuemer;
+	private String eigentuemer;
 
 	public void setTitel(String titel) {
 		this.titel = titel;
@@ -30,11 +30,11 @@ public abstract class Eintragung extends BusinessObject {
 		return this.erstelldatum;
 	}
 
-	public void setEigentuemer(Nutzer eigentuemer) {
+	public void setEigentuemer(String eigentuemer) {
 		this.eigentuemer = eigentuemer;
 	}
 
-	public Nutzer getEigentuemer() {
+	public String getEigentuemer() {
 		return this.eigentuemer;
 	}
 

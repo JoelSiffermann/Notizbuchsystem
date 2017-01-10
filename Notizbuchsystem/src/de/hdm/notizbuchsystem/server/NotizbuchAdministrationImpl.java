@@ -180,7 +180,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -222,7 +222,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
+	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
 		
@@ -529,11 +529,11 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 
 	@Override
-	public Notiz getNotizByNutzer(Nutzer nutzer)
+	public Vector<Notiz> getNotizenByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
 		
-		//return this.notizMapper.getNotizByNutzer(nutzer);
-		return null;
+		return this.notizMapper.getNotizenByNutzer(nutzer);
+		
 	}
 
 
@@ -620,6 +620,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Notiz getNotizByNutzer(Nutzer nutzer)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

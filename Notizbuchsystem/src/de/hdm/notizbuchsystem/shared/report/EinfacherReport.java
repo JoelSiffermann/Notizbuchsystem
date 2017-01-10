@@ -22,7 +22,7 @@ import de.hdm.notizbuchsystem.shared.report.Zeile;
  * @see Spalte
  * @author Thies
  */
-public abstract class einfacherReport extends Report {
+public abstract class EinfacherReport extends Report {
 
   /**
    * 

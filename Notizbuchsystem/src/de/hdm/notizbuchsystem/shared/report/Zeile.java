@@ -8,7 +8,7 @@ import java.util.Vector;
  * -Objekte implementieren das <code>Serializable</code>-Interface und können
  * daher als Kopie z.B. vom Server an den Client übertragen werden.
  * 
- * @see einfacherReport
+ * @see EinfacherReport
  * @see Spalte
  * @author Thies
  */

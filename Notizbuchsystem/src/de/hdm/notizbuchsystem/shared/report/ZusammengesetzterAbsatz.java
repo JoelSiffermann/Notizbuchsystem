@@ -10,7 +10,7 @@ import java.util.Vector;
  * 
  * @author Thies
  */
-public class zusammengesetzterAbsatz extends Absatz implements Serializable {
+public class ZusammengesetzterAbsatz extends Absatz implements Serializable {
 
   /**
    * 
@@ -20,14 +20,14 @@ public class zusammengesetzterAbsatz extends Absatz implements Serializable {
   /**
    * Speicherort der Unterabschnitte.
    */
-  private Vector<einfacherAbsatz> unterAbschnitt = new Vector<einfacherAbsatz>();
+  private Vector<EinfacherAbsatz> unterAbschnitt = new Vector<EinfacherAbsatz>();
 
   /**
    * Einen Unterabschnitt hinzufügen.
    * 
    * @param a der hinzuzufügende Unterabschnitt.
    */
-  public void addUnterAbschnitt(einfacherAbsatz a) {
+  public void addUnterAbschnitt(EinfacherAbsatz a) {
     this.unterAbschnitt.addElement(a);
   }
 
@@ -36,7 +36,7 @@ public class zusammengesetzterAbsatz extends Absatz implements Serializable {
    * 
    * @param a der zu entfernende Unterabschnitt.
    */
-  public void removeUnterAbschnitt(einfacherAbsatz a) {
+  public void removeUnterAbschnitt(EinfacherAbsatz a) {
     this.unterAbschnitt.removeElement(a);
   }
 
@@ -45,7 +45,7 @@ public class zusammengesetzterAbsatz extends Absatz implements Serializable {
    * 
    * @return <code>Vector</code>, der sämtliche Unterabschnitte enthält.
    */
-  public Vector<einfacherAbsatz> getUnterAbschnitte() {
+  public Vector<EinfacherAbsatz> getUnterAbschnitte() {
     return this.unterAbschnitt;
   }
 
@@ -66,7 +66,7 @@ public class zusammengesetzterAbsatz extends Absatz implements Serializable {
    * 
    * @return der gewünschte Unterabschnitt.
    */
-  public einfacherAbsatz getAbsatzBei(int i) {
+  public EinfacherAbsatz getAbsatzBei(int i) {
     return this.unterAbschnitt.elementAt(i);
   }
 
@@ -84,7 +84,7 @@ public String toString() {
 
     // Schleife über alle Unterabschnitte
     for (int i = 0; i < this.unterAbschnitt.size(); i++) {
-      einfacherAbsatz a = this.unterAbschnitt.elementAt(i);
+      EinfacherAbsatz a = this.unterAbschnitt.elementAt(i);
 
       /*
        * den jew. Unterabschnitt in einen String wandeln und an den Buffer hängen.
