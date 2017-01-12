@@ -33,8 +33,8 @@ public class Nutzer extends BusinessObject{
 		return this.name;
 	}
 
-	public void setEmailAddress(String email){
-		this.emailAddress = email;
+	public void setEmailAddress(String emailAddress){
+		this.emailAddress = emailAddress;
 	}
 	
 	public String getEmailAddress(){
@@ -76,6 +76,8 @@ public class Nutzer extends BusinessObject{
 	public void setNutzerId(int nutzerId) {
 		NutzerId = nutzerId;
 	}
+
+
 
 	
 

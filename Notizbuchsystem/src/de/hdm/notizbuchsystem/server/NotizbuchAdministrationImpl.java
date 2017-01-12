@@ -1,5 +1,6 @@
 package de.hdm.notizbuchsystem.server;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Vector;
 
@@ -180,7 +181,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -222,7 +223,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
+	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
 		

@@ -102,8 +102,8 @@ public class NotizMapper {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragungs-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
-		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setModifikationsdatum(rs.getTimestamp("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getTimestamp("Erstelldatum"));
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));

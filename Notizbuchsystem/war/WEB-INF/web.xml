@@ -24,7 +24,7 @@
 
 	<servlet-mapping>
 		<servlet-name>NotizSystemServlet</servlet-name>
-		<url-pattern>/NotizbuchSystem/NotizSystem</url-pattern>
+		<url-pattern>/notizbuchsystem/NotizSystem</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -34,13 +34,25 @@
 
 	<servlet-mapping>
 		<servlet-name>reportGeneratorServlet</servlet-name>
-		<url-pattern>/NotizbuchSystem/reportGenerator</url-pattern>
+		<url-pattern>/notizbuchsystem/reportGenerator</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>administrationServlet</servlet-name>
+		<servlet-class>de.hdm.notizbuchsystem.server.NotizbuchAdministrationImpl</servlet-class>
+
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>administrationServlet</servlet-name>
+		<url-pattern>/notizbuchsystem/admin</url-pattern>
+		
 	</servlet-mapping>
   
   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Notizbuchsystem.html</welcome-file>
+    <welcome-file>NotizbuchsystemReports.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

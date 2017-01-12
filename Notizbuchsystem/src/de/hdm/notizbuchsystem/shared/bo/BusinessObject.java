@@ -1,21 +1,20 @@
 package de.hdm.notizbuchsystem.shared.bo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-public abstract class BusinessObject implements IsSerializable,Serializable {
 
-	private static final long serialVersionUID = 1601371118492937261L;
+
+public abstract class BusinessObject implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private int id = 0;
 
-	private Date erstellungszeitpunkt;
+	protected Timestamp erstellungszeitpunkt = new Timestamp(System.currentTimeMillis());
 
-	public BusinessObject() {
-		this.erstellungszeitpunkt = new Date();
-	}
+	
 
 	@Override
 	public int hashCode() {
@@ -51,14 +50,16 @@ public abstract class BusinessObject implements IsSerializable,Serializable {
 	public int getId() {
 		return this.id;
 	}
+	
+	public Timestamp getErstellungszeitpunkt(){
+		return this.erstellungszeitpunkt;
+	}
 
-	public void setErstellungsZeitpunkt(Date erstellungszeitpunkt) {
+	public void setErstellungsZeitpunkt(Timestamp erstellungszeitpunkt) {
 		this.erstellungszeitpunkt = erstellungszeitpunkt;
 
 	}
 
-	public Date getErstellungsZeitpunkt() {
-		return this.erstellungszeitpunkt;
-	}
+
 
 }

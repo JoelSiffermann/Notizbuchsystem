@@ -2,7 +2,9 @@ package de.hdm.notizbuchsystem.shared.bo;
 
 public class Notiz extends Eintragung{
 
-	private static final long serialVersionUID = 6845416990934452844L;
+	private static final long serialVersionUID = 1L;
+	
+	private int notizId = 0;
 
 	private String subtitel;
 	
@@ -28,12 +30,13 @@ public class Notiz extends Eintragung{
 		return this.inhalt;
 	}
 	
-//	public void setBearbeiteNotiz(Notiz notiz){
-//		this.notiz = notiz;
-//	}
-//	
-//	public Notiz getBearbeiteNotiz(){
-//		return this.notiz;
-//	}
-//		
+	public void setNotizId(int notizId){
+		this.notizId = notizId;
+	}
+	
+	public int getNotizId(){
+		return notizId;
+	}
+	
+	
 }
