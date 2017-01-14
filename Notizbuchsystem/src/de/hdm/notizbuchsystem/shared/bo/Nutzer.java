@@ -8,15 +8,14 @@ public class Nutzer extends BusinessObject{
 
 	private String name;
 	
-	private String emailAddress;
+	private String email;
 	
 	/**
 	 * Login-Status, auf false gesetzt.
 	 */
 	private boolean loggedIn = false;
 
-	private int NutzerId;
-	
+		
 	public void setVorname(String vorname){
 		this.vorname = vorname;
 	}
@@ -33,12 +32,12 @@ public class Nutzer extends BusinessObject{
 		return this.name;
 	}
 
-	public void setEmailAddress(String emailAddress){
-		this.emailAddress = emailAddress;
+	public void setEmail(String email){
+		this.email = email;
 	}
 	
-	public String getEmailAddress(){
-		return this.emailAddress;
+	public String getEmail(){
+		return this.email;
 	}
 	
 	/**
@@ -69,13 +68,13 @@ public class Nutzer extends BusinessObject{
 		return loggedIn;
 	}
 
-	public int getNutzerId() {
-		return NutzerId;
-	}
-
-	public void setNutzerId(int nutzerId) {
-		NutzerId = nutzerId;
-	}
+//	public int getNutzerId() {
+//		return NutzerId;
+//	}
+//
+//	public void setNutzerId(int nutzerId) {
+//		NutzerId = nutzerId;
+//	}
 
 
 

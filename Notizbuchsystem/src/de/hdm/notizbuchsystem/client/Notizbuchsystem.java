@@ -190,10 +190,11 @@ public class Notizbuchsystem implements EntryPoint {
 					
 					RootPanel.get("Details").add(begruessenN);
 					RootPanel.get("Details").add(begruessenN2);
+					Window.alert("Test");
 					
 				} else {
 					
-					Showcase showcase = new ErstelleNutzer("Np");
+					Showcase showcase = new ErstelleNutzer();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
