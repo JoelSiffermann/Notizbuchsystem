@@ -117,7 +117,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		nutzer.setEmail(emailAddress);
 		
-		nutzer = this.nutzerMapper.insertNutzer(nutzer);
+		nutzer = this.nutzerMapper.erstellen(nutzer);
 
 		return nutzer;
 		

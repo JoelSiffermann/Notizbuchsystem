@@ -26,7 +26,7 @@ package de.hdm.notizbuchsystem.client;
 		 * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen
 		 * Dienst namens ReportGenerator.
 		 */
-		private static ReportGeneratorAsync reportGenerator = null;
+//		private static ReportGeneratorAsync reportGenerator = null;
 
 		/**
 		 * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen
@@ -60,14 +60,14 @@ package de.hdm.notizbuchsystem.client;
 		 * 
 		 * @return Instanz des Typs ReportGeneratorAsync
 		 */
-		public static ReportGeneratorAsync getReportGenerator() {
-
-			if (reportGenerator == null) {
-				reportGenerator = GWT.create(ReportGenerator.class);
-			}
-			return reportGenerator;
-
-		}
+//		public static ReportGeneratorAsync getReportGenerator() {
+//
+//			if (reportGenerator == null) {
+//				reportGenerator = GWT.create(ReportGenerator.class);
+//			}
+//			return reportGenerator;
+//
+//		}
 		
 		/**
 		 * Anlegen und Auslesen des applikationsweit eindeutigen LoginService.
