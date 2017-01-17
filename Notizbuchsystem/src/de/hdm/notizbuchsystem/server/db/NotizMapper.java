@@ -94,7 +94,7 @@ public class NotizMapper {
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "Eigentuemer FROM Eintragung WHERE Eigentuemer =" + n.getEmailAddress()
+		    		  + "Eigentuemer FROM Eintragung WHERE Eigentuemer =" + n.getEmail()
 		          + " ORDER BY Eintragung-ID");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.

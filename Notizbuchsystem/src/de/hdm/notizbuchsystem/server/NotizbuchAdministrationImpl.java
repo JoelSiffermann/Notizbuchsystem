@@ -115,9 +115,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		nutzer.setVorname(vorname);
 		
-		nutzer.setEmailAddress(emailAddress);
-		
-		nutzer.setNutzerId(1);
+		nutzer.setEmail(emailAddress);
 		
 		nutzer = this.nutzerMapper.insertNutzer(nutzer);
 
@@ -132,18 +130,18 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param name Name.
 	 * @throws IllegalArgumentException
 	 */
-	public void saveNutzer(int nutzerId, String vorname, String name)
-			throws IllegalArgumentException {
-
-		Nutzer nutzer = new Nutzer();
-		nutzer.setVorname(vorname);
-		nutzer.setName(name);
-	
-
-		nutzer.setNutzerId(nutzerId);
-
-		this.nutzerMapper.updateNutzer(nutzer);
-	}
+//	public void saveNutzer(int nutzerId, String vorname, String name)
+//			throws IllegalArgumentException {
+//
+//		Nutzer nutzer = new Nutzer();
+//		nutzer.setVorname(vorname);
+//		nutzer.setName(name);
+//	
+//
+//		nutzer.setNutzerId(nutzerId);
+//
+//		this.nutzerMapper.updateNutzer(nutzer);
+//	}
 
 	/**
 	 * Ein Nutzer-Objekt loeschen.

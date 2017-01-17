@@ -40,7 +40,7 @@ public Nutzer erstellen(Nutzer nutzer) {
 
 		        
 		        stmt.executeUpdate("INSERT INTO Nutzer (ID, Name, Vorname, E-Mail) " + "VALUES ("
-		            + nutzer.getId() + "," + nutzer.getName() + "," + nutzer.getVorname() + nutzer.getEmailAddress() +" )");
+		            + nutzer.getId() + "," + nutzer.getName() + "," + nutzer.getVorname() + nutzer.getEmail() +" )");
 		      }}
 		   catch (SQLException e1) {
 			      e1.printStackTrace();
@@ -158,7 +158,7 @@ public Nutzer getNutzerByEmail(String Email) {
     if (rs.next()) {  
       
    Nutzer n = new Nutzer();
-   n.setEmailAddress(rs.getString("Email"));
+   n.setEmail(rs.getString("Email"));
    n.setId(rs.getInt("id"));
    n.setName(rs.getString("Name"));
    n.setVorname(rs.getString("Vorname"));
