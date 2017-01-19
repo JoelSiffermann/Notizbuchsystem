@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.server;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -470,13 +471,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	public Vector<Notiz> getNotizByTitel(String titel) throws IllegalArgumentException{
 		
-		return this.notizbuchMapper.getNotizByTitel(titel);
+		return this.notizMapper.getNotizByTitel(titel);
 		
 	}
 	
 	public Vector<Notizbuch> getNotizbuchByTitel(String titel) throws IllegalArgumentException{
 		
-		return this.notizbuchMapper.getNotizbuchByTitel(titel);
+		return this.notizbuchMapper.getNotizBuchByTitel(titel);
 		
 	}
 	
@@ -520,11 +521,11 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 
 	@Override
-	public Notiz getNotizByFaelligkeit(Faelligkeit faelligkeit)
+	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum)
 			throws IllegalArgumentException {
 		
-		//return this.notizMapper.getNotizByFaelligkeit(faelligkeit);
-		return null;
+		return this.notizMapper.getNotizByFaelligkeit(fdatum);
+		
 	}
 
 
@@ -553,23 +554,34 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	@Override
+	public Vector<Notiz> getNotizen() {
+		return this.notizMapper.getNotizen();
+	}
 
 
+	@Override
+	public Map<Vector<Notiz>, Vector<Faelligkeit>> getNotizByKriterium(String titel, Date edatum, Date mdatum, Date fdatum)
+	throws IllegalArgumentException {
+		return this.notizMapper.getNotizenByKriterium(titel, edatum, mdatum, fdatum);
+	}
 
 
 	@Override
 	public Vector<Notiz> getNotizByEDatum(Date erstelldatum)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+
+		return this.notizMapper.getNotizByErstelldatum(erstelldatum);
 	}
 
 
 	@Override
 	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+
+		return this.notizMapper.getNotizByModifikationsdatum(modifikationsdatum);
 	}
 
 
