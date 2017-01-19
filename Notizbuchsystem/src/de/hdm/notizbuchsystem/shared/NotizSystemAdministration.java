@@ -36,11 +36,11 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public void speicherNutzer(int NutzerId, String vorname, String name) throws IllegalArgumentException;
 	
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException;
+	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
 
-	Notizbuch erstelleNotizbuch(int notizbuchID, String titel,
-			String eigentuemer, Timestamp erstelldatum,
-			Timestamp modifikationsdatum);
+	Notizbuch erstelleNotizbuch(String titel,
+			String eigentuemer, Date erstelldatum,
+			Date modifikationsdatum);
 	
 	public Nutzer erstelleNutzer(String name, String vorname, String emailAddress) throws IllegalArgumentException;
 	

@@ -27,7 +27,9 @@ import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 
 public class ErstelleNotizbuch extends Showcase {
 
- 
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+	private NotizSystemAdministrationAsync admin = ClientsideSettings
+			.getNotizSystemAdministration();
 	protected String getHeadlineText() {
     return "Notizbuch Erstellen:";
   }
@@ -154,11 +156,28 @@ public class ErstelleNotizbuch extends Showcase {
   
  // Methode zum Anlegen eines neuen Notizbuchs und dessen Speicherung in der DB
  public void notizbuchAnlegen(){
-//  	 ClientsideSettings.getNotizSystemAdministration().erstelleNotizbuch(titelTextBox.getText(), eigentümer, aktuellesDatum(), aktuellesDatum(), callback);
-	  
-  }
+admin.erstelleNotizbuch(titelTextBox.getText(), email, aktuellesDatum(), aktuellesDatum(), notizbuchAnlegenExecute());
+}
   
-  
+ 
+ private AsyncCallback<Notizbuch> notizbuchAnlegenExecute()
+ { AsyncCallback<Notizbuch> asynCallback = new AsyncCallback<Notizbuch>() {
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSuccess(Notizbuch result) {
+		// TODO Auto-generated method stub
+		
+	}
+};
+	 return asynCallback;
+ }
+ 
  // Methode zum Bestimmen der aktuellen DateTime
  
 
@@ -168,11 +187,14 @@ public class ErstelleNotizbuch extends Showcase {
      }
  
  private static Date zeroTime(final Date date) {
-		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
-				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date));
+		return DateTimeFormat.getFormat("yyyyMMdd").parse(
+				DateTimeFormat.getFormat("yyyyMMdd").format(date));
 	}
-	
-  
+ 
+// private static Date zeroTime(final Date date) {
+//		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
+//				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date)); 
+//  	}
 }
   
   

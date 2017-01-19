@@ -30,7 +30,7 @@ public Nutzer erstellen(Nutzer nutzer) {
 	try{
 		Statement stmt = con.createStatement();
 		 
-		stmt = con.createStatement();
+		
 		stmt.executeUpdate("INSERT INTO Nutzer (Name, Vorname, Email) " + "VALUES ("
 		            + nutzer.getName() + "," + nutzer.getVorname() + nutzer.getEmail() +" )");
 		      }

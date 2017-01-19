@@ -19,12 +19,12 @@ public interface NotizSystemAdministrationAsync {
 	
 	void init(AsyncCallback<Void> callback);
 	
-	void erstelleNotiz(int notizId, String titel, String subtitel,
-			String inhalt, String eigentuemer, Timestamp erstelldatum,
-			Timestamp modifikationsdatum, AsyncCallback<Notiz> callback);
+	void erstelleNotiz(String titel, String subtitel,
+			String inhalt, String eigentuemer, Date erstelldatum,
+			Date modifikationsdatum, AsyncCallback<Notiz> callback);
 
-	void erstelleNotizbuch(int notizbuchID, String titel, String eigentuemer,
-			Timestamp erstelldatum, Timestamp modifikationsdatum,
+	void erstelleNotizbuch(String titel, String eigentuemer,
+			Date erstelldatum, Date modifikationsdatum,
 			AsyncCallback<Notizbuch> callback);
 	
 	void erstelleNutzer(String name, String vorname, String email, AsyncCallback<Nutzer> callback);
