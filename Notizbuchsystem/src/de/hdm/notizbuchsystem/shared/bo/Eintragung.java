@@ -1,5 +1,6 @@
 package de.hdm.notizbuchsystem.shared.bo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public abstract class Eintragung extends BusinessObject {
@@ -8,11 +9,13 @@ public abstract class Eintragung extends BusinessObject {
 
 	private String titel;
 
-	private Date erstelldatum;
+	private Timestamp erstelldatum;
 
-	private Date modifikationsdatum;
+	private Timestamp modifikationsdatum;
 
 	private String eigentuemer;
+	
+	private int eintragungId;
 
 	public void setTitel(String titel) {
 		this.titel = titel;
@@ -22,7 +25,7 @@ public abstract class Eintragung extends BusinessObject {
 		return this.titel;
 	}
 
-	public void setErstelldatum(Date erstelldatum) {
+	public void setErstelldatum(Timestamp erstelldatum) {
 		this.erstelldatum = erstelldatum;
 	}
 
@@ -38,11 +41,19 @@ public abstract class Eintragung extends BusinessObject {
 		return this.eigentuemer;
 	}
 
-	public void setModifikationsdatum(Date modifikationsdatum) {
+	public void setModifikationsdatum(Timestamp modifikationsdatum) {
 		this.modifikationsdatum = modifikationsdatum;
 	}
 
 	public Date getModifikationsdatum() {
 		return this.modifikationsdatum;
+	}
+
+	public int getEintragungId() {
+		return eintragungId;
+	}
+
+	public void setEintragungId(int eintragungId) {
+		this.eintragungId = eintragungId;
 	}
 }

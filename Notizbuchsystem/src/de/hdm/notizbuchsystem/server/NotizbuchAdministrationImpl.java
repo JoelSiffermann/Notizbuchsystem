@@ -1,5 +1,6 @@
 package de.hdm.notizbuchsystem.server;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -115,11 +116,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		nutzer.setVorname(vorname);
 		
-		nutzer.setEmailAddress(emailAddress);
+		nutzer.setEmail(emailAddress);
 		
-		nutzer.setNutzerId(1);
-		
-		nutzer = this.nutzerMapper.insertNutzer(nutzer);
+		nutzer = this.nutzerMapper.erstellen(nutzer);
 
 		return nutzer;
 		
@@ -132,18 +131,18 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param name Name.
 	 * @throws IllegalArgumentException
 	 */
-	public void saveNutzer(int nutzerId, String vorname, String name)
-			throws IllegalArgumentException {
-
-		Nutzer nutzer = new Nutzer();
-		nutzer.setVorname(vorname);
-		nutzer.setName(name);
-	
-
-		nutzer.setNutzerId(nutzerId);
-
-		this.nutzerMapper.updateNutzer(nutzer);
-	}
+//	public void saveNutzer(int nutzerId, String vorname, String name)
+//			throws IllegalArgumentException {
+//
+//		Nutzer nutzer = new Nutzer();
+//		nutzer.setVorname(vorname);
+//		nutzer.setName(name);
+//	
+//
+//		nutzer.setNutzerId(nutzerId);
+//
+//		this.nutzerMapper.updateNutzer(nutzer);
+//	}
 
 	/**
 	 * Ein Nutzer-Objekt loeschen.
@@ -181,7 +180,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -223,7 +222,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException {
+	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
 		

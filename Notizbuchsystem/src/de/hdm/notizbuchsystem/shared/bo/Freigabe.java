@@ -3,6 +3,8 @@ package de.hdm.notizbuchsystem.shared.bo;
 public abstract class Freigabe extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
+	
+	private int freigabeId;
 
 	private boolean leseberechtigung;
 	
@@ -49,5 +51,13 @@ public abstract class Freigabe extends BusinessObject {
 	
 	public int getFreigegebeneEintragung(){
 		return this.freigegebeneEintragung;
+	}
+
+	public int getFreigabeId() {
+		return freigabeId;
+	}
+
+	public void setFreigabeId(int freigabeId) {
+		this.freigabeId = freigabeId;
 	}
 }

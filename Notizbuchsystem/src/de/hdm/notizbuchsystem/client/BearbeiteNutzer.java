@@ -174,7 +174,7 @@ public class BearbeiteNutzer extends Showcase {
 
 						nameTextBox.setText(result.getName());
 					
-						emailLabel.setText(result.getEmailAddress());
+						emailLabel.setText(result.getEmail());
 					}
 				});
 				

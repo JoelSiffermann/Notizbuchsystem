@@ -5,6 +5,8 @@ import java.util.Vector;
 public class Notizbuch extends Eintragung{
 
 	private static final long serialVersionUID = 1L;
+	
+	public int NotizbuchId;
 
 	private Vector<Notiz> enthalteneNotiz;
 	

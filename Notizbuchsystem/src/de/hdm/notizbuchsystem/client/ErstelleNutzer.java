@@ -72,7 +72,7 @@ public class ErstelleNutzer extends Showcase {
 	 */
 	//private int nutzerId;
 
-	private String profiltyp;
+//	private String profiltyp;
 
 	/**
 	 * Konstruktor erstellen.
@@ -80,20 +80,11 @@ public class ErstelleNutzer extends Showcase {
 	 * @param nutzer
 	 *            Der Nutzer.
 	 */
-	public ErstelleNutzer(String profiltyp) {
-		this.profiltyp = profiltyp;
+	public ErstelleNutzer() {
 		run();
 	}
 	
- 
-
-
-
-
-
-
-
-/**
+ /**
    * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
    * eine "Einschubmethode", die von einer Methode der Basisklasse
    * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
@@ -109,15 +100,9 @@ public class ErstelleNutzer extends Showcase {
   verPanel.add(vornameTextBox);
   verPanel.add(nameTextBox);
  
-  
-
-  
-  
-  
     reqLabel1.setStyleName("red_label");
 	reqLabel2.setStyleName("red_label");
-	
-	
+		
 	nutzerFlexTable.addStyleName("FlexTable");
 	nutzerFlexTable.setCellPadding(6);
 	nutzerFlexTable.getColumnFormatter().addStyleName(0,
@@ -220,14 +205,12 @@ erstelleNutzerButton.addClickHandler(new ClickHandler() {
 	 * Methode erstellen, die einen neuen Nutzer anlegt. Dies führt zum
 	 * Speichern des Nutzers in der Datenbank.
 	 */
+
+  
+   
 	public void nutzerAnlegen() {
-		admin.erstelleNutzer(
-				vornameTextBox.getText(),
-				nameTextBox.getText(),
-				email,
-				erstelleNutzerExecute(vornameTextBox.getText(),
-						nameTextBox.getText(),
-						email));
+		admin.erstelleNutzer(nameTextBox.getText(), vornameTextBox.getText(),
+				email, erstelleNutzerExecute(vornameTextBox.getText(), nameTextBox.getText(), email));
 	}
 
 	private AsyncCallback<Nutzer> erstelleNutzerExecute(
@@ -235,15 +218,13 @@ erstelleNutzerButton.addClickHandler(new ClickHandler() {
 		AsyncCallback<Nutzer> asynCallback = new AsyncCallback<Nutzer>() {
 			@Override
 			public void onFailure(Throwable caught) {
-
+				warnungLabel.setText("Failed");
 			}
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				Showcase showcase = new ZeigeNutzer(result.getNutzerId(), result.getEmailAddress());
-				RootPanel.get("Details").clear();
-			
-				RootPanel.get("Details").add(showcase); 
+			// Testausgabe
+				warnungLabel.setText("Erfolgreich");
 		
 			}
 		};

@@ -144,7 +144,7 @@ public class ZeigeNutzer extends Showcase {
 					public void onSuccess(Nutzer result) {
 						nutzerFlexTable.setText(0, 1, result.getVorname());
 						nutzerFlexTable.setText(1, 1, result.getName());
-						nutzerFlexTable.setText(2, 1, result.getEmailAddress());
+						nutzerFlexTable.setText(2, 1, result.getEmail());
 					}
 				});
 	}

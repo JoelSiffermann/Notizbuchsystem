@@ -2,6 +2,7 @@ package de.hdm.notizbuchsystem.shared;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -20,11 +21,11 @@ public interface NotizSystemAdministrationAsync {
 	void init(AsyncCallback<Void> callback);
 	
 	void erstelleNotiz(int notizId, String titel, String subtitel,
-			String inhalt, String eigentuemer, Date erstelldatum,
-			Date modifikationsdatum, AsyncCallback<Notiz> callback);
+			String inhalt, String eigentuemer, Timestamp erstelldatum,
+			Timestamp modifikationsdatum, AsyncCallback<Notiz> callback);
 
 	void erstelleNotizbuch(int notizbuchID, String titel, String eigentuemer,
-			Date erstelldatum, Date modifikationsdatum,
+			Timestamp erstelldatum, Timestamp modifikationsdatum,
 			AsyncCallback<Notizbuch> callback);
 	
 	void erstelleNutzer(String name, String vorname, String email, AsyncCallback<Nutzer> callback);
