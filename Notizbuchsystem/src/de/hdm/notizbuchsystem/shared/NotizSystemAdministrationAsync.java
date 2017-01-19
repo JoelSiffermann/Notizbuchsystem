@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 
 import de.hdm.notizbuchsystem.shared.bo.*;
@@ -78,7 +79,7 @@ public interface NotizSystemAdministrationAsync {
 	void zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz,
 			AsyncCallback<Notiz> callback);
 	
-	void getNotizByFaelligkeit(Faelligkeit faelligkeit, AsyncCallback<Notiz> callback);
+	void getNotizByFaelligkeit(Date fdatum, AsyncCallback<Vector<Notiz>> callback);
 	
 	void getNotizByNutzer(Nutzer nutzer, AsyncCallback<Notiz> callback);
 	
@@ -112,6 +113,11 @@ public interface NotizSystemAdministrationAsync {
 	void getNutzerById(int nutzerId, AsyncCallback<Nutzer> asyncCallback);
 
 	void getNotizenByNutzer(Nutzer nutzer, AsyncCallback<Vector<Notiz>> callback);
+
+	void getNotizen(AsyncCallback<Vector<Notiz>> callback);
+
+	void getNotizByKriterium(String titel, Date edatum, Date mdatum,
+			Date fdatum, AsyncCallback<Map<Vector<Notiz>, Vector<Faelligkeit>>> callback);
 
 	
 

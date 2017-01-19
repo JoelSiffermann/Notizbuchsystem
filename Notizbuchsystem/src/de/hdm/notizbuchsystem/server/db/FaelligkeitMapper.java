@@ -79,6 +79,17 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 			e1.printStackTrace();
 		}
 	}
+	
+	public Date getFaelligkeitByNotiz(Notiz n) {
+		
+		Connection con = DBConnection.getConnection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			//TODO
+			stmt.executeQuery("SELECT Datum FROM Faelligkeit INNER JOIN Notiz ON Faelligkeit-ID = Notiz");
+		}
+	}
 
 	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) {
 		// TODO Auto-generated method stub

@@ -85,15 +85,35 @@ public class NotizbuchMapper {
 		}
 	}
 
-	public Vector<Notiz> getNotizByTitel(String titel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	public Vector<Notizbuch> getNotizbuchByTitel(String titel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public Vector<Notizbuch> getNotizBuchByTitel(String titel) {
+		
+		Connection con = DBConnection.getConnection();
+		Vector<Notizbuch> result = new Vector<Notizbuch>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Notizbuch WHERE titel LIKE '%" + titel + "%' ");
+			
+			while(rs.next()){
+				Notizbuch n = new Notizbuch();
+				n.setId(rs.getInt("Eintragungs-ID"));
+		        n.setEigentuemer(rs.getString("Eigentuemer"));
+		        n.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        n.setErstelldatum(rs.getDate("Erstelldatum"));
+		        n.setTitel(rs.getString("Titel"));
+		        
+		        result.addElement(n);
+				}
+			} catch (SQLException e1){
+				e1.printStackTrace();
+			}
+			
+			return result;
+		
+		}
 
 	public Notizbuch insertNotizbuch(Notizbuch notizbuch, int notizbuchId) {
 		// TODO Auto-generated method stub

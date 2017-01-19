@@ -12,7 +12,12 @@ import de.hdm.notizbuchsystem.shared.report.Report;
 import de.hdm.notizbuchsystem.shared.report.Zeile;
 import de.hdm.notizbuchsystem.shared.report.EinfacherAbsatz;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -89,7 +94,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	  @Override
 	public NotizNachTitelUndDatumReport erstelleNotizNachTitelUndDatumReport(
-	      Notiz n, Eintragung e, Faelligkeit f, Nutzer u) throws IllegalArgumentException {
+			Date edatum, Date mdatum, Date fdatum, String titel) throws IllegalArgumentException {
 
 		  
 		  NotizNachTitelUndDatumReport result = new NotizNachTitelUndDatumReport();
@@ -150,7 +155,30 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	     * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr. und
 	     * Kontostand sukzessive in die Tabelle eingetragen.
 	     */
-	    Vector<Notiz> notizen = this.administration.getNotizenByNutzer(u);
+	    Vector<Notiz> notizen = this.administration.getNotizByKriterium(titel, edatum, mdatum, fdatum);
+	    
+	    
+	    
+	    if(titel!=null){
+	    	
+	    }
+	    
+	    
+	    int i = 0;
+	    
+	    while(i < notizen.size() -1){
+	    	if(notizen.elementAt(i).equals(titel))
+	    		ergebnis.add(notizen.elementAt(i));
+	    	i++;
+	    }
+	    
+	    
+	    if(titel!=null){
+	    	Vector<Notiz> v1 = this.administration.getNotizByTitel(titel);
+	    	for(int i ; i < v1.size() ; i++) {
+	    		
+	    	}
+	    }
 
 	    for (Notiz n : notizen) {
 	      // Eine leere Zeile anlegen.
@@ -159,7 +187,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	      // Erste Spalte: Titel hinzufügen
 	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getTitel())));
 
-	      // Zweite Spalte: Kontostand hinzufügen
+	      // Zweite Spalte: 
 	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getErstelldatum())));
 	      
 	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getModifikationsdatum())));
@@ -167,7 +195,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	      notizZeile.addSpalte(new Spalte(String.valueOf(this.administration.getF)));
 
 	      // und schließlich die Zeile dem Report hinzufügen.
-	      result.addRow(accountRow);
+	      result.addZeile(notizZeile);
 	    }
 
 	    /*
@@ -175,29 +203,32 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	     */
 	    return result;
 	  }
-
-	  /**
-	   * Erstellen von <code>AllAccountsOfAllCustomersReport</code>-Objekten.
-	   * 
-	   * @return der fertige Report
-	   */
+	  
 	  @Override
-	public AllAccountsOfAllCustomersReport createAllAccountsOfAllCustomersReport()
-	      throws IllegalArgumentException {
+	  public NotizNachNutzerUndBerechtigungReport erstelleNotizNachNutzerUndBerechtigungReport(Nutzer n, Freigabe f)
+	  throws IllegalArgumentException {
+		  
+		  return null;
+	  }
 
-	    if (this.getBankVerwaltung() == null)
-	      return null;
+	@Override
+	public void setNutzer(Nutzer nutzer) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
 
-	    /*
-	     * Zunächst legen wir uns einen leeren Report an.
-	     */
-	    AllAccountsOfAllCustomersReport result = new AllAccountsOfAllCustomersReport();
+	@Override
+	public NotizNachTitelUndDatumReport erstelleNotizNachTitelundDatumReport(
+			Date edatum, Date mdatum, Date fdatum, String titel)
+			throws IllegalArgumentException {
 
-	    // Jeder Report hat einen Titel (Bezeichnung / überschrift).
-	    result.setTitle("Alle Konten aller Kunden");
+		NotizNachTitelUndDatumReport result = new NotizNachTitelUndDatumReport();
+
+	    
+	    result.setTitel("Notizen bezueglich ihrer Titel und des Datums");
 
 	    // Imressum hinzufügen
-	    this.addImprint(result);
+	    this.addImpressum(result);
 
 	    /*
 	     * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
@@ -206,34 +237,145 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	    result.setCreated(new Date());
 
 	    /*
-	     * Da AllAccountsOfAllCustomersReport-Objekte aus einer Sammlung von
-	     * AllAccountsOfCustomerReport-Objekten besteht, benötigen wir keine
-	     * Kopfdaten für diesen Report-Typ. Wir geben einfach keine Kopfdaten an...
+	     * Ab hier erfolgt die Zusammenstellung der Kopfdaten (die Dinge, die oben
+	     * auf dem Report stehen) des Reports. Die Kopfdaten sind mehrzeilig, daher
+	     * die Verwendung von CompositeParagraph.
 	     */
+	    ZusammengesetzterAbsatz header = new ZusammengesetzterAbsatz();
+
+	    
+	    header.addUnterAbschnitt(new EinfacherAbsatz());
+
+	    
+	    header.addUnterAbschnitt(new EinfacherAbsatz());
+
+	    
+	    result.setKopfdaten(header);
 
 	    /*
-	     * Nun müssen sämtliche Kunden-Objekte ausgelesen werden. Anschließend wir
-	     * für jedes Kundenobjekt c ein Aufruf von
-	     * createAllAccountsOfCustomerReport(c) durchgeführt und somit jeweils ein
-	     * AllAccountsOfCustomerReport-Objekt erzeugt. Diese Objekte werden
-	     * sukzessive der result-Variable hinzugefügt. Sie ist vom Typ
-	     * AllAccountsOfAllCustomersReport, welches eine Subklasse von
-	     * CompositeReport ist.
+	     * Ab hier erfolgt ein zeilenweises Hinzufügen von Konto-Informationen.
 	     */
-	    Vector<Customer> allCustomers = this.administration.getAllCustomers();
+	    
+	    /*
+	     * Zunächst legen wir eine Kopfzeile für die Konto-Tabelle an.
+	     */
+	    Zeile headline = new Zeile();
 
-	    for (Customer c : allCustomers) {
-	      /*
-	       * Anlegen des jew. Teil-Reports und Hinzufügen zum Gesamt-Report.
-	       */
-	      result.addSubReport(this.createAllAccountsOfCustomerReport(c));
+	    /*
+	     * Wir wollen Zeilen mit 2 Spalten in der Tabelle erzeugen. In die erste
+	     * Spalte schreiben wir die jeweilige Kontonummer und in die zweite den
+	     * aktuellen Kontostand. In der Kopfzeile legen wir also entsprechende
+	     * Überschriften ab.
+	     */
+	    headline.addSpalte(new Spalte("Titel"));
+	    headline.addSpalte(new Spalte("Erstelldatum"));
+	    headline.addSpalte(new Spalte("Modifikationsdatum"));
+	    headline.addSpalte(new Spalte("Fälligkeitsdatum"));
+	    
+
+	    // Hinzufügen der Kopfzeile
+	    result.addZeile(headline);
+
+	    /*
+	     * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr. und
+	     * Kontostand sukzessive in die Tabelle eingetragen.
+	     */
+	    Map<Vector<Notiz>, Vector<Faelligkeit>> notizen = this.administration.getNotizByKriterium(titel, edatum, mdatum, fdatum);
+	    
+	    for(int i = 0 ; i < notizen.size() ; i++) {
+	    	if(titel != null) {
+	    		
+	    	} else {
+	    		
+	    	}
+	    }
+	    
+	    for (Notiz n1 : notizen) {
+	    	this.administration.getNotizByTitel(titel);
+	    }
+
+	    for (Notiz n : notizen) {
+	      // Eine leere Zeile anlegen.
+	      Zeile notizZeile = new Zeile();
+
+	      // Erste Spalte: Titel hinzufügen
+	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getTitel())));
+
+	      // Zweite Spalte: 
+	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getErstelldatum())));
+	      
+	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getModifikationsdatum())));
+	      
+	      notizZeile.addSpalte(new Spalte(String.valueOf()));
+
+	      // und schließlich die Zeile dem Report hinzufügen.
+	      result.addZeile(notizZeile);
 	    }
 
 	    /*
-	     * Zu guter Letzt müssen wir noch den fertigen Report zurückgeben.
+	     * Zum Schluss müssen wir noch den fertigen Report zurückgeben.
 	     */
 	    return result;
-	  }
+	}
+
+//	  /**
+//	   * Erstellen von <code>AllAccountsOfAllCustomersReport</code>-Objekten.
+//	   * 
+//	   * @return der fertige Report
+//	   */
+//	  @Override
+//	public AllAccountsOfAllCustomersReport createAllAccountsOfAllCustomersReport()
+//	      throws IllegalArgumentException {
+//
+//	    if (this.getBankVerwaltung() == null)
+//	      return null;
+//
+//	    /*
+//	     * Zunächst legen wir uns einen leeren Report an.
+//	     */
+//	    AllAccountsOfAllCustomersReport result = new AllAccountsOfAllCustomersReport();
+//
+//	    // Jeder Report hat einen Titel (Bezeichnung / überschrift).
+//	    result.setTitle("Alle Konten aller Kunden");
+//
+//	    // Imressum hinzufügen
+//	    this.addImprint(result);
+//
+//	    /*
+//	     * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
+//	     * "Timestamp" des Zeitpunkts der Instantiierung des Date-Objekts.
+//	     */
+//	    result.setCreated(new Date());
+//
+//	    /*
+//	     * Da AllAccountsOfAllCustomersReport-Objekte aus einer Sammlung von
+//	     * AllAccountsOfCustomerReport-Objekten besteht, benötigen wir keine
+//	     * Kopfdaten für diesen Report-Typ. Wir geben einfach keine Kopfdaten an...
+//	     */
+//
+//	    /*
+//	     * Nun müssen sämtliche Kunden-Objekte ausgelesen werden. Anschließend wir
+//	     * für jedes Kundenobjekt c ein Aufruf von
+//	     * createAllAccountsOfCustomerReport(c) durchgeführt und somit jeweils ein
+//	     * AllAccountsOfCustomerReport-Objekt erzeugt. Diese Objekte werden
+//	     * sukzessive der result-Variable hinzugefügt. Sie ist vom Typ
+//	     * AllAccountsOfAllCustomersReport, welches eine Subklasse von
+//	     * CompositeReport ist.
+//	     */
+//	    Vector<Customer> allCustomers = this.administration.getAllCustomers();
+//
+//	    for (Customer c : allCustomers) {
+//	      /*
+//	       * Anlegen des jew. Teil-Reports und Hinzufügen zum Gesamt-Report.
+//	       */
+//	      result.addSubReport(this.createAllAccountsOfCustomerReport(c));
+//	    }
+//
+//	    /*
+//	     * Zu guter Letzt müssen wir noch den fertigen Report zurückgeben.
+//	     */
+//	    return result;
+//	  }
 
 	
 	

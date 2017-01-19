@@ -12,12 +12,13 @@ import com.google.appengine.api.utils.SystemProperty;
 
 public class DBConnection {
 	   // Zugangsdaten f�r DB anlegen 
-//	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	   private static String DB_URL = "jdbc:mysql://207.223.163.76:3306/notizbuch-db/NotizbuchDBtest?user=NBS&password=notiz";
-//	   static final String USER = "NBS";
-//	   static final String PASS = "notiz";
-//	   static final String Local_URL = "Noch nicht erstellt";
-	   
+
+	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	   static final String DB_URL = "jdbc:mysql://207.223.163.76:3306/NotizbuchDBtest?user=NBS&password=notiz";
+	   static final String USER = "NBS";
+	   static final String PASS = "notiz";
+	   static final String Local_URL = "jdbc:mysql://127.0.0.1:3306/notizbuchdb?user=root&password=root";
+
 	   private static Connection con = null;
 	   
 	   public static Connection getConnection() {
@@ -31,8 +32,8 @@ public class DBConnection {
 							url = DB_URL;
 							
 						} else {
-//							Class.forName("com.mysql.jdbc.Driver");
-//							url = DB_URL;						
+							Class.forName("com.mysql.jdbc.Driver");
+							url = Local_URL;						
 					}
 						
 						con = DriverManager.getConnection(url);

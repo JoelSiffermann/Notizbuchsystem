@@ -2,10 +2,13 @@ package de.hdm.notizbuchsystem.shared;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+
 
 import de.hdm.notizbuchsystem.shared.bo.*;
 
@@ -78,7 +81,7 @@ public interface NotizSystemAdministration extends RemoteService {
 
 	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException;
 	
-	public Notiz getNotizByFaelligkeit(Faelligkeit faelligkeit) throws IllegalArgumentException;
+	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum) throws IllegalArgumentException;
 	
 	public Notiz getNotizByNutzer(Nutzer nutzer) throws IllegalArgumentException;
 	
@@ -110,6 +113,11 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Vector<Notiz> getNotizenByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException;
+	
+	Vector<Notiz> getNotizen() throws IllegalArgumentException;
+	
+	Map<Vector<Notiz>, Vector<Faelligkeit>> getNotizByKriterium(String titel, Date edatum, Date mdatum,
+			Date fdatum) throws IllegalArgumentException;
 	
 	
 }
