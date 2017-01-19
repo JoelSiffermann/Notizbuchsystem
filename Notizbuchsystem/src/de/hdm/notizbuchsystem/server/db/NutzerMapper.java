@@ -31,8 +31,8 @@ public Nutzer erstellen(Nutzer nutzer) {
 		Statement stmt = con.createStatement();
 		 
 		stmt = con.createStatement();
-		stmt.executeUpdate("INSERT INTO Nutzer (Name, Vorname, Email) " + "VALUES ("
-		            + nutzer.getName() + "," + nutzer.getVorname() + nutzer.getEmail() +" )");
+		stmt.executeUpdate("INSERT INTO notizbuchdb.nutzer (Name, Vorname, EMail) " + " VALUES ('"
+		            + nutzer.getName() + "','" + nutzer.getVorname() + "','" + nutzer.getEmail() +"' )");
 		      }
 		   catch (SQLException e1) {
 			      e1.printStackTrace();
