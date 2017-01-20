@@ -179,8 +179,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @throws IllegalArgumentException
 	 */
 	
-	@Override
-	public Notiz erstelleNotiz(int notizId, String titel, String subtitel, String inhalt, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException{
+	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -196,7 +195,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		notiz.setModifikationsdatum(modifikationsdatum);
 	
-		return this.notizMapper.insertNotiz(notiz, notizId);
+		return this.notizMapper.erstellen(notiz);
 						 
 	}
 	
@@ -221,8 +220,8 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @throws IllegalArgumentException
 	 */
 	
-	@Override
-	public Notizbuch erstelleNotizbuch(int notizbuchId, String titel, String eigentuemer, Timestamp erstelldatum, Timestamp modifikationsdatum) throws IllegalArgumentException {
+	public Notizbuch erstelleNotizbuch(String titel, String eigentuemer, Date erstelldatum, Date modifikationsdatum)
+	throws IllegalArgumentException {
 		
 		Notizbuch notizbuch = new Notizbuch();
 		
@@ -234,7 +233,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		notizbuch.setModifikationsdatum(modifikationsdatum);
 	
-		return this.notizbuchMapper.insertNotizbuch(notizbuch, notizbuchId);
+		return this.notizbuchMapper.erstellen(notizbuch);
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -16,8 +17,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 //import com.google.gwt.user.datepicker.client.DateBox;
 
-
-
+import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
+import de.hdm.notizbuchsystem.shared.bo.Notiz;
+import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 
@@ -29,7 +31,9 @@ import de.hdm.notizbuchsystem.shared.bo.Nutzer;
  * 
  */
 public class ErstelleNotiz extends Showcase {
-
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+	private NotizSystemAdministrationAsync admin = ClientsideSettings
+			.getNotizSystemAdministration();
   /**
    * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
    * Methode zu erstellen ist.
@@ -69,8 +73,14 @@ public class ErstelleNotiz extends Showcase {
 	   * eine "Einschubmethode", die von einer Methode der Basisklasse
 	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
 	   */
-  protected void run() {   
-	  
+ 
+	public ErstelleNotiz(){
+		run();		
+	}
+	
+	
+	
+	protected void run() { 
 // Ankündigung, was nun geschehen wird.
     this.append("Erstellen einer Notiz.");
     
@@ -180,9 +190,27 @@ public void pruefeEingabe(){
 
 // Methode zum Anlegen einer neuen Notiz und dessen Speicherung in der DB
 public void notizAnlegen(){
-//	 ClientsideSettings.getNotizSystemAdministration().erstelleNotiz(String titel, String subtitel, String inhalt, Nutzer eigentuemer, Date erstelldatum, Date modifikationsdatum), callback);
-	  
+admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTextArea.getText(), email, aktuellesDatum(), aktuellesDatum()
+		, notizAnlegenExecute());
 }
+
+	private AsyncCallback<Notiz> notizAnlegenExecute()
+	{ AsyncCallback<Notiz> asynCallback = new AsyncCallback<Notiz>() {
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			warnLabel.setText("failed");
+		}
+
+			@Override
+		public void onSuccess(Notiz result) {
+			// TODO Auto-generated method stub
+			warnLabel.setText("Erfolgreich");
+		}
+	};
+		 return asynCallback;
+	 }
+		
 
 
 

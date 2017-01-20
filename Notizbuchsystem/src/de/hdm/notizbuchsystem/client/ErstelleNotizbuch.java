@@ -166,12 +166,12 @@ admin.erstelleNotizbuch(titelTextBox.getText(), email, aktuellesDatum(), aktuell
 	@Override
 	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
-		
+		warnLabel.setText("failed");
 	}
 
 	@Override
 	public void onSuccess(Notizbuch result) {
-		// TODO Auto-generated method stub
+		warnLabel.setText("Erfolgreich");
 		
 	}
 };

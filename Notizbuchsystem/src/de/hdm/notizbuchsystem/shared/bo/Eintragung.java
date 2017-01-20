@@ -9,9 +9,9 @@ public abstract class Eintragung extends BusinessObject {
 
 	private String titel;
 
-	private Timestamp erstelldatum;
+	private Date erstelldatum;
 
-	private Timestamp modifikationsdatum;
+	private Date modifikationsdatum;
 
 	private String eigentuemer;
 	
@@ -25,7 +25,7 @@ public abstract class Eintragung extends BusinessObject {
 		return this.titel;
 	}
 
-	public void setErstelldatum(Timestamp erstelldatum) {
+	public void setErstelldatum(Date erstelldatum) {
 		this.erstelldatum = erstelldatum;
 	}
 
@@ -41,7 +41,7 @@ public abstract class Eintragung extends BusinessObject {
 		return this.eigentuemer;
 	}
 
-	public void setModifikationsdatum(Timestamp modifikationsdatum) {
+	public void setModifikationsdatum(Date modifikationsdatum) {
 		this.modifikationsdatum = modifikationsdatum;
 	}
 
