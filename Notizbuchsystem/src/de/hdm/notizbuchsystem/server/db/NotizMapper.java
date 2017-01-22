@@ -34,8 +34,8 @@ public class NotizMapper {
 			
 					
 			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Notiz.Eintragung-ID) AS maxid "
-		          + "FROM Notiz ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX('Eintragung-ID') AS maxid "
+		          + "FROM eintragung ");
 			
 			if (rs.next()) {
 				
@@ -43,8 +43,9 @@ public class NotizMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO Notiz (Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt) " + "VALUES ("
-		            + n.getId() + "," + n.getEigentuemer() + "," + n.getModifikationsdatum() + n.getErstelldatum() + "," + n.getTitel() + "," + n.getSubtitel() + "," + n.getInhalt() +" )");
+				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`) " + "VALUES ('"
+		            + n.getId() + "','" + n.getEigentuemer() + "','" + n.getModifikationsdatum() + "','" + n.getErstelldatum() + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
+				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`) VALUES ('" + n.getId() + "','" + n.getInhalt() + "')");
 			}
 		}
 		

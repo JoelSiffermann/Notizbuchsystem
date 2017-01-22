@@ -31,7 +31,7 @@ public class NotizbuchMapper {
 			// SQL Statement muss noch eingefügt werden
 			
 			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Eintragung-ID) AS maxid "
+			ResultSet rs = stmt.executeQuery("SELECT MAX('Eintragung-ID') AS maxid "
 			          + "FROM eintragung");
 			
 			if (rs.next()) {
@@ -40,9 +40,9 @@ public class NotizbuchMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO eintragung (Eintragung-ID, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel) " + "VALUES ('"
+				stmt.executeUpdate("INSERT INTO eintragung (`Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel) " + "VALUES ('"
 				            + n.getId() + "','" + n.getEigentuemer() + "','" + n.getErstelldatum() + "','" + n.getErstelldatum() + "','" + n.getTitel() + "' )");
-				stmt.executeUpdate("INSERT INTO Notizbuch (ID) " + "VALUES ('" + n.getId() + "' )");
+				stmt.executeUpdate("INSERT INTO notizbuch (ID) " + "VALUES ('" + n.getId() + "' )");
 			}
 		}
 		

@@ -49,9 +49,9 @@ public Nutzer bearbeiten(Nutzer nutzer) {
     try {
       Statement stmt = con.createStatement();
 
-      stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\""
-          + nutzer.getName() + "\", " + "Vorname=\"" +nutzer.getVorname() + "\" "
-          + "WHERE id=" + nutzer.getId());
+      stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\"'"
+          + nutzer.getName() + "'\", " + "Vorname=\"'" +nutzer.getVorname() + "'\" "
+          + "WHERE Email='" + nutzer.getEmail() + "'");
 
     }
     catch (SQLException e) {
@@ -68,7 +68,7 @@ public void loeschen(Nutzer nutzer) {
     try {
       Statement stmt = con.createStatement();
 
-      stmt.executeUpdate("DELETE FROM Nutzer " + "WHERE id=" + nutzer.getId());
+      stmt.executeUpdate("DELETE FROM Nutzer " + "WHERE Email='" + nutzer.getEmail() + "'");
     }
     catch (SQLException e) {
       e.printStackTrace();
@@ -116,6 +116,7 @@ public Nutzer getNutzerByID(int ID) {
 public Vector<Nutzer> getNutzerByName(String name, String vorname) {
     
     Connection con = DBConnection.getConnection();
+    Vector<Nutzer> result = new Vector<Nutzer>();
 
     try {
     	
@@ -123,41 +124,43 @@ public Vector<Nutzer> getNutzerByName(String name, String vorname) {
 
       
       ResultSet rs = stmt
-          .executeQuery("SELECT id, Name, Vorname, Email FROM Nutzer "
-              + "WHERE name=" + name + " ORDER BY Name");
+          .executeQuery("SELECT * FROM Nutzer WHERE name LIKE '%" + name + "%' ");
 
-      // Methode zum prüfen ob ein Ergebnis vorliegt nicht implementiert, da Name kein PK ist
+      while(rs.next()){
+    	  Nutzer n = new Nutzer();
+    	  n.setEmail(rs.getString("Email"));
+    	  n.setName(rs.getString("name"));
+    	  n.setVorname(rs.getString("vorname"));
+    	  result.add(n);
+      }
       
     }
     catch (SQLException e) {
           e.printStackTrace();
           return null;  }
 
-	return null;
+	return result;
 }
 
 public Nutzer getNutzerByEmail(String Email) {
     
     Connection con = DBConnection.getConnection();
-
+    Nutzer n = new Nutzer();
     try {
     	
       Statement stmt = con.createStatement();
 
       
       ResultSet rs = stmt
-          .executeQuery("SELECT id, Name, Vorname, Email FROM Nutzer "
-              + "WHERE E-Mail=" + Email + " ORDER BY Name");
+          .executeQuery("SELECT * FROM Notiz WHERE Email LIKE '%" + Email + "%' ");
 
-    if (rs.next()) {  
+    if(rs.next()) {  
       
-   Nutzer n = new Nutzer();
+   
    n.setEmail(rs.getString("Email"));
-   n.setId(rs.getInt("id"));
    n.setName(rs.getString("Name"));
    n.setVorname(rs.getString("Vorname"));
    
-   return n;
     }}
       
 	
@@ -165,7 +168,7 @@ public Nutzer getNutzerByEmail(String Email) {
           e.printStackTrace();
           return null;  }
 
-	return null;
+	return n;
 }
 
 public Nutzer insertNutzer(Nutzer nutzer) {
