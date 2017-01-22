@@ -231,7 +231,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		notizbuch.setErstelldatum(erstelldatum);
 		
-		notizbuch.setModifikationsdatum(modifikationsdatum);
+		notizbuch.setModifikationsdatum(erstelldatum); // Modifkationsdatum = Erstelldatum in diesem Fall
 	
 		return this.notizbuchMapper.erstellen(notizbuch);
 		

@@ -8,6 +8,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.apphosting.utils.config.AppYaml.AdminConsole;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -17,6 +19,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.notizbuchsystem.server.NotizbuchAdministrationImpl;
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministration;
@@ -40,17 +43,22 @@ public class ErstelleNotizbuch extends Showcase {
   
 	private FlexTable notizbuchFlexTable = new FlexTable();
 	private TextBox titelTextBox = new TextBox();
-	private TextBox subtitelTextBox = new TextBox();
-	private Label erstelldatumDateBox = new Label(aktuellesDatum().toLocaleString());
-	private DateBox modifikationsdatumDateBox = new DateBox();
+//	private TextBox subtitelTextBox = new TextBox(); Brauchen wir Subtitel??
+	private Label ErstelldatumInhalt = new Label();
 
-
+	private DateBox erstelldatumDatebox = new DateBox();
+//	private DateBox modifikationsdatumDateBox = new DateBox();
+	private DateTimeFormat erstelldatumFormat = DateTimeFormat
+			.getFormat("dd.MM.yyyy");
+	
+	
 	private Button erstelleNotizbuchButton = new Button("Notizbuch Anlegen");
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
 	private Label reqLabel2 = new Label("* Pflichtfeld");
 	private Label reqLabel3 = new Label("* Pflichtfeld");
 	private Label warnLabel = new Label();
+	private Label testLabel = new Label();
   
  
   protected void run() {
@@ -60,17 +68,16 @@ public class ErstelleNotizbuch extends Showcase {
   //verPanel wird aufgebaut
     verPanel.add(notizbuchFlexTable);
     verPanel.add(titelTextBox);
-    verPanel.add(subtitelTextBox);
+//    verPanel.add(subtitelTextBox);
     
     
     // Erstell- und Modifkationsdatumsboxen ausgeklammert, werden angepasst
-   verPanel.add(erstelldatumDateBox);
+   verPanel.add(erstelldatumDatebox);
+ 
+   verPanel.add(testLabel);
 //    verPanel.add(modifikationsdatumDateBox);
-  
     
-    
-    
-     reqLabel1.setStyleName("red_label");
+    reqLabel1.setStyleName("red_label");
   	reqLabel2.setStyleName("red_label");
   	reqLabel3.setStyleName("red_label");
   	warnLabel.setStyleName("red_label");
@@ -96,12 +103,12 @@ public class ErstelleNotizbuch extends Showcase {
 	notizbuchFlexTable.setWidget(0, 2, titelTextBox);
 	notizbuchFlexTable.setWidget(0, 3, reqLabel1);
 
-	notizbuchFlexTable.setWidget(1, 2, subtitelTextBox);
+//	notizbuchFlexTable.setWidget(1, 2, subtitelTextBox);
 	notizbuchFlexTable.setWidget(1, 3, reqLabel2);
 	
 	notizbuchFlexTable.setWidget(2, 2, warnLabel);
 	
-	notizbuchFlexTable.setWidget(2, 2, erstelldatumDateBox);
+	notizbuchFlexTable.setWidget(2, 2, erstelldatumDatebox);
 
 //	
 //	notizbuchFlexTable.setWidget(3, 2, modifikationsdatumDateBox);
@@ -135,8 +142,38 @@ public class ErstelleNotizbuch extends Showcase {
 		          RootPanel.get("Details").add(showcase);
 		        }
 		      });
- 
+  
+  erstelldatumDatebox.setFormat(new DateBox.DefaultFormat(
+		  erstelldatumFormat));
+  erstelldatumDatebox.getDatePicker()
+			.setYearAndMonthDropdownVisible(true);
+  erstelldatumDatebox.getDatePicker().setVisibleYearCount(20);
+
+  erstelldatumDatebox
+			.addValueChangeHandler(new ValueChangeHandler<Date>() {
+				public void onValueChange(ValueChangeEvent<Date> event) {
+					Date geburtsdatum = event.getValue();
+					String geburtsdatumString = DateTimeFormat.getFormat(
+							"dd.MM.yyyy").format(geburtsdatum);
+					ErstelldatumInhalt.setText(geburtsdatumString);
+
+					if (event.getValue().after(aktuellesDatum())) {
+						erstelldatumDatebox.setValue(aktuellesDatum(), false);
+					}
+				}
+			});
+
+	String todayString = DateTimeFormat.getFormat("dd.MM.yyyy").format(
+			aktuellesDatum());
+	ErstelldatumInhalt.setText(todayString);
+	erstelldatumDatebox.setValue(new Date());
+	notizbuchFlexTable.setWidget(2, 2, erstelldatumDatebox);
+  
+	erstelldatumDatebox.setValue(aktuellesDatum());
+	erstelldatumDatebox.setEnabled(false);
+	
   }
+  
   // Methode zum Prüfen der Vollständigkeit der Eingabemaske für ein neues Notizbuch
   
   public void pruefeEingabe(){
@@ -144,15 +181,20 @@ public class ErstelleNotizbuch extends Showcase {
 	  if (titelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
 		  notizbuchFlexTable.setWidget(0, 3, warnLabel);
-	  } else if(subtitelTextBox.getText().length() == 0) {
-		  warnLabel.setText("Bitte geben Sie einen Subtitel an!");
-		  notizbuchFlexTable.setWidget(1, 3, warnLabel);
+//	  } else if(subtitelTextBox.getText().length() == 0) {
+//		  warnLabel.setText("Bitte geben Sie einen Subtitel an!");
+//		  notizbuchFlexTable.setWidget(1, 3, warnLabel);
 	  }	else {
 		  notizbuchAnlegen();
 		  
 	  }
-	  
-  }
+
+ 
+  
+  
+	
+  
+}
   
  // Methode zum Anlegen eines neuen Notizbuchs und dessen Speicherung in der DB
  public void notizbuchAnlegen(){
