@@ -1,6 +1,8 @@
 package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class NotizMapper {
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`) " + "VALUES ('"
-		            + n.getId() + "','" + n.getEigentuemer() + "','" + n.getModifikationsdatum() + "','" + n.getErstelldatum() + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
+		            + n.getId() + "','" + n.getEigentuemer() + "','" + n.getModifikationsdatum() + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
 				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`) VALUES ('" + n.getId() + "','" + n.getInhalt() + "')");
 			}
 		}
@@ -55,6 +57,13 @@ public class NotizMapper {
 		
 		return n;
 	}
+	private String getSqlDateFormat(Date erstelldatum) {
+		String result = "";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		result = dateFormat.format(erstelldatum);
+		return result;
+	}
+
 	// Es können bis jetzt nur Modifikationsdatum, Titel, Subtitel und Inhalt bearbeitet werden, da die restlichen Werte nicht veränderbar sein sollten
 	public Notiz bearbeiten(Notiz n) {
 		Connection con = DBConnection.getConnection();

@@ -217,14 +217,13 @@ admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTex
 // Methode zum Bestimmen der aktuellen DateTime
 
 
-
 private static Date aktuellesDatum() {
 		return zeroTime(new Date()); 
    }
 
 private static Date zeroTime(final Date date) {
-		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
-				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date));
+		return DateTimeFormat.getFormat("yyyyMMdd").parse(
+				DateTimeFormat.getFormat("yyyyMMdd").format(date));
 	}
 	
 
