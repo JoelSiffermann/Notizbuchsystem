@@ -49,9 +49,11 @@ public Nutzer bearbeiten(Nutzer nutzer) {
     try {
       Statement stmt = con.createStatement();
 
+
       stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\"'"
           + nutzer.getName() + "'\", " + "Vorname=\"'" +nutzer.getVorname() + "'\" "
           + "WHERE Email='" + nutzer.getEmail() + "'");
+
 
     }
     catch (SQLException e) {
@@ -152,7 +154,9 @@ public Nutzer getNutzerByEmail(String Email) {
 
       
       ResultSet rs = stmt
+
           .executeQuery("SELECT * FROM Notiz WHERE Email LIKE '%" + Email + "%' ");
+
 
     if(rs.next()) {  
       

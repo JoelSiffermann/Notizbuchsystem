@@ -55,8 +55,8 @@ public class ErstelleNotizbuch extends Showcase {
 	private Button erstelleNotizbuchButton = new Button("Notizbuch Anlegen");
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
-	private Label reqLabel2 = new Label("* Pflichtfeld");
-	private Label reqLabel3 = new Label("* Pflichtfeld");
+//	private Label reqLabel2 = new Label("* Pflichtfeld");
+//	private Label reqLabel3 = new Label("* Pflichtfeld");
 	private Label warnLabel = new Label();
 	private Label testLabel = new Label();
   
@@ -78,8 +78,8 @@ public class ErstelleNotizbuch extends Showcase {
 //    verPanel.add(modifikationsdatumDateBox);
     
     reqLabel1.setStyleName("red_label");
-  	reqLabel2.setStyleName("red_label");
-  	reqLabel3.setStyleName("red_label");
+//  	reqLabel2.setStyleName("red_label");
+//  	reqLabel3.setStyleName("red_label");
   	warnLabel.setStyleName("red_label");
   	
   	notizbuchFlexTable.addStyleName("FlexTable");
@@ -91,9 +91,7 @@ public class ErstelleNotizbuch extends Showcase {
 	 * Erste Spalte der Tabelle festlegen.
 	 */
 	notizbuchFlexTable.setText(0, 0, "Titel");
-	notizbuchFlexTable.setText(1, 0, "Subtitel");
-	notizbuchFlexTable.setText(2, 0, "Erstelldatum");
-//	notizbuchFlexTable.setText(3, 0, "Modifikationsdatum");
+	notizbuchFlexTable.setText(1, 0, "Erstelldatum");
 
 	/**
 	 * Zweite und dritte Spalte der Tabelle festlegen. Die Widgets werden in
@@ -102,22 +100,10 @@ public class ErstelleNotizbuch extends Showcase {
 	 */
 	notizbuchFlexTable.setWidget(0, 2, titelTextBox);
 	notizbuchFlexTable.setWidget(0, 3, reqLabel1);
-
-//	notizbuchFlexTable.setWidget(1, 2, subtitelTextBox);
-	notizbuchFlexTable.setWidget(1, 3, reqLabel2);
+//	notizbuchFlexTable.setWidget(1, 3, reqLabel2);
 	
-	notizbuchFlexTable.setWidget(2, 2, warnLabel);
-	
-	notizbuchFlexTable.setWidget(2, 2, erstelldatumDatebox);
-
-//	
-//	notizbuchFlexTable.setWidget(3, 2, modifikationsdatumDateBox);
-//	notizbuchFlexTable.setWidget(3, 3, reqLabel3);
-
-  // button panel erstellen.
-  
-  buttonPanel.add(erstelleNotizbuchButton);
-  buttonPanel.add(abbrechenButton);
+	buttonPanel.add(erstelleNotizbuchButton);
+	buttonPanel.add(abbrechenButton);
 
 
   // button panel mit der HTML host page verbinden.
@@ -167,7 +153,7 @@ public class ErstelleNotizbuch extends Showcase {
 			aktuellesDatum());
 	ErstelldatumInhalt.setText(todayString);
 	erstelldatumDatebox.setValue(new Date());
-	notizbuchFlexTable.setWidget(2, 2, erstelldatumDatebox);
+	notizbuchFlexTable.setWidget(1, 2, erstelldatumDatebox);
   
 	erstelldatumDatebox.setValue(aktuellesDatum());
 	erstelldatumDatebox.setEnabled(false);

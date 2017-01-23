@@ -71,7 +71,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Nutzer getNutzerByEmail (String email) {
-		return nutzerMapper.findByNutzerMitEmail(email);
+		return nutzerMapper.getNutzerByEmail(email);
 
 	}
 
