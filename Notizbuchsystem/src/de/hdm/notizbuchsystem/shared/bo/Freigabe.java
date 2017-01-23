@@ -1,6 +1,6 @@
 package de.hdm.notizbuchsystem.shared.bo;
 
-public abstract class Freigabe extends BusinessObject {
+public class Freigabe extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -14,6 +14,10 @@ public abstract class Freigabe extends BusinessObject {
 	
 	//Hier brauchen wir die Eintragung, da die Beziehung zu Freigabe und Nutzer in einer Zwischentabelle ausgedrückt wird
 	private int freigegebeneEintragung;
+	
+	private String freigebenderNutzer;
+	
+	private String freigegebenerNutzer;
 
 	public Freigabe(){
 		
@@ -59,5 +63,21 @@ public abstract class Freigabe extends BusinessObject {
 
 	public void setFreigabeId(int freigabeId) {
 		this.freigabeId = freigabeId;
+	}
+
+	public String getFreigebenderNutzer() {
+		return freigebenderNutzer;
+	}
+
+	public void setFreigebenderNutzer(String freigebenderNutzer) {
+		this.freigebenderNutzer = freigebenderNutzer;
+	}
+
+	public String getFreigegebenerNutzer() {
+		return freigegebenerNutzer;
+	}
+
+	public void setFreigegebenerNutzer(String freigegebenerNutzer) {
+		this.freigegebenerNutzer = freigegebenerNutzer;
 	}
 }

@@ -14,7 +14,10 @@ public interface ReportGenerator {
 	
 	public void init() throws IllegalArgumentException;
 
-	public NotizNachTitelUndDatumReport erstelleNotizNachTitelundDatumReport(Date edatum, Date mdatum, Date fdatum, String titel) throws IllegalArgumentException;
 	
 	public NotizNachNutzerUndBerechtigungReport erstelleNotizNachNutzerUndBerechtigungReport(Nutzer nutzer, Freigabe freigabe) throws IllegalArgumentException;
+
+	public NotizNachTitelUndDatumReport erstelleNotizNachTitelUndDatumReport(
+			Date edatum, Date mdatum, Date fdatum, String titel)
+			throws IllegalArgumentException;
 }

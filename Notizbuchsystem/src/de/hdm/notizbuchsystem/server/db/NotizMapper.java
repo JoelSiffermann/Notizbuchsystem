@@ -311,15 +311,14 @@ Connection con = DBConnection.getConnection();
 	}
 	
 	public Map<Vector<Notiz>, Vector<Faelligkeit>> getNotizenByKriterium(String titel, Date edatum, Date mdatum, Date fdatum) {
-		//TODO Kriterium Object bzw Klasse anlegen mit den attributen
-		//TODO Map mit Notiz und Faelligkeit siehe Partnerboerse
+		
 		Connection con = DBConnection.getConnection();
 		
 		Vector<Notiz> notiz = new Vector<Notiz>();
 		Vector<Faelligkeit> v = new Vector<Faelligkeit>();
 		Map<Vector<Notiz>, Vector<Faelligkeit>> result = new HashMap<Vector<Notiz>, Vector<Faelligkeit>>();
 		
-		StringBuffer whereQuery = new StringBuffer("WHERE Eintragung-ID IS NOT NULL");
+		StringBuffer whereQuery = new StringBuffer("WHERE `Eintragung-ID` IS NOT NULL");
 		
 		String titelQuery = "";
 		String eQuery = "";
@@ -332,26 +331,27 @@ Connection con = DBConnection.getConnection();
 			        
 				} 
 				if(edatum != null) {
-					eQuery = "Erstelldatum = " + edatum;
+					eQuery = "Erstelldatum = '" + getSqlDateFormat(edatum) + "'";
 					whereQuery.append(" AND " + eQuery);
 					
 				}
 				if(mdatum != null) {
-					mQuery = "Modifikationsdatum = " + mdatum;
+					mQuery = "Modifikationsdatum = '" + getSqlDateFormat(mdatum) + "'";
 					whereQuery.append(" AND " + mQuery);
 					
 				} 
 				if(fdatum != null) {
-					fQuery = "Faelligkeit.Datum = " + fdatum;
+					fQuery = "Faelligkeit.Datum = '" + getSqlDateFormat(fdatum) + "'";
 					whereQuery.append(" AND " + fQuery);
 				}
 				try {
 					Statement stmt = con.createStatement();
 					
-					ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit.Datum"
-				    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID LEFT JOIN Faelligkeit ON Notiz-ID=Faelligkeit.Notiz-ID"
-				          + whereQuery + " ORDER BY Eintragung-ID");
+					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit.Datum"
+				    		  + "FROM eintragung LEFT JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN faelligkeit ON notiz.ID = faelligkeit.Eintragung"
+				          + whereQuery + " ORDER BY `Eintragung-ID`");
 				while(rs.next()){
+					
 					Notiz n = new Notiz();
 					Faelligkeit f = new Faelligkeit();
 					n.setId(rs.getInt("Eintragungs-ID"));
@@ -375,6 +375,51 @@ Connection con = DBConnection.getConnection();
 		
 	}
 
+public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer n, Freigabe f) {
+		
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notiz> notiz = new Vector<Notiz>();
+		Vector<Freigabe> v = new Vector<Freigabe>();
+		Map<Vector<Notiz>, Vector<Freigabe>> result = new HashMap<Vector<Notiz>, Vector<Freigabe>>();
+		
+		
+				
+			    
+				try {
+					Statement stmt = con.createStatement();
+					
+					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, nutzerfreigabe.Leseberechtigung,"
+				    		  + "nutzerfreigabe.Aenderungsberechtigung, nutzerfreigabe.Loeschberechtigung nutzerfreigabe.FreigegebenerNutzer FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN nutzerfreigabe ON eintragung.Eigentuemer = nutzerfreigabe.FreigebenderNutzer"
+				          + "WHERE eintragung.Eigentuemer LIKE '%" + n.getEmail() + "%' ORDER BY `Eintragung-ID`");
+				while(rs.next()){
+					
+					Notiz no = new Notiz();
+					Freigabe fr = new Freigabe();
+					no.setId(rs.getInt("Eintragungs-ID"));
+			        no.setEigentuemer(rs.getString("Eigentuemer"));
+			        no.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+			        no.setErstelldatum(rs.getDate("Erstelldatum"));
+			        no.setTitel(rs.getString("Titel"));
+			        no.setSubtitel(rs.getString("Subtitel"));
+			        no.setInhalt(rs.getString("Inhalt"));
+			        fr.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
+			        fr.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
+			        fr.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
+			        fr.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
+			        v.add(fr);
+			        notiz.add(no);
+			        result.put(notiz, v);
+			} 
+				}
+				catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			return result;
+		
+	}
+	
 	public Vector<Notiz> getNotizByNotizbuch(String titel) {
 		// TODO Auto-generated method stub
 		return null;

@@ -320,10 +320,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Freigabe erstelleNotizFreigabe(int notizFreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
+	public Freigabe erstelleFreigabe(Freigabe f) throws IllegalArgumentException{
 	
 		
-		NotizFreigabe NotizFreigabe = new NotizFreigabe();
+		Freigabe Freigabe = new NotizFreigabe();
 		
 		NotizFreigabe.setLeseberechtigung(leseberechtigung);
 		
@@ -564,6 +564,11 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return this.notizMapper.getNotizenByKriterium(titel, edatum, mdatum, fdatum);
 	}
 
+	@Override
+	public Map<Vector<Notiz>, Vector<Freigabe>> getNotizByNutzerUndFreigabe(Nutzer n, Freigabe f)
+	throws IllegalArgumentException {
+		return this.notizMapper.getNotizenByNutzerUndFreigabe(n, f);
+	}
 
 	@Override
 	public Vector<Notiz> getNotizByEDatum(Date erstelldatum)

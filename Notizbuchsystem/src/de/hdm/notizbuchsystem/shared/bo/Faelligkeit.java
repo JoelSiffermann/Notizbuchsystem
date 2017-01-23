@@ -12,12 +12,13 @@ public class Faelligkeit extends BusinessObject {
 	
 	private int faelligkeitId;
 
-	public Date getDatum() {
-		return datum;
-	}
 
 	public void setDatum(Date datum) {
 		this.datum = datum;
+	}
+	
+	public Date getDatum() {
+		return this.datum;
 	}
 
 	public int getFaelligkeitId() {

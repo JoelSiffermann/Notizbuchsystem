@@ -1,6 +1,6 @@
 package de.hdm.notizbuchsystem.shared.bo;
 
-public class NotizFreigabe extends Freigabe{
+public class NotizFreigabe extends BusinessObject {
 
 	/**
 	 * 

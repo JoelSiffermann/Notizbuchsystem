@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 
 
+
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 @RemoteServiceRelativePath("admin")
@@ -118,6 +119,9 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Map<Vector<Notiz>, Vector<Faelligkeit>> getNotizByKriterium(String titel, Date edatum, Date mdatum,
 			Date fdatum) throws IllegalArgumentException;
+	
+	Map<Vector<Notiz>, Vector<Freigabe>> getNotizByNutzerUndFreigabe(Nutzer n,
+			Freigabe f) throws IllegalArgumentException;
 	
 	
 }

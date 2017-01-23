@@ -12,10 +12,7 @@ import de.hdm.notizbuchsystem.shared.report.Report;
 import de.hdm.notizbuchsystem.shared.report.Zeile;
 import de.hdm.notizbuchsystem.shared.report.EinfacherAbsatz;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -97,6 +94,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Date edatum, Date mdatum, Date fdatum, String titel) throws IllegalArgumentException {
 
 		  
+		  
 		  NotizNachTitelUndDatumReport result = new NotizNachTitelUndDatumReport();
 
 	    
@@ -111,38 +109,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	     */
 	    result.setCreated(new Date());
 
-	    /*
-	     * Ab hier erfolgt die Zusammenstellung der Kopfdaten (die Dinge, die oben
-	     * auf dem Report stehen) des Reports. Die Kopfdaten sind mehrzeilig, daher
-	     * die Verwendung von CompositeParagraph.
-	     */
-	    ZusammengesetzterAbsatz header = new ZusammengesetzterAbsatz();
 
-	    
-	    header.addUnterAbschnitt(new EinfacherAbsatz(u.getName() + u.getVorname()));
-
-	    
-	    header.addUnterAbschnitt(new EinfacherAbsatz(u.getEmailAddress()));
-
-	    
-	    result.setKopfdaten(header);
-
-	    /*
-	     * Ab hier erfolgt ein zeilenweises Hinzufügen von Konto-Informationen.
-	     */
-	    
-	    /*
-	     * Zunächst legen wir eine Kopfzeile für die Konto-Tabelle an.
-	     */
 	    Zeile headline = new Zeile();
 
-	    /*
-	     * Wir wollen Zeilen mit 2 Spalten in der Tabelle erzeugen. In die erste
-	     * Spalte schreiben wir die jeweilige Kontonummer und in die zweite den
-	     * aktuellen Kontostand. In der Kopfzeile legen wir also entsprechende
-	     * Überschriften ab.
-	     */
+	    
 	    headline.addSpalte(new Spalte("Titel"));
+	    headline.addSpalte(new Spalte("Subtitel"));
+	    headline.addSpalte(new Spalte("Eigentümer"));
+	    headline.addSpalte(new Spalte("Inhalt"));
 	    headline.addSpalte(new Spalte("Erstelldatum"));
 	    headline.addSpalte(new Spalte("Modifikationsdatum"));
 	    headline.addSpalte(new Spalte("Fälligkeitsdatum"));
@@ -151,51 +125,26 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	    // Hinzufügen der Kopfzeile
 	    result.addZeile(headline);
 
-	    /*
-	     * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr. und
-	     * Kontostand sukzessive in die Tabelle eingetragen.
-	     */
-	    Vector<Notiz> notizen = this.administration.getNotizByKriterium(titel, edatum, mdatum, fdatum);
+	    Map<Vector<Notiz>,Vector<Faelligkeit>> resultMap = this.administration.getNotizByKriterium(titel, edatum, mdatum, fdatum);
+	    Set<Vector<Notiz>> output = resultMap.keySet();
 	    
-	    
-	    
-	    if(titel!=null){
+	    for (Vector<Notiz> notizen : output) {
 	    	
-	    }
-	    
-	    
-	    int i = 0;
-	    
-	    while(i < notizen.size() -1){
-	    	if(notizen.elementAt(i).equals(titel))
-	    		ergebnis.add(notizen.elementAt(i));
-	    	i++;
-	    }
-	    
-	    
-	    if(titel!=null){
-	    	Vector<Notiz> v1 = this.administration.getNotizByTitel(titel);
-	    	for(int i ; i < v1.size() ; i++) {
+	    	Vector<Faelligkeit> faelligkeiten = new Vector<Faelligkeit>();
+	    	faelligkeiten = resultMap.get(notizen);
+	    	
+	    	for(int f = 0; f < faelligkeiten.size() ; f++){
 	    		
+	    		Zeile z = new Zeile();
+	    		z.addSpalte(new Spalte(notizen.get(f).getTitel()));
+	    		z.addSpalte(new Spalte(notizen.get(f).getSubtitel()));
+	    		z.addSpalte(new Spalte(notizen.get(f).getEigentuemer()));
+	    		z.addSpalte(new Spalte(notizen.get(f).getInhalt()));
+	    		z.addSpalte(new Spalte(String.valueOf(notizen.get(f).getErstelldatum())));
+	    		z.addSpalte(new Spalte(String.valueOf(notizen.get(f).getModifikationsdatum())));
+	    		z.addSpalte(new Spalte(String.valueOf(faelligkeiten.get(f).getDatum())));
+	    		result.addZeile(z);
 	    	}
-	    }
-
-	    for (Notiz n : notizen) {
-	      // Eine leere Zeile anlegen.
-	      Zeile notizZeile = new Zeile();
-
-	      // Erste Spalte: Titel hinzufügen
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getTitel())));
-
-	      // Zweite Spalte: 
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getErstelldatum())));
-	      
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getModifikationsdatum())));
-	      
-	      notizZeile.addSpalte(new Spalte(String.valueOf(this.administration.getF)));
-
-	      // und schließlich die Zeile dem Report hinzufügen.
-	      result.addZeile(notizZeile);
 	    }
 
 	    /*
@@ -208,7 +157,65 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	  public NotizNachNutzerUndBerechtigungReport erstelleNotizNachNutzerUndBerechtigungReport(Nutzer n, Freigabe f)
 	  throws IllegalArgumentException {
 		  
-		  return null;
+		  NotizNachNutzerUndBerechtigungReport result = new NotizNachNutzerUndBerechtigungReport();
+
+		    
+		    result.setTitel("Notizen bezueglich der freigegebenen Nutzer und deren Berechtigungen");
+
+		    // Imressum hinzufügen
+		    this.addImpressum(result);
+
+		    /*
+		     * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
+		     * "Timestamp" des Zeitpunkts der Instantiierung des Date-Objekts.
+		     */
+		    result.setCreated(new Date());
+
+
+		    Zeile headline = new Zeile();
+
+		    
+		    headline.addSpalte(new Spalte("Titel"));
+		    headline.addSpalte(new Spalte("Subtitel"));
+		    headline.addSpalte(new Spalte("Eigentümer"));
+		    headline.addSpalte(new Spalte("Inhalt"));
+		    headline.addSpalte(new Spalte("Erstelldatum"));
+		    headline.addSpalte(new Spalte("Modifikationsdatum"));
+		    headline.addSpalte(new Spalte("FreigegebenerNutzer"));
+		    headline.addSpalte(new Spalte("Leseberechtigung"));
+		    headline.addSpalte(new Spalte("Aenderungsberechtigung"));
+		    headline.addSpalte(new Spalte("Loeschberechtigung"));
+		    
+
+		    // Hinzufügen der Kopfzeile
+		    result.addZeile(headline);
+
+		    Map<Vector<Notiz>,Vector<Freigabe>> resultMap = this.administration.getNotizByNutzerUndFreigabe(n, f);
+		    Set<Vector<Notiz>> output = resultMap.keySet();
+		    
+		    for (Vector<Notiz> notizen : output) {
+		    	
+		    	Vector<Freigabe> freigabe = new Vector<Freigabe>();
+		    	freigabe = resultMap.get(notizen);
+		    	
+		    	for(int fr = 0; fr < freigabe.size() ; fr++){
+		    		
+		    		Zeile z = new Zeile();
+		    		z.addSpalte(new Spalte(notizen.get(fr).getTitel()));
+		    		z.addSpalte(new Spalte(notizen.get(fr).getSubtitel()));
+		    		z.addSpalte(new Spalte(notizen.get(fr).getEigentuemer()));
+		    		z.addSpalte(new Spalte(notizen.get(fr).getInhalt()));
+		    		z.addSpalte(new Spalte(String.valueOf(notizen.get(fr).getErstelldatum())));
+		    		z.addSpalte(new Spalte(String.valueOf(notizen.get(fr).getModifikationsdatum())));
+		    		
+		    		result.addZeile(z);
+		    	}
+		    }
+
+		    /*
+		     * Zum Schluss müssen wir noch den fertigen Report zurückgeben.
+		     */
+		    return result;
 	  }
 
 	@Override
@@ -217,106 +224,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 	}
 
-	@Override
-	public NotizNachTitelUndDatumReport erstelleNotizNachTitelundDatumReport(
-			Date edatum, Date mdatum, Date fdatum, String titel)
-			throws IllegalArgumentException {
 
-		NotizNachTitelUndDatumReport result = new NotizNachTitelUndDatumReport();
-
-	    
-	    result.setTitel("Notizen bezueglich ihrer Titel und des Datums");
-
-	    // Imressum hinzufügen
-	    this.addImpressum(result);
-
-	    /*
-	     * Datum der Erstellung hinzufügen. new Date() erzeugt autom. einen
-	     * "Timestamp" des Zeitpunkts der Instantiierung des Date-Objekts.
-	     */
-	    result.setCreated(new Date());
-
-	    /*
-	     * Ab hier erfolgt die Zusammenstellung der Kopfdaten (die Dinge, die oben
-	     * auf dem Report stehen) des Reports. Die Kopfdaten sind mehrzeilig, daher
-	     * die Verwendung von CompositeParagraph.
-	     */
-	    ZusammengesetzterAbsatz header = new ZusammengesetzterAbsatz();
-
-	    
-	    header.addUnterAbschnitt(new EinfacherAbsatz());
-
-	    
-	    header.addUnterAbschnitt(new EinfacherAbsatz());
-
-	    
-	    result.setKopfdaten(header);
-
-	    /*
-	     * Ab hier erfolgt ein zeilenweises Hinzufügen von Konto-Informationen.
-	     */
-	    
-	    /*
-	     * Zunächst legen wir eine Kopfzeile für die Konto-Tabelle an.
-	     */
-	    Zeile headline = new Zeile();
-
-	    /*
-	     * Wir wollen Zeilen mit 2 Spalten in der Tabelle erzeugen. In die erste
-	     * Spalte schreiben wir die jeweilige Kontonummer und in die zweite den
-	     * aktuellen Kontostand. In der Kopfzeile legen wir also entsprechende
-	     * Überschriften ab.
-	     */
-	    headline.addSpalte(new Spalte("Titel"));
-	    headline.addSpalte(new Spalte("Erstelldatum"));
-	    headline.addSpalte(new Spalte("Modifikationsdatum"));
-	    headline.addSpalte(new Spalte("Fälligkeitsdatum"));
-	    
-
-	    // Hinzufügen der Kopfzeile
-	    result.addZeile(headline);
-
-	    /*
-	     * Nun werden sämtliche Konten des Kunden ausgelesen und deren Kto.-Nr. und
-	     * Kontostand sukzessive in die Tabelle eingetragen.
-	     */
-	    Map<Vector<Notiz>, Vector<Faelligkeit>> notizen = this.administration.getNotizByKriterium(titel, edatum, mdatum, fdatum);
-	    
-	    for(int i = 0 ; i < notizen.size() ; i++) {
-	    	if(titel != null) {
-	    		
-	    	} else {
-	    		
-	    	}
-	    }
-	    
-	    for (Notiz n1 : notizen) {
-	    	this.administration.getNotizByTitel(titel);
-	    }
-
-	    for (Notiz n : notizen) {
-	      // Eine leere Zeile anlegen.
-	      Zeile notizZeile = new Zeile();
-
-	      // Erste Spalte: Titel hinzufügen
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getTitel())));
-
-	      // Zweite Spalte: 
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getErstelldatum())));
-	      
-	      notizZeile.addSpalte(new Spalte(String.valueOf(n.getModifikationsdatum())));
-	      
-	      notizZeile.addSpalte(new Spalte(String.valueOf()));
-
-	      // und schließlich die Zeile dem Report hinzufügen.
-	      result.addZeile(notizZeile);
-	    }
-
-	    /*
-	     * Zum Schluss müssen wir noch den fertigen Report zurückgeben.
-	     */
-	    return result;
-	}
 
 //	  /**
 //	   * Erstellen von <code>AllAccountsOfAllCustomersReport</code>-Objekten.

@@ -119,6 +119,9 @@ public interface NotizSystemAdministrationAsync {
 	void getNotizByKriterium(String titel, Date edatum, Date mdatum,
 			Date fdatum, AsyncCallback<Map<Vector<Notiz>, Vector<Faelligkeit>>> callback);
 
+	void getNotizByNutzerUndFreigabe(Nutzer n, Freigabe f,
+			AsyncCallback<Map<Vector<Notiz>, Vector<Freigabe>>> callback);
+
 	
 
 	
