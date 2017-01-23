@@ -207,7 +207,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		    		z.addSpalte(new Spalte(notizen.get(fr).getInhalt()));
 		    		z.addSpalte(new Spalte(String.valueOf(notizen.get(fr).getErstelldatum())));
 		    		z.addSpalte(new Spalte(String.valueOf(notizen.get(fr).getModifikationsdatum())));
-		    		
+		    		z.addSpalte(new Spalte(freigabe.get(fr).getFreigegebenerNutzer()));
+		    		z.addSpalte(new Spalte(String.valueOf(freigabe.get(fr).getLeseberechtigung())));
+		    		z.addSpalte(new Spalte(String.valueOf(freigabe.get(fr).getAenderungsberechtigung())));
+		    		z.addSpalte(new Spalte(String.valueOf(freigabe.get(fr).getLoeschberechtigung())));
 		    		result.addZeile(z);
 		    	}
 		    }

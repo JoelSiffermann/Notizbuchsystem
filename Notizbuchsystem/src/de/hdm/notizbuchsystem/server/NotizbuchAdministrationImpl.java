@@ -149,9 +149,11 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param nutzerId Die Nutzer-ID des Nutzers, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheNutzer(int nutzerId)
+	public void loescheNutzer(String email)
 			throws IllegalArgumentException {
-		this.nutzerMapper.loeschenutzer(nutzerId);
+		Nutzer n = new Nutzer();
+		n.setEmail(email);
+		this.nutzerMapper.loeschen(n);
 	}
 	
 	/**
@@ -405,9 +407,12 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Nutzer bearbeiteNutzer(Nutzer nutzer) throws IllegalArgumentException{
-		
-		return this.nutzerMapper.bearbeiten(nutzer);
+	public Nutzer bearbeiteNutzer(String email, String name, String vorname) throws IllegalArgumentException{
+		Nutzer n = new Nutzer();
+		n.setEmail(email);
+		n.setName(name);
+		n.setVorname(vorname);
+		return this.nutzerMapper.bearbeiten(n);
 		
 	}
 	
@@ -640,6 +645,14 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	@Override
 	public Notiz getNotizByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Freigabe erstelleNotizFreigabe(int notizfreigabeId,
+			boolean leseberechtigung, boolean aenderungsberechtigung,
+			boolean loeschberechtigung) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -48,21 +48,17 @@ public class BearbeiteNutzer extends Showcase {
 		/**
 		 * Variable fuer die Nutzer-ID erzeugen. 
 		 */
-		private int nutzerId; 
+		private String email;
 		
-		/**
-		 * Variable fuer den Profiltyp erzeugen. 
-		 */
-		private String profiltyp; 
+		
 
 		/**
 		 * Konstruktor erstellen.
 		 * @param nutzerId Die Nutzer-ID des aktuellen Nutzers.  
 		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
-		public BearbeiteNutzer(final int nutzerId, String profiltyp) {
-			this.nutzerId = nutzerId; 
-			this.profiltyp = profiltyp;
+		public BearbeiteNutzer(final String email) {
+			this.email = email;
 			run(); 
 		}
 		
@@ -146,7 +142,7 @@ public class BearbeiteNutzer extends Showcase {
 			public void onClick(ClickEvent event) {
 				
 				      
-			          Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
+			          Showcase showcase = new ZeigeNutzer(email);
 			     
 			          RootPanel.get("Details").clear();
 			          RootPanel.get("Details").add(showcase);
@@ -163,7 +159,7 @@ public class BearbeiteNutzer extends Showcase {
 			 */
 			public void befuelleTabelle(){
 				
-				ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+				ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
 						new AsyncCallback<Nutzer>() {
 					public void onFailure(Throwable caught) {
 					}
@@ -233,17 +229,16 @@ public class BearbeiteNutzer extends Showcase {
 	 * Schreiben des Nutzers in die Datenbank.
 	 */
 	public void aktualisiereNutzer() {
-		ClientsideSettings.getNotizSystemAdministration().speicherNutzer(
-				nutzerId, vornameTextBox.getText(),
-				nameTextBox.getText(),
-				new AsyncCallback<Void>() {
+		ClientsideSettings.getNotizSystemAdministration().bearbeiteNutzer(
+				email, nameTextBox.getText(), vornameTextBox.getText(),
+				new AsyncCallback<Nutzer>() {
 			
 
 						public void onFailure(Throwable caught) {
 						}
 
-						public void onSuccess(Void result) {
-						Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
+						public void onSuccess(Nutzer nutzer) {
+						Showcase showcase = new ZeigeNutzer(email);
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(showcase);
 					}

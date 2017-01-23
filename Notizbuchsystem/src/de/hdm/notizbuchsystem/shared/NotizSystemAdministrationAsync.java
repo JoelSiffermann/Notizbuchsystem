@@ -50,7 +50,7 @@ public interface NotizSystemAdministrationAsync {
 	void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung,
 			int notizbuchid, AsyncCallback<Void> callback);
 	
-	void loescheNutzer(int nutzerId, AsyncCallback<Void> callback);
+	void loescheNutzer(String email, AsyncCallback<Void> callback);
 	
 	void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid,
 			AsyncCallback<Void> callback);
@@ -70,7 +70,7 @@ public interface NotizSystemAdministrationAsync {
 	void bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum,
 			AsyncCallback<Faelligkeit> callback);
 	
-	void bearbeiteNutzer(Nutzer nutzer, AsyncCallback<Nutzer> callback);
+	void bearbeiteNutzer(String email, String name, String vorname, AsyncCallback<Nutzer> callback);
 	
 	void bearbeiteNotizFreigabe(Freigabe notizfreigabe, AsyncCallback<Freigabe> callback);
 

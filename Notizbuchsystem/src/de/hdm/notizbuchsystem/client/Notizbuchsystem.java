@@ -104,7 +104,7 @@ public class Notizbuchsystem implements EntryPoint {
 	    	  	public void onClick(ClickEvent event) {
 	    	        	
 	    
-			Showcase showcase = new ZeigeNutzer(0, null);
+			Showcase showcase = new ZeigeNutzer(null);
 	     
 	          RootPanel.get("Details").clear();
 	          RootPanel.get("Details").add(showcase);

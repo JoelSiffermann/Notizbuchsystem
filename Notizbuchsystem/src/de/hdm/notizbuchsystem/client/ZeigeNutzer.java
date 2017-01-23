@@ -37,12 +37,9 @@ public class ZeigeNutzer extends Showcase {
 	  /**
 		 * Variable fuer die NutzerId erstellen.
 		 */
-		private int nutzerId;
+		private String email;
 		
-		/**
-		 * Variable fuer die ProfilId erstellen.
-		 */
-		private String profiltyp;
+		
 
 		
 		/**
@@ -52,9 +49,8 @@ public class ZeigeNutzer extends Showcase {
 		 *            Die Nutzer-ID des Nutzer, das angezeigt werden soll.
 		 * @param profiltyp 
 		 */
-		public ZeigeNutzer(int nutzerId, String profiltyp) {
-			this.nutzerId = nutzerId;
-			this.profiltyp = profiltyp;
+		public ZeigeNutzer(String email) {
+			this.email = email;
 			
 			run();
 		}
@@ -103,7 +99,7 @@ public class ZeigeNutzer extends Showcase {
 		        /*
 		         * Showcase instantiieren.
 		         */
-		        Showcase showcase = new BearbeiteNutzer(nutzerId, profiltyp);
+		        Showcase showcase = new BearbeiteNutzer(email);
 
 		        /*
 		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
@@ -135,7 +131,7 @@ public class ZeigeNutzer extends Showcase {
 	 * ausliest und die Profildaten in die Tabelle einfuegt.
 	 */
 	public void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+		ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
 				new AsyncCallback<Nutzer>() {
 
 					public void onFailure(Throwable caught) {
@@ -157,7 +153,7 @@ public class ZeigeNutzer extends Showcase {
 		public void loescheNutzer() {
 			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
 
-				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
+				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(email, new AsyncCallback<Void>() {
 
 					public void onFailure(Throwable caught) {
 					}

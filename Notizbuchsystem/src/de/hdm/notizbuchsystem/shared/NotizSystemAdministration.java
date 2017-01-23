@@ -60,7 +60,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung, int notizbuchid) throws IllegalArgumentException;
 	
-	public void loescheNutzer(int Nutzerid) throws IllegalArgumentException;
+	public void loescheNutzer(String email) throws IllegalArgumentException;
 	
 	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid) throws IllegalArgumentException;
 	
@@ -74,7 +74,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException;
 	
-	public Nutzer bearbeiteNutzer(Nutzer nutzer) throws IllegalArgumentException;
+	public Nutzer bearbeiteNutzer(String email, String name, String vorname) throws IllegalArgumentException;
 	
 	public Freigabe bearbeiteNotizFreigabe(Freigabe notizfreigabe) throws IllegalArgumentException;
 
