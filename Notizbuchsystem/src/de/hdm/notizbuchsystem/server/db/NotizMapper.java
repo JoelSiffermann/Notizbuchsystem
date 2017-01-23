@@ -93,7 +93,7 @@ public class NotizMapper {
 		}
 	}
 
-	public Vector<Notiz> getNotizenByNutzer(Nutzer n) {
+	public Vector<Notiz> getNotizenByNutzer(String email) {
 		
 		Connection con = DBConnection.getConnection();
 		
@@ -102,17 +102,17 @@ public class NotizMapper {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "Eigentuemer FROM Eintragung WHERE Eigentuemer =" + n.getEmail()
-		          + " ORDER BY Eintragung-ID");
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `notiz.Inhalt`"
+		    		  + "FROM eintragung INNERJOIN notiz ON `Eintragung-ID` = `ID` WHERE Eigentuemer =" + email
+		          + " ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("Eintragungs-ID"));
-		        e.setEigentuemer(rs.getString("Eigentuemer"));
-		        e.setModifikationsdatum(rs.getTimestamp("Modifikationsdatum"));
-		        e.setErstelldatum(rs.getTimestamp("Erstelldatum"));
+		        e.setId(rs.getInt("`Eintragungs-ID`"));
+		        e.setEigentuemer(rs.getString("`Eigentuemer`"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
