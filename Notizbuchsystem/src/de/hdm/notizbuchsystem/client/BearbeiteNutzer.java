@@ -46,18 +46,21 @@ public class BearbeiteNutzer extends Showcase {
 		
 	  
 		/**
-		 * Variable fuer die Nutzer-ID erzeugen. 
+		 * Variable fuer die Email erzeugen. 
 		 */
-		private String email;
-		
-		
+
+
+		private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+
 
 		/**
 		 * Konstruktor erstellen.
 		 * @param nutzerId Die Nutzer-ID des aktuellen Nutzers.  
 		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
+
 		public BearbeiteNutzer(final String email) {
+
 			this.email = email;
 			run(); 
 		}
@@ -174,27 +177,9 @@ public class BearbeiteNutzer extends Showcase {
 					}
 				});
 				
-				/**
-				 * Widgets dem Panel hinzufuegen.
-				 */
-				
-			//	verPanel.add(editNutzerprofilFlexTable);
-			//	verPanel.add(editNutzerprofilButton);
-				
 			}
 			
-			
-	
-	
-	
-	
-
-	
-				
-
-
-
-	/**
+				/**
 	 * Methode erstellen, die die Eingabe des Nutzers auf Vollstaendigkeit und
 	 * Korrektheit ueberprueft.
 	 */

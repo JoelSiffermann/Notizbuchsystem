@@ -54,11 +54,8 @@ public class ErstelleNotiz extends Showcase {
 	private TextBox subtitelTextBox = new TextBox();
 	private TextArea inhaltTextArea = new TextArea();
 	private DateBox faelligkeitDateBox = new DateBox();
-	@SuppressWarnings("deprecation")
-	private Label erstelldatumDateBox = new Label(aktuellesDatum().toLocaleString());
-	//private DateBox modifikationsdatumDateBox = new DateBox();
-
-
+	
+	private DateBox erstelldatumDatebox = new DateBox();
 	private Button erstelleNotizButton = new Button("Notiz Anlegen");
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
@@ -66,6 +63,10 @@ public class ErstelleNotiz extends Showcase {
 	private Label reqLabel3 = new Label("* Pflichtfeld");
 	//private Label reqLabel4 = new Label("");
 	private Label warnLabel = new Label();
+	
+	
+	private DateTimeFormat erstelldatumFormat = DateTimeFormat
+			.getFormat("dd.MM.yyyy");
 	
   
 	 /**
@@ -90,11 +91,8 @@ public class ErstelleNotiz extends Showcase {
   verPanel.add(subtitelTextBox);
   verPanel.add(inhaltTextArea);
   verPanel.add(faelligkeitDateBox);
-  verPanel.add(erstelldatumDateBox);
-  //verPanel.add(modifikationsdatumDateBox);
-
-  
-  
+  verPanel.add(erstelldatumDatebox);
+    
   
     reqLabel1.setStyleName("red_label");
 	reqLabel2.setStyleName("red_label");
@@ -111,9 +109,9 @@ public class ErstelleNotiz extends Showcase {
 	notizFlexTable.setText(0, 0, "Titel");
 	notizFlexTable.setText(1, 0, "Subtitel");
 	notizFlexTable.setText(2, 0, "Inhalt");
-	notizFlexTable.setText(3, 0, "Fälligkeit");
+	notizFlexTable.setText(3, 0, "Faelligkeit");
 	notizFlexTable.setText(4, 0, "Erstelldatum");
-	//notizFlexTable.setText(4, 0, "Modifikationsdatum");
+	
 
 	/**
 	 * Zweite und dritte Spalte der Tabelle festlegen. Die Widgets werden in
@@ -121,21 +119,25 @@ public class ErstelleNotiz extends Showcase {
 	 */
 	notizFlexTable.setWidget(0, 2, titelTextBox);
 	notizFlexTable.setWidget(0, 3, reqLabel1);
-
 	notizFlexTable.setWidget(1, 2, subtitelTextBox);
 	notizFlexTable.setWidget(1, 3, reqLabel2);
-	
 	notizFlexTable.setWidget(2, 2, inhaltTextArea);
 	notizFlexTable.setWidget(2, 3, reqLabel3);
-	
 	notizFlexTable.setWidget(3, 2, faelligkeitDateBox);
-	
-	notizFlexTable.setWidget(4, 2, erstelldatumDateBox);
-	//notizFlexTable.setWidget(3, 3, reqLabel4);
-	
-	//notizFlexTable.setWidget(4, 2, modifikationsdatumDateBox);
-	//notizFlexTable.setWidget(4, 3, reqLabel3);
+	notizFlexTable.setWidget(4, 2, erstelldatumDatebox);
 
+	erstelldatumDatebox.setValue(aktuellesDatum());
+	erstelldatumDatebox.setEnabled(false);
+	erstelldatumDatebox.setFormat(new DateBox.DefaultFormat(
+	erstelldatumFormat));
+	erstelldatumDatebox.getDatePicker()
+	.setYearAndMonthDropdownVisible(true);
+	erstelldatumDatebox.getDatePicker().setVisibleYearCount(20);
+	
+	faelligkeitDateBox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+	faelligkeitDateBox.getDatePicker().setYearAndMonthDropdownVisible(true);
+	
+	
   // button panel erstellen.
   
   buttonPanel.add(erstelleNotizButton);
@@ -181,7 +183,16 @@ public void pruefeEingabe(){
 	  } else if(inhaltTextArea.getText().length() == 0) {
 		  warnLabel .setText("Bitte geben Sie einen Inhalt an!");
 		  notizFlexTable.setWidget(2, 3, warnLabel);
-	  }	else {
+		 
+	  } else if(faelligkeitDateBox.getValue() == null) { notizAnlegen();
+	  
+	  }
+	  	  
+	  else if(faelligkeitDateBox.getValue().before(aktuellesDatum())){
+		  warnLabel.setText("Fealligkeit ungueltig!");
+	  }
+	  
+	  else {
 		  notizAnlegen();
 		  
 	  }
@@ -217,15 +228,18 @@ admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTex
 // Methode zum Bestimmen der aktuellen DateTime
 
 
-private static Date aktuellesDatum() {
-		return zeroTime(new Date()); 
-   }
 
-private static Date zeroTime(final Date date) {
-		return DateTimeFormat.getFormat("yyyyMMdd").parse(
-				DateTimeFormat.getFormat("yyyyMMdd").format(date));
-	}
-	
+
+	 private static Date aktuellesDatum() {
+			return zeroTime(new Date()); 
+	     }
+	 
+	 private static Date zeroTime(final Date date) {
+			return DateTimeFormat.getFormat("yyyyMMdd").parse(
+					DateTimeFormat.getFormat("yyyyMMdd").format(date));
+		}
+	 
+
 
 }
 

@@ -15,6 +15,8 @@ import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 public class ZeigeNutzer extends Showcase {
 
+	
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
 	/**
 	   * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	   * Methode zu erstellen ist.
@@ -34,12 +36,7 @@ public class ZeigeNutzer extends Showcase {
 	  final Button meinProfilloeschenButton = new Button("Mein Profil Loeschen");
 	  private Label pfadLabelNA = new Label("Zurueck zu: Startseite");
 
-	  /**
-		 * Variable fuer die NutzerId erstellen.
-		 */
-		private String email;
-		
-		
+
 
 		
 		/**
@@ -49,6 +46,7 @@ public class ZeigeNutzer extends Showcase {
 		 *            Die Nutzer-ID des Nutzer, das angezeigt werden soll.
 		 * @param profiltyp 
 		 */
+
 		public ZeigeNutzer(String email) {
 			this.email = email;
 			
@@ -120,11 +118,12 @@ public class ZeigeNutzer extends Showcase {
 		 * Datenbank entfernt. Zudem wird der Nutzer ausgeloggt und auf die
 		 * Login-Seite weitergeleitet.
 		 */
-		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loescheNutzer();
-			}
-		});}
+//		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				loescheNutzer();
+//			}
+//		});
+		}
 	
 	/**
 	 * Methode erstellen, die den eigenen Nutzer anhand der Nutzer-ID
@@ -143,13 +142,14 @@ public class ZeigeNutzer extends Showcase {
 						nutzerFlexTable.setText(2, 1, result.getEmail());
 					}
 				});
-	}
 	
+	}
 	
 
 		/**
 		 * Methode erstellen, die das eigene Nutzerprofil loescht.
 		 */
+
 		public void loescheNutzer() {
 			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
 
@@ -164,11 +164,26 @@ public class ZeigeNutzer extends Showcase {
 
 					}
 				});
-		
-		
 
-			}
-	
+//		public void loescheNutzer() {
+//			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
+//
+//				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
+//
+//					public void onFailure(Throwable caught) {
+//					}
+//
+//					public void onSuccess(Void result) {
+//
+//						Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
+//
+//					}
+//				});
+//			}
+//		}
+
 		
-	}}
+}
+		}
+}
 
