@@ -15,6 +15,8 @@ import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 public class ZeigeNutzer extends Showcase {
 
+	
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
 	/**
 	   * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
 	   * Methode zu erstellen ist.
@@ -34,27 +36,10 @@ public class ZeigeNutzer extends Showcase {
 	  final Button meinProfilloeschenButton = new Button("Mein Profil Loeschen");
 	  private Label pfadLabelNA = new Label("Zurueck zu: Startseite");
 
-	  /**
-		 * Variable fuer die NutzerId erstellen.
-		 */
-		private int nutzerId;
-		
-		/**
-		 * Variable fuer die ProfilId erstellen.
-		 */
-		private String profiltyp;
 
-		
-		/**
-		 * Konstruktor erstellen.
-		 * 
-		 * @param nutzerId
-		 *            Die Nutzer-ID des Nutzer, das angezeigt werden soll.
-		 * @param profiltyp 
-		 */
-		public ZeigeNutzer(int nutzerId, String profiltyp) {
-			this.nutzerId = nutzerId;
-			this.profiltyp = profiltyp;
+	
+		public ZeigeNutzer(String email) {
+			this.email = email;
 			
 			run();
 		}
@@ -103,7 +88,7 @@ public class ZeigeNutzer extends Showcase {
 		        /*
 		         * Showcase instantiieren.
 		         */
-		        Showcase showcase = new BearbeiteNutzer(nutzerId, profiltyp);
+		        Showcase showcase = new BearbeiteNutzer(email);
 
 		        /*
 		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
@@ -124,18 +109,19 @@ public class ZeigeNutzer extends Showcase {
 		 * Datenbank entfernt. Zudem wird der Nutzer ausgeloggt und auf die
 		 * Login-Seite weitergeleitet.
 		 */
-		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loescheNutzer();
-			}
-		});}
+//		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				loescheNutzer();
+//			}
+//		});
+		}
 	
 	/**
 	 * Methode erstellen, die den eigenen Nutzer anhand der Nutzer-ID
 	 * ausliest und die Profildaten in die Tabelle einfuegt.
 	 */
 	public void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+		ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
 				new AsyncCallback<Nutzer>() {
 
 					public void onFailure(Throwable caught) {
@@ -154,25 +140,22 @@ public class ZeigeNutzer extends Showcase {
 		/**
 		 * Methode erstellen, die das eigene Nutzerprofil loescht.
 		 */
-		public void loescheNutzer() {
-			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
-
-				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
-
-					public void onFailure(Throwable caught) {
-					}
-
-					public void onSuccess(Void result) {
-
-						Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
-
-					}
-				});
+//		public void loescheNutzer() {
+//			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
+//
+//				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
+//
+//					public void onFailure(Throwable caught) {
+//					}
+//
+//					public void onSuccess(Void result) {
+//
+//						Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
+//
+//					}
+//				});
+//			}
+//		}
 		
-		
-
-			}
-	
-		
-	}}
+}
 

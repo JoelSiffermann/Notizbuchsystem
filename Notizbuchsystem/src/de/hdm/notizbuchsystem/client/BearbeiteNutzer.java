@@ -46,23 +46,20 @@ public class BearbeiteNutzer extends Showcase {
 		
 	  
 		/**
-		 * Variable fuer die Nutzer-ID erzeugen. 
+		 * Variable fuer die Email erzeugen. 
 		 */
-		private int nutzerId; 
+
+		private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+	
 		
-		/**
-		 * Variable fuer den Profiltyp erzeugen. 
-		 */
-		private String profiltyp; 
 
 		/**
 		 * Konstruktor erstellen.
 		 * @param nutzerId Die Nutzer-ID des aktuellen Nutzers.  
 		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
-		public BearbeiteNutzer(final int nutzerId, String profiltyp) {
-			this.nutzerId = nutzerId; 
-			this.profiltyp = profiltyp;
+		public BearbeiteNutzer(String email) {
+			this.email = email;
 			run(); 
 		}
 		
@@ -146,7 +143,7 @@ public class BearbeiteNutzer extends Showcase {
 			public void onClick(ClickEvent event) {
 				
 				      
-			          Showcase showcase = new ZeigeNutzer(nutzerId, profiltyp);
+			          Showcase showcase = new ZeigeNutzer(email);
 			     
 			          RootPanel.get("Details").clear();
 			          RootPanel.get("Details").add(showcase);
@@ -163,7 +160,7 @@ public class BearbeiteNutzer extends Showcase {
 			 */
 			public void befuelleTabelle(){
 				
-				ClientsideSettings.getNotizSystemAdministration().getNutzerById(nutzerId,
+				ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
 						new AsyncCallback<Nutzer>() {
 					public void onFailure(Throwable caught) {
 					}
@@ -178,27 +175,9 @@ public class BearbeiteNutzer extends Showcase {
 					}
 				});
 				
-				/**
-				 * Widgets dem Panel hinzufuegen.
-				 */
-				
-			//	verPanel.add(editNutzerprofilFlexTable);
-			//	verPanel.add(editNutzerprofilButton);
-				
 			}
 			
-			
-	
-	
-	
-	
-
-	
-				
-
-
-
-	/**
+				/**
 	 * Methode erstellen, die die Eingabe des Nutzers auf Vollstaendigkeit und
 	 * Korrektheit ueberprueft.
 	 */

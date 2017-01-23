@@ -50,8 +50,8 @@ public Nutzer bearbeiten(Nutzer nutzer) {
       Statement stmt = con.createStatement();
 
       stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\""
-          + nutzer.getName() + "\", " + "Vorname=\"" +nutzer.getVorname() + "\" "
-          + "WHERE id=" + nutzer.getId());
+          + nutzer.getName() + "\", " + "Vorname=\"" + nutzer.getVorname()+ "\" "
+          + "WHERE Email" + nutzer.getEmail());
 
     }
     catch (SQLException e) {
@@ -146,14 +146,13 @@ public Nutzer getNutzerByEmail(String Email) {
 
       
       ResultSet rs = stmt
-          .executeQuery("SELECT id, Name, Vorname, Email FROM Nutzer "
-              + "WHERE E-Mail=" + Email + " ORDER BY Name");
+          .executeQuery("SELECT Name, Vorname, Email FROM Nutzer "
+              + "WHERE Email=" + Email + " ORDER BY Name");
 
     if (rs.next()) {  
       
    Nutzer n = new Nutzer();
    n.setEmail(rs.getString("Email"));
-   n.setId(rs.getInt("id"));
    n.setName(rs.getString("Name"));
    n.setVorname(rs.getString("Vorname"));
    
