@@ -32,21 +32,17 @@ public class NotizMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			
-			
-					
-			
-			ResultSet rs = stmt.executeQuery("SELECT MAX('Eintragung-ID') AS maxid "
+			ResultSet rs = stmt.executeQuery("SELECT MAX(`Eintragung-ID`) AS maxid "
 		          + "FROM eintragung ");
 			
 			if (rs.next()) {
-				
-				n.setId(rs.getInt("maxid") + 1);
+				int i = 1;
+				n.setId(rs.getInt("maxid") + i);
 				
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`) " + "VALUES ('"
-		            + n.getId() + "','" + n.getEigentuemer() + "','" + n.getModifikationsdatum() + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
+		            + n.getId() + "','" + n.getEigentuemer() + "','" + getSqlDateFormat(n.getModifikationsdatum()) + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
 				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`) VALUES ('" + n.getId() + "','" + n.getInhalt() + "')");
 			}
 		}
@@ -57,6 +53,7 @@ public class NotizMapper {
 		
 		return n;
 	}
+	
 	private String getSqlDateFormat(Date erstelldatum) {
 		String result = "";
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -105,7 +102,7 @@ public class NotizMapper {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
 		    		  + "Eigentuemer FROM Eintragung WHERE Eigentuemer =" + n.getEmail()
 		          + " ORDER BY Eintragung-ID");
 
@@ -141,7 +138,7 @@ public Vector<Notiz> getNotizen() {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
 		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
 		          + " ORDER BY Eintragung-ID");
 
@@ -177,7 +174,7 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Notiz WHERE titel LIKE '%" + titel + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Eintragung INNERJOIN Notiz ON `Eintragung-ID` = ID WHERE titel LIKE '%" + titel + "%' ");
 			
 			while(rs.next()){
 				Notiz n = new Notiz();
