@@ -81,7 +81,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	
 	
-	void getNutzerByEmail(String emailAddress, AsyncCallback<Nutzer> callback);
+	void getNutzerByEMail(String email, AsyncCallback<Nutzer> callback);
 	
 	void getNutzerByName(String name, String vorname, AsyncCallback<Vector<Nutzer>> callback);
 	
@@ -91,7 +91,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getFaelligkeitByDatum(Date datum, AsyncCallback<Vector<Faelligkeit>> callback);
 	
-	void getFreigabeByNotiz(Notiz notiz, AsyncCallback<Vector<Freigabe>> callback);
+	void getFreigabeByEintragung(int id, AsyncCallback<Vector<Freigabe>> callback);
 	
 	void getNotizByEDatum(Date erstelldatum, AsyncCallback<Vector<Notiz>> callback);
 	
@@ -120,6 +120,10 @@ public interface NotizSystemAdministrationAsync {
 			boolean aenderungsberechtigung, boolean loeschberechtigung,
 			String email, String freigegebenerNutzer,
 			AsyncCallback<Freigabe> callback);
+
+	void getNotizbyID(int id, AsyncCallback<Notiz> callback);
+
+	void getStringforSuggestBox(AsyncCallback<String[]> callback);
 
 	
 

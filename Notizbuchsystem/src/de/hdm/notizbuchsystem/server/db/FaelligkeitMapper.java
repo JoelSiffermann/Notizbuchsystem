@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
@@ -31,16 +33,16 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Faelligkeit");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxid " + "FROM faelligkeit");
 			
 			if (rs.next()) {
-				
-				f.setId(rs.getInt("maxid") + 1);
+				int i = 1;
+				f.setId(rs.getInt("maxid") + i);
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO Faelligkeit (Faelligkeit-ID, Datum) " + "VALUES (" + f.getId()
-						 + "," + f.getDatum() + " )");
+				stmt.executeUpdate("INSERT INTO faelligkeit (ID, Datum, Eintragung) " + "VALUES ('" + f.getId()
+						 + "','" + getSqlDateFormat(f.getDatum()) + "','" + f.getNotiz() + "')");
 			}
 		}
 		
@@ -57,7 +59,7 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Faelligkeit " + "SET Datum=\"" + f.getDatum() + "\" " + "WHERE id=" + f.getId());
+			stmt.executeUpdate("UPDATE faelligkeit " + "SET Datum=\"" + getSqlDateFormat(f.getDatum()) + "\" " + "WHERE Eintragung='" + f.getNotiz() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -73,30 +75,66 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM Faelligkeit " + "WHERE id=" + f.getId());
+			stmt.executeUpdate("DELETE FROM faelligkeit " + "WHERE Eintragung='" + f.getNotiz() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
 	
-	public Date getFaelligkeitByNotiz(Notiz n) {
+	public Faelligkeit getFaelligkeitByNotiz(Notiz n) {
 		
 		Connection con = DBConnection.getConnection();
+		Faelligkeit f = new Faelligkeit();
 		
 		try{
 			Statement stmt = con.createStatement();
-			//TODO
-			stmt.executeQuery("SELECT Datum FROM Faelligkeit INNER JOIN Notiz ON Faelligkeit-ID = Notiz");
+			ResultSet rs = 
+			stmt.executeQuery("SELECT Datum FROM faelligkeit WHERE Eintragung = '" + n.getId() + "'");
+			
+			if(rs.next()){
+				f.setDatum(rs.getDate("Datum"));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return f;
 	}
 
-	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Faelligkeit> getFaelligkeitByDatum(Faelligkeit f) {
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Faelligkeit> result = new Vector<Faelligkeit>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT Datum FROM faelligkeit WHERE Eintragung = '"
+		          + f.getNotiz() + "' ORDER BY Datum");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Faelligkeit-Objekt erstellt.
+		      while (rs.next()) {
+		        Faelligkeit fa = new Faelligkeit();
+		        fa.setDatum(rs.getDate("Datum"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(fa);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+	}
+	
+	private String getSqlDateFormat(Date erstelldatum) {
+		String result = "";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		result = dateFormat.format(erstelldatum);
+		return result;
 	}
 
 	

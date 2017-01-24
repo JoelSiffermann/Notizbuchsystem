@@ -18,6 +18,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 
 
+
+
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 @RemoteServiceRelativePath("admin")
@@ -35,7 +37,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	 */
 	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException;
 	
-	public Nutzer getNutzerByEmail (String email)  throws IllegalArgumentException;
+	public Nutzer getNutzerByEMail (String email)  throws IllegalArgumentException;
 
 	
 //	public void login() throws IllegalArgumentException;
@@ -102,7 +104,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) throws IllegalArgumentException;
 	
-	public Vector<Freigabe> getFreigabeByNotiz(Notiz notiz) throws IllegalArgumentException;
+	public Vector<Freigabe> getFreigabeByEintragung(int id) throws IllegalArgumentException;
 	
 	public Vector<Notiz> getNotizByEDatum(Date erstelldatum) throws IllegalArgumentException;
 	
@@ -137,6 +139,10 @@ public interface NotizSystemAdministration extends RemoteService {
 			boolean aenderungsberechtigung, boolean loeschberechtigung,
 			String email, String freigegebenerNutzer)
 			throws IllegalArgumentException;
+	
+	Notiz getNotizbyID(int id) throws IllegalArgumentException;
+	
+	String[] getStringforSuggestBox();
 	
 	
 }
