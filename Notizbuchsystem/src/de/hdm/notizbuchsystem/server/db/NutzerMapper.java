@@ -160,7 +160,7 @@ public Nutzer getNutzerByEmail(Nutzer n) {
       
       ResultSet rs = stmt
 
-          .executeQuery("SELECT * FROM Nutzer WHERE Email LIKE '%" + n.getEmail() + "%' ");
+          .executeQuery("SELECT * FROM nutzer WHERE Email LIKE '%" + n.getEmail() + "%' ");
 
 
     if(rs.next()) {  

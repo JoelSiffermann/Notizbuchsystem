@@ -81,8 +81,10 @@ public class NotizbuchMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			
-			stmt.executeUpdate("DELTE FROM Notizbuch WHERE ID=" + n.getId());
+			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE `FreigegebeneEintragung`='" + n.getId() + "'");
+			stmt.executeUpdate("DELETE faelligkeit FROM notizbuchdb.faelligkeit faelligkeit JOIN notiz ON faelligkeit.`Eintragung` = notiz.`ID` JOIN notizbuch ON notiz.Notizbuch ='" + n.getId() + "' WHERE notiz.Notizbuch ='" + n.getId() + "'");
+			stmt.executeUpdate("DELETE FROM notiz " + "WHERE Notizbuch='" + n.getId() + "'");
+			stmt.executeUpdate("DELTE FROM Notizbuch WHERE ID='" + n.getId() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
@@ -99,7 +101,7 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Notizbuch WHERE titel LIKE '%" + n.getTitel() + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM notizbuch WHERE Titel LIKE '%" + n.getTitel() + "%' ");
 			
 			while(rs.next()){
 				Notizbuch nb = new Notizbuch();

@@ -2,7 +2,7 @@ package de.hdm.notizbuchsystem.shared;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -97,7 +97,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNotizByMDatum(Date modifikationsdatum, AsyncCallback<Vector<Notiz>> callback);
 	
-	void getNotizByNotizbuch(String titel, AsyncCallback<Vector<Notiz>> callback);
+	void getNotizByNotizbuch(int notizbuchId, AsyncCallback<Vector<Notiz>> callback);
 	
 
 	void getNotizenByNutzer(String email, AsyncCallback<Vector<Notiz>> callback);

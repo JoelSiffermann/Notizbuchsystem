@@ -1,25 +1,11 @@
 package de.hdm.notizbuchsystem.shared;
 
-import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 @RemoteServiceRelativePath("admin")
@@ -37,7 +23,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	 */
 	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException;
 	
-	public Nutzer getNutzerByEMail (String email)  throws IllegalArgumentException;
+	public Nutzer getNutzerByEMail(String email)  throws IllegalArgumentException;
 
 	
 //	public void login() throws IllegalArgumentException;
@@ -110,7 +96,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum) throws IllegalArgumentException;
 	
-	public Vector<Notiz> getNotizByNotizbuch(String titel) throws IllegalArgumentException;
+	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId) throws IllegalArgumentException;
 
 	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId)
 			throws IllegalArgumentException;

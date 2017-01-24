@@ -85,14 +85,17 @@ public class NotizMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			
-			stmt.executeUpdate("DELETE FROM Notiz " + "WHERE id=" + n.getId());
+			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE `FreigegebeneEintragung`='" + n.getId() + "'");
+		    stmt.executeUpdate("DELETE FROM faelligkeit WHERE Eintragung='" + n.getId() + "'");
+			stmt.executeUpdate("DELETE FROM notiz " + "WHERE ID='" + n.getId() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
-
+	
+	
+//TODO
 	public Vector<Notiz> getNotizenByNutzer(String email) {
 		
 		Connection con = DBConnection.getConnection();
@@ -140,7 +143,7 @@ public Vector<Notiz> getNotizen() {
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "Eigentuemer FROM eintragung INNER JOIN notizbuchdb.notiz ON Eintragung-ID = Notiz-ID"
+		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.ID"
 		          + " ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
@@ -175,11 +178,11 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Eintragung INNERJOIN Notiz ON `Eintragung-ID` = ID WHERE titel LIKE '%" + n.getTitel() + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID WHERE Titel LIKE '%" + n.getTitel() + "%' ");
 			
 			while(rs.next()){
 				Notiz n1 = new Notiz();
-				n1.setId(rs.getInt("Eintragungs-ID"));
+				n1.setId(rs.getInt("Eintragung-ID"));
 		        n1.setEigentuemer(rs.getString("Eigentuemer"));
 		        n1.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        n1.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -196,7 +199,7 @@ public Vector<Notiz> getNotizen() {
 			return result;
 		
 		}
-		
+//TODO		
 	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum) {
 
 		Connection con = DBConnection.getConnection();
@@ -205,7 +208,7 @@ public Vector<Notiz> getNotizen() {
 		
 		try {
 		      Statement stmt = con.createStatement();
-//TODO Query anpassen!
+
 		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
 		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
 		          + " ORDER BY Eintragung-ID");
@@ -213,7 +216,7 @@ public Vector<Notiz> getNotizen() {
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("Eintragungs-ID"));
+		        e.setId(rs.getInt("Eintragung-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
 		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        e.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -241,7 +244,7 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeQuery("INSERT INTO notiz (notizbuch) VALUES ('" + notizbuch.getEintragungId() + "') WHERE notiz.`ID`='" + notiz.getEintragungId() + "'");
+			stmt.executeQuery("INSERT INTO notiz (notizbuch) VALUES ('" + notizbuch.getId() + "') WHERE notiz.`ID`='" + notiz.getId() + "'");
 			
 		} catch(SQLException e){
 			e.printStackTrace();
@@ -249,7 +252,7 @@ public Vector<Notiz> getNotizen() {
 		
 		
 	}
-
+//TODO
 	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) {
 
 		Connection con = DBConnection.getConnection();
@@ -286,9 +289,9 @@ public Vector<Notiz> getNotizen() {
 		    return result;
 		  }
 	
-
+//TODO
 	public Vector<Notiz> getNotizByModifikationsdatum(Date modifikationsdatum) {
-Connection con = DBConnection.getConnection();
+		Connection con = DBConnection.getConnection();
 		
 		Vector<Notiz> result = new Vector<Notiz>();
 		
@@ -302,7 +305,7 @@ Connection con = DBConnection.getConnection();
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("Eintragungs-ID"));
+		        e.setId(rs.getInt("Eintragung-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
 		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        e.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -366,7 +369,7 @@ Connection con = DBConnection.getConnection();
 					
 					Notiz n = new Notiz();
 					Faelligkeit f = new Faelligkeit();
-					n.setId(rs.getInt("Eintragungs-ID"));
+					n.setId(rs.getInt("Eintragung-ID"));
 			        n.setEigentuemer(rs.getString("Eigentuemer"));
 			        n.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 			        n.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -408,7 +411,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 					
 					Notiz no = new Notiz();
 					Freigabe fr = new Freigabe();
-					no.setId(rs.getInt("Eintragungs-ID"));
+					no.setId(rs.getInt("Eintragung-ID"));
 			        no.setEigentuemer(rs.getString("Eigentuemer"));
 			        no.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 			        no.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -467,9 +470,39 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 
 	  }
 	
-	public Vector<Notiz> getNotizByNotizbuch(String titel) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector<Notiz> getNotizByNotizbuch(Notizbuch nb) {
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notiz> result = new Vector<Notiz>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		    		  + "FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN notizbuch ON `Eintragung-ID` = notizbuch.ID"
+		          + "WHERE `Eintragung-ID`='" + nb.getId() + "' ORDER BY `Eintragung-ID`");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      while (rs.next()) {
+		        Notiz e = new Notiz();
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+		        e.setSubtitel(rs.getString("Subtitel"));
+		        e.setInhalt(rs.getString("Inhalt"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(e);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
 	}
 
 	
