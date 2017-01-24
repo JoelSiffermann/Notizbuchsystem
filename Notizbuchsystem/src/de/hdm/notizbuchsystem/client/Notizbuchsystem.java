@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 
 
 
+
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 import de.hdm.notizbuchsystem.client.ClientsideSettings;
@@ -56,7 +57,6 @@ public class Notizbuchsystem implements EntryPoint {
 			.getNotizSystemAdministration();
 	private LoginServiceAsync loginService = ClientsideSettings
 			.getLoginService();
-
 	
 	public void onModuleLoad() {
 		setStyles();
@@ -104,7 +104,7 @@ public class Notizbuchsystem implements EntryPoint {
 	    	  	public void onClick(ClickEvent event) {
 	    	        	
 	    
-			Showcase showcase = new ZeigeNutzer(null);
+			Showcase showcase = new ZeigeNutzer(Notizbuchsystem.getLoginInfo().getEmailAddress());
 	     
 	          RootPanel.get("Details").clear();
 	          RootPanel.get("Details").add(showcase);

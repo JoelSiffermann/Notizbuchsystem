@@ -89,7 +89,13 @@ public class ZeigeNutzer extends Showcase {
 		befuelleTabelle();
 		
 		
-		
+		meinProfilloeschenButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				loescheNutzer();
+			}
+		});
 		
 		bearbeiteNutzerButton.addClickHandler(new ClickHandler() {
 		      @Override
@@ -145,13 +151,15 @@ public class ZeigeNutzer extends Showcase {
 	
 	}
 	
-
+	
+	
+	
 		/**
 		 * Methode erstellen, die das eigene Nutzerprofil loescht.
 		 */
 
 		public void loescheNutzer() {
-			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
+			
 
 				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(email, new AsyncCallback<Void>() {
 
@@ -165,25 +173,9 @@ public class ZeigeNutzer extends Showcase {
 					}
 				});
 
-//		public void loescheNutzer() {
-//			if (Window.confirm("Moechten Sie Ihr Profil wirklich loeschen?")) {
-//
-//				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(nutzerId, new AsyncCallback<Void>() {
-//
-//					public void onFailure(Throwable caught) {
-//					}
-//
-//					public void onSuccess(Void result) {
-//
-//						Window.Location.replace(Notizbuchsystem.getLoginInfo().getLogoutUrl());
-//
-//					}
-//				});
-//			}
-//		}
+
 
 		
 }
 		}
-}
 

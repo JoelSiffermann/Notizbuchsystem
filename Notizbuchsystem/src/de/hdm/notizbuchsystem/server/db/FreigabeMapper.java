@@ -27,18 +27,18 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM Freigabe");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(FreigabeID) AS maxid " + "FROM nutzerfreigabe");
 			
 			if (rs.next()) {
-				
-				f.setId(rs.getInt("maxid") + 1);
+				int i = 1;
+				f.setId(rs.getInt("maxid") + i);
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO Freigabe (Freigabe-ID, Eintragungs-ID, Loeschberechtigung, "
-						+ "Aenderungsberechtigung, Leseberechtigung) " + "VALUES (" + f.getId() + "," + 
-						f.getFreigegebeneEintragung() + "," + f.getLoeschberechtigung() + ","
-						+ f.getAenderungsberechtigung() + "," + f.getLeseberechtigung() + " )");
+				stmt.executeUpdate("INSERT INTO nutzerfreigabe (FreigabeID, FreigegebeneEintragung, Loeschberechtigung, "
+						+ "Aenderungsberechtigung, Leseberechtigung, FreigebenderNutzer, FreigegebenerNutzer) " + "VALUES ('" + f.getId() + "','" + 
+						f.getFreigegebeneEintragung() + "','" + f.getLoeschberechtigung() + "','"
+						+ f.getAenderungsberechtigung() + "','" + f.getLeseberechtigung() + "','" + f.getFreigebenderNutzer() + "','" + f.getFreigegebenerNutzer() + "')");
 			}
 		}
 		
@@ -55,10 +55,11 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Freigabe " + "SET Eintragungs-ID=\"" + f.getFreigegebeneEintragung()
+			stmt.executeUpdate("UPDATE nutzerfreigabe " + "SET FreigegebeneEintragung=\"" + f.getFreigegebeneEintragung()
 					+ "\", " + "Loeschberechtigung=\"" + f.getLoeschberechtigung() + "\", " + 
 					"Aenderungsberechtigung=\"" + f.getAenderungsberechtigung() + "\", " +
-					"Leseberechtigung=\"" + f.getLeseberechtigung() + "\" " + "WHERE id=" + f.getId());
+					"Leseberechtigung=\"" + f.getLeseberechtigung() + "\", " + 
+					"FreigegebenerNutzer=\"" + f.getFreigegebenerNutzer() + "\" " +"WHERE FreigabeID=" + f.getId());
 		}
 		
 		catch (SQLException e1) {
@@ -74,7 +75,7 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM Freigabe " + "WHERE id=" + f.getId());
+			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE FreigabeID='" + f.getId() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();

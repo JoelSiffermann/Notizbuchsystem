@@ -10,6 +10,8 @@ public class Faelligkeit extends BusinessObject {
 
 	private Date datum;
 	
+	private int notiz;
+	
 	private int faelligkeitId;
 
 
@@ -27,6 +29,14 @@ public class Faelligkeit extends BusinessObject {
 
 	public void setFaelligkeitId(int faelligkeitId) {
 		this.faelligkeitId = faelligkeitId;
+	}
+
+	public int getNotiz() {
+		return notiz;
+	}
+
+	public void setNotiz(int notiz) {
+		this.notiz = notiz;
 	}
 
 	
