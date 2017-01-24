@@ -160,7 +160,7 @@ public Nutzer getNutzerByEmail(Nutzer n) {
       
       ResultSet rs = stmt
 
-          .executeQuery("SELECT * FROM nutzer WHERE Email LIKE '%" + n.getEmail() + "%' ");
+          .executeQuery("SELECT * FROM nutzer WHERE Email = '" + n.getEmail() + "' ");
 
 
     if(rs.next()) {  
@@ -169,6 +169,7 @@ public Nutzer getNutzerByEmail(Nutzer n) {
    n.setEmail(rs.getString("Email"));
    n.setName(rs.getString("Name"));
    n.setVorname(rs.getString("Vorname"));
+   return n;
    
     }}
       
@@ -177,7 +178,7 @@ public Nutzer getNutzerByEmail(Nutzer n) {
           e.printStackTrace();
           return null;  }
 
-	return n;
+	return null;
 }
 
 public Vector<Nutzer> getAllNutzer() {

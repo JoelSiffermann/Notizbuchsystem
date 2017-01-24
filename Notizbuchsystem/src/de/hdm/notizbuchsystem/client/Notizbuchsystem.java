@@ -31,10 +31,13 @@ public class Notizbuchsystem implements EntryPoint {
 	private Button notizButton = new Button("Verwalte Notizen");
 	private Button notizbuchButton = new Button("Verwalte Notizbuecher");
 	private Button logoutButton = new Button("Logout");
+	
+	
 
 	/**
 	 * Neues Nutzerprofil erzeugen
 	 */
+	
 	Nutzer nutzer = new Nutzer();
 
 	/**
@@ -60,6 +63,7 @@ public class Notizbuchsystem implements EntryPoint {
 	
 	public void onModuleLoad() {
 		setStyles();
+		
 		
 		VerticalPanel navPanel = new VerticalPanel();
 
@@ -119,8 +123,8 @@ public class Notizbuchsystem implements EntryPoint {
 	      });
 	      
 	  	RootPanel.get("Navigator").add(navPanel);
-	  	RootPanel.get("Details").add(begruessenN);
-	  	RootPanel.get("Details").add(begruessenN2);
+//	  	RootPanel.get("Details").add(begruessenN);
+//	  	RootPanel.get("Details").add(begruessenN2);
 	
 	  	
 		
@@ -147,15 +151,15 @@ public class Notizbuchsystem implements EntryPoint {
 			@Override
 			public void onSuccess(LoginInfo result) {
 
+//				Window.alert(Notizbuchsystem.loginInfo.getEmailAddress());
 				if (result.isLoggedIn()) {
 					loginInfo = result;
-					admin.pruefeObNutzerNeu(result.getEmailAddress(),
+					ClientsideSettings.getNotizSystemAdministration().pruefeObNutzerNeu(result.getEmailAddress(),
 							pruefeObNutzerNeuExecute(result
 									.getEmailAddress()));
 
 
 				} else {
-					
 					Window.Location.replace(result.getLoginUrl());
 				}
 			}
@@ -183,8 +187,8 @@ public class Notizbuchsystem implements EntryPoint {
 			@Override
 			public void onSuccess(Boolean result) {
 
-				if (!result) {
-			
+				if (result==false) {
+					
 					admin.getNutzerByEMail(loginInfo.getEmailAddress(),
 							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
@@ -192,8 +196,8 @@ public class Notizbuchsystem implements EntryPoint {
 					RootPanel.get("Details").add(begruessenN2);
 					
 					
-				} else {
-					
+				} else if(result==true){
+					Window.alert("hi");
 					Showcase showcase = new ErstelleNutzer();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);

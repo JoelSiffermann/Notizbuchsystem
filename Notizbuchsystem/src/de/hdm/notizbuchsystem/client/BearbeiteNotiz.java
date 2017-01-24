@@ -35,9 +35,9 @@ public class BearbeiteNotiz extends Showcase {
 			private VerticalPanel verPanel = new VerticalPanel();
 			
 			private FlexTable anzeigeFlexTable = new FlexTable();
-			private TextArea titelAnzeige = new TextArea();
+			private TextBox titelAnzeige = new TextBox();
 			private TextBox subtitelAnzeige = new TextBox();
-			private TextBox inhaltAnzeige = new TextBox();
+			private TextArea inhaltAnzeige = new TextArea();
 			
 			private DateBox faelligkeitdatebox = new DateBox();
 			private DateBox modidatebox = new DateBox();

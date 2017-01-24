@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.notizbuchsystem.server.db.*;
@@ -85,8 +86,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		n.setEmail(userEmail);
 		
 		if (nutzerMapper.getNutzerByEmail(n) == null) {
+			
 			return true;
 		}
+		
 		return false;
 		
 	}
