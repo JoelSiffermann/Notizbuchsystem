@@ -1,5 +1,7 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -83,7 +85,7 @@ public class BearbeiteNotiz extends Showcase {
 			      @Override
 				public void onClick(ClickEvent event) {
 			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(titelAnzeige.getText(),
-			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), faelligkeitdatebox.getValue(), new AsyncCallback<Notiz>()
+			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), aktuellesDatum(), new AsyncCallback<Notiz>()
 			        		{
 
 								@Override
@@ -141,15 +143,18 @@ public class BearbeiteNotiz extends Showcase {
 			
 				
 			});
-					
 		
 		
+		}
 		
 		
-		
-		
-		
-		
+		private static Date aktuellesDatum() {
+			return zeroTime(new Date()); 
+	     }
+	 
+	 private static Date zeroTime(final Date date) {
+			return DateTimeFormat.getFormat("yyyyMMdd").parse(
+					DateTimeFormat.getFormat("yyyyMMdd").format(date));
 		}
 
 	}
