@@ -65,18 +65,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	
-	/* 
-	 * Gibt das aktuelle Profil anhand der EMail zur�ck
-	 * return nutzer
-	 */
-	@Override
-	public Nutzer getNutzerByEmail (String email) {
-		Nutzer n = new Nutzer();
-		n.setEmail(email);
-		return nutzerMapper.getNutzerByEmail(n);
-
-	}
-
 	/*
 	 * *************************************************************************
 	 * ** ABSCHNITT, Beginn: Nutzerprofil
@@ -93,7 +81,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	@Override
 	public boolean pruefeObNutzerNeu(String userEmail) throws IllegalArgumentException {
 
-		if (nutzerMapper.findByNutzerMitEmail(userEmail) == null) {
+		Nutzer n = new Nutzer();
+		n.setEmail(userEmail);
+		
+		if (nutzerMapper.getNutzerByEmail(n) == null) {
 			return true;
 		}
 		return false;
@@ -491,6 +482,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		this.notizMapper.zuweisen(nb, n);
 	}
 	
+	@Override
 	public Nutzer getNutzerByEMail(String email) throws IllegalArgumentException{
 		Nutzer n = new Nutzer();
 		n.setEmail(email);
@@ -498,6 +490,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
 	public Vector<Nutzer> getNutzerByName(String name, String vorname) throws IllegalArgumentException{
 		Nutzer n = new Nutzer();
 		n.setName(name);
@@ -506,6 +499,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
 	public Vector<Notiz> getNotizByTitel(String titel) throws IllegalArgumentException{
 		Notiz n = new Notiz();
 		n.setTitel(titel);
@@ -513,6 +507,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
 	public Vector<Notizbuch> getNotizbuchByTitel(String titel) throws IllegalArgumentException{
 		Notizbuch n = new Notizbuch();
 		n.setTitel(titel);
@@ -520,18 +515,32 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
 	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) throws IllegalArgumentException{
-		
-		return this.faelligkeitMapper.getFaelligkeitByDatum(datum);
-		
-	}
-	
-	public Vector<Freigabe> getFreigabeByNotiz(Notiz notiz) throws IllegalArgumentException{
-		
-		return this.freigabeMapper.getFreigabeByNotiz(notiz);
+		Faelligkeit f = new Faelligkeit();
+		f.setDatum(datum);
+		return this.faelligkeitMapper.getFaelligkeitByDatum(f);
 		
 	}
 	
+	@Override
+	public Vector<Freigabe> getFreigabeByEintragung(int id) throws IllegalArgumentException{
+		Freigabe f = new Freigabe();
+		f.setFreigegebeneEintragung(id);
+		return this.freigabeMapper.getFreigabeByEintragung(f);
+		
+	}
+	
+	@Override
+	public Notiz getNotizbyID(int id) throws IllegalArgumentException{
+		Notiz n = new Notiz();
+		n.setId(id);
+		return this.notizMapper.getNotizByID(n);
+		
+	}
+	
+	
+	//TODO:
 	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) throws IllegalArgumentException{
 		
 		return this.notizMapper.getNotizByErstelldatum(erstelldatum);
@@ -660,6 +669,18 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	@Override
+	public String[] getStringforSuggestBox(){
+		String[] result = new String[0];
+		Vector<Nutzer> n = this.nutzerMapper.getAllNutzer();
+		for(int i = 0; i < n.size() ; i++){
+			n.get(i).getEmail();
+			n.get(i).getName();
+			n.get(i).getVorname();
+			n.toArray(result);
+		}
+		return result;
+	}
 
 	
 }

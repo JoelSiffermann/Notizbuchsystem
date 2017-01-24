@@ -75,42 +75,79 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE FreigabeID='" + f.getId() + "'");
+			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE FreigegebeneEintragung='" + f.getFreigegebeneEintragung() + "' OR FreigegebenerNutzer='" + f.getFreigegebenerNutzer() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	public Vector<Freigabe> getFreigabeByNotiz(Notiz notiz) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Freigabe insertNotizFreigabe(Freigabe notizFreigabe,
-			int notizFreigabeId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Freigabe insertNotizbuchFreigabe(Freigabe notizbuchFreigabe,
-			int notizbuchFreigabeId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void loescheNotizFreigabe(int notizFreigabeId) {
-		// TODO Auto-generated method stub
+	public Vector<Freigabe> getFreigabeByEintragung(Freigabe fr) {
+		Connection con = DBConnection.getConnection();
 		
+		Vector<Freigabe> result = new Vector<Freigabe>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
+		    		  + "Loeschberechtigung, FreigebenderNutzer FROM nutzerfreigabe WHERE FreigegebeneEintragung = '"
+		          + fr.getFreigegebeneEintragung() + "' ORDER BY FreigegebeneEintragung");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Freigabe-Objekt erstellt.
+		      while (rs.next()) {
+		        Freigabe f = new Freigabe();
+		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
+		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
+		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
+		        f.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
+		        f.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
+		        f.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(f);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+	}
+	
+	public Vector<Freigabe> getFreigabeByNutzer(Nutzer n) {
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Freigabe> result = new Vector<Freigabe>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
+		    		  + "Loeschberechtigung, FreigebenderNutzer FROM nutzerfreigabe WHERE FreigegebenerNutzer = '"
+		          + n.getEmail() + "' ORDER BY FreigegebeneEintragung");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Freigabe-Objekt erstellt.
+		      while (rs.next()) {
+		        Freigabe f = new Freigabe();
+		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
+		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
+		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
+		        f.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
+		        f.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
+		        f.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(f);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
 	}
 
-	public void loescheNotizbuchFreigabe(int notizbuchFreigabeId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void bearbeiteNotizbuchFreigabe(NotizbuchFreigabe notizbuchFreigabe) {
-		// TODO Auto-generated method stub
-		
-	}
 }

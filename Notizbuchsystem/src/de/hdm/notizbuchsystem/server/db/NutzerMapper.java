@@ -160,7 +160,7 @@ public Nutzer getNutzerByEmail(Nutzer n) {
       
       ResultSet rs = stmt
 
-          .executeQuery("SELECT * FROM Notiz WHERE Email LIKE '%" + n.getEmail() + "%' ");
+          .executeQuery("SELECT * FROM Nutzer WHERE Email LIKE '%" + n.getEmail() + "%' ");
 
 
     if(rs.next()) {  
@@ -180,30 +180,40 @@ public Nutzer getNutzerByEmail(Nutzer n) {
 	return n;
 }
 
-public Nutzer insertNutzer(Nutzer nutzer) {
-	// TODO Auto-generated method stub
-	return null;
-}
+public Vector<Nutzer> getAllNutzer() {
+
+    Connection con = DBConnection.getConnection();
+    
+    Vector<Nutzer> v = new Vector<Nutzer>();
+    
+    try {
+    	
+      Statement stmt = con.createStatement();
+
+      
+      ResultSet rs = stmt
+
+          .executeQuery("SELECT * FROM Nutzer");
 
 
-public Nutzer findByNutzerMitEmail(String email) {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-public void updateNutzer(Nutzer nutzer) {
-	// TODO Auto-generated method stub
+    while (rs.next()) {  
+      
+   Nutzer n = new Nutzer();
+   n.setEmail(rs.getString("Email"));
+   n.setName(rs.getString("Name"));
+   n.setVorname(rs.getString("Vorname"));
+   v.add(n);
+   
+    }}
+      
 	
+    catch (SQLException e) {
+          e.printStackTrace();
+          return null;  }
+
+	return v;
 }
 
-public void loeschenutzer(int nutzerId) {
-	// TODO Auto-generated method stub
-	
-}
 
-public Nutzer findByNutzerId(int nutzerId) {
-	// TODO Auto-generated method stub
-	return null;
-}
 
 }

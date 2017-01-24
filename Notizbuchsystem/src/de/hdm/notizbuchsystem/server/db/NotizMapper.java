@@ -431,6 +431,41 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 			return result;
 		
 	}
+
+	public Notiz getNotizByID(Notiz n) {
+	
+	Connection con = DBConnection.getConnection();
+	Notiz e = new Notiz();
+	
+	try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`"
+	    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE `Eintragung-ID` ='" + n.getId()
+	          + "' ORDER BY `Eintragung-ID`");
+
+	      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+	      if (rs.next()) {
+	    	  
+	        
+	        e.setId(rs.getInt("Eintragung-ID"));
+	        e.setEigentuemer(rs.getString("Eigentuemer"));
+	        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+	        e.setErstelldatum(rs.getDate("Erstelldatum"));
+	        e.setTitel(rs.getString("Titel"));
+	        e.setSubtitel(rs.getString("Subtitel"));
+	        e.setInhalt(rs.getString("Inhalt"));
+	        
+
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+	
+	return e;
+
+	  }
 	
 	public Vector<Notiz> getNotizByNotizbuch(String titel) {
 		// TODO Auto-generated method stub
