@@ -1,6 +1,6 @@
 package de.hdm.notizbuchsystem.server;
 
-import java.sql.Timestamp;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -71,7 +71,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Nutzer getNutzerByEmail (String email) {
-		return nutzerMapper.getNutzerByEmail(email);
+		Nutzer n = new Nutzer();
+		n.setEmail(email);
+		return nutzerMapper.getNutzerByEmail(n);
 
 	}
 
@@ -162,10 +164,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @return Das ausgelesene Nutzer-Objekt.
 	 * @throws IllegalArgumentException
 	 */
-	public Nutzer getNutzerById(int nutzerId)
-			throws IllegalArgumentException {
-		return this.nutzerMapper.findByNutzerId(nutzerId);
-	}
+//	public Nutzer getNutzerById(int nutzerId)
+//			throws IllegalArgumentException {
+//		return this.nutzerMapper.findByNutzerId(nutzerId);
+//	}
 
 		
 	/**
@@ -208,7 +210,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	public void loescheNotiz(int notizId)
 			throws IllegalArgumentException {
-		this.notizMapper.loeschenotiz(notizId);
+		Notiz n = new Notiz();
+		n.setId(notizId);
+		this.notizMapper.loeschen(n);
 	}
 	
 	/**
@@ -233,7 +237,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		notizbuch.setErstelldatum(erstelldatum);
 		
-		notizbuch.setModifikationsdatum(erstelldatum); // Modifkationsdatum = Erstelldatum in diesem Fall
+		notizbuch.setModifikationsdatum(modifikationsdatum);
 	
 		return this.notizbuchMapper.erstellen(notizbuch);
 		
@@ -246,7 +250,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	public void loescheNotizbuch(int notizbuchId)
 			throws IllegalArgumentException {
-		this.notizbuchMapper.loeschenotizbuch(notizbuchId);
+		Notizbuch nb = new Notizbuch();
+		nb.setId(notizbuchId);
+		this.notizbuchMapper.loeschen(nb);
 	}
 	
 	
@@ -257,7 +263,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @return Das angelegte Notizquelle-Objekt.
 	 * @throws IllegalArgumentException
 	 */
-
+//TODO
 	@Override
 	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException{
 		
@@ -274,6 +280,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param notizquelleId Die Notizquelle-ID der Notizquelle, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
+	//TODO
 	public void loescheNotizquelle(int notizquelleId)
 			throws IllegalArgumentException {
 		this.notizquelleMapper.loeschenotizquelle(notizquelleId);
@@ -290,13 +297,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 	
 	@Override
-	public Faelligkeit erstelleFaelligkeit(int faelligkeitId, Date datum) throws IllegalArgumentException{
+	public Faelligkeit erstelleFaelligkeit(int notizId, Date datum) throws IllegalArgumentException{
 		
 		Faelligkeit faelligkeit = new Faelligkeit();
-		
+		faelligkeit.setNotiz(notizId);
 		faelligkeit.setDatum(datum);
 		
-		return this.faelligkeitMapper.insertNotizquelle(faelligkeit, faelligkeitId);
+		return this.faelligkeitMapper.erstellen(faelligkeit);
 		
 	}
 	
@@ -305,9 +312,11 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param faelligkeitId Die Faelligkeit-ID der Faelligkeit, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheFaelligkeit(int faelligkeitId)
+	public void loescheFaelligkeit(int notizId)
 			throws IllegalArgumentException {
-		this.faelligkeitMapper.loescheFaelligkeit(faelligkeitId);
+		Faelligkeit f = new Faelligkeit();
+		f.setNotiz(notizId);
+		this.faelligkeitMapper.loeschen(f);
 	}
 	
 	
@@ -322,19 +331,19 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Freigabe erstelleFreigabe(Freigabe f) throws IllegalArgumentException{
+	public Freigabe erstelleNotizbuchFreigabe(int eintragungsid, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email, String freigegebenerNutzer) throws IllegalArgumentException{
 	
 		
-		Freigabe Freigabe = new NotizFreigabe();
+		Freigabe Freigabe = new Freigabe();
 		
-		NotizFreigabe.setLeseberechtigung(leseberechtigung);
+		Freigabe.setLeseberechtigung(leseberechtigung);
+		Freigabe.setFreigegebeneEintragung(eintragungsid);
+		Freigabe.setAenderungsberechtigung(aenderungsberechtigung);
+		Freigabe.setFreigebenderNutzer(email);
+		Freigabe.setLoeschberechtigung(loeschberechtigung);
+		Freigabe.setFreigegebenerNutzer(freigegebenerNutzer);
 		
-		NotizFreigabe.setAenderungsberechtigung(aenderungsberechtigung);
-		
-		NotizFreigabe.setLoeschberechtigung(loeschberechtigung);
-		
-		
-		return this.freigabeMapper.insertNotizFreigabe(NotizFreigabe, notizFreigabeId);
+		return this.freigabeMapper.erstellen(Freigabe);
 		
 	}
 	
@@ -344,9 +353,12 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param notizFreigabeId Die NotizFreigabe-ID der NotizFreigabe, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheNotizFreigabe(int notizFreigabeId)
+	public void loescheFreigabe(String nutzer, int eintragungId)
 			throws IllegalArgumentException {
-		this.freigabeMapper.loescheNotizFreigabe(notizFreigabeId);
+		Freigabe f = new Freigabe();
+		f.setFreigegebeneEintragung(eintragungId);
+		f.setFreigegebenerNutzer(nutzer);
+		this.freigabeMapper.loeschen(f);
 	}
 	
 	
@@ -362,18 +374,19 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 */
 	
 	@Override
-	public Freigabe erstelleNotizbuchFreigabe(int notizbuchFreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException{
+	public Freigabe erstelleNotizFreigabe(int eintragungsid, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung, String email, String freigegebenerNutzer) throws IllegalArgumentException{
+	
 		
-		NotizbuchFreigabe NotizbuchFreigabe = new NotizbuchFreigabe();
+		Freigabe Freigabe = new Freigabe();
 		
-		NotizbuchFreigabe.setLeseberechtigung(leseberechtigung);
+		Freigabe.setLeseberechtigung(leseberechtigung);
+		Freigabe.setFreigegebeneEintragung(eintragungsid);
+		Freigabe.setAenderungsberechtigung(aenderungsberechtigung);
+		Freigabe.setFreigebenderNutzer(email);
+		Freigabe.setLoeschberechtigung(loeschberechtigung);
+		Freigabe.setFreigegebenerNutzer(freigegebenerNutzer);
 		
-		NotizbuchFreigabe.setAenderungsberechtigung(aenderungsberechtigung);
-		
-		NotizbuchFreigabe.setLoeschberechtigung(loeschberechtigung);
-		
-		
-		return this.freigabeMapper.insertNotizbuchFreigabe(NotizbuchFreigabe, notizbuchFreigabeId);
+		return this.freigabeMapper.erstellen(Freigabe);
 		
 	}
 	
@@ -383,26 +396,33 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param notizbuchFreigabeId Die NotizbuchFreigabe-ID der NotizbuchFreigabe, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheNotizbuchFreigabe(int notizbuchFreigabeId)
-			throws IllegalArgumentException {
-		this.freigabeMapper.loescheNotizbuchFreigabe(notizbuchFreigabeId);
-	}
+//	public void loescheNotizbuchFreigabe(int notizbuchFreigabeId)
+//			throws IllegalArgumentException {
+//		this.freigabeMapper.loescheNotizbuchFreigabe(notizbuchFreigabeId);
+//	}
 	
 	
 	
 	
 	
 	@Override
-	public Notiz bearbeiteNotiz(Notiz notiz, Eintragung eintragung) throws IllegalArgumentException{
-		
-		return this.notizMapper.bearbeiten(notiz);
+	public Notiz bearbeiteNotiz(String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
+		Notiz n = new Notiz();
+		n.setTitel(titel);
+		n.setSubtitel(subtitel);
+		n.setInhalt(inhalt);
+		n.setModifikationsdatum(modifikationsdatum);
+		return this.notizMapper.bearbeiten(n);
 		
 	}
 	
 	@Override
-	public Notizbuch bearbeiteNotizbuch(Notizbuch notizbuch, Eintragung eintragung) throws IllegalArgumentException{
-		
-		return this.notizbuchMapper.bearbeiten(notizbuch);
+	//TODO
+	public Notizbuch bearbeiteNotizbuch(String titel, Date modifikationsdatum) throws IllegalArgumentException{
+		Notizbuch nb = new Notizbuch();
+		nb.setTitel(titel);
+		nb.setModifikationsdatum(modifikationsdatum);
+		return this.notizbuchMapper.bearbeiten(nb);
 				
 	}
 	
@@ -417,6 +437,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
+	//TODO
 	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
 		
 		return this.notizquelleMapper.bearbeiten(notizquelle);
@@ -424,25 +445,34 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Faelligkeit bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum) throws IllegalArgumentException {
-		
-		faelligkeit.setDatum(datum);
+	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId) throws IllegalArgumentException {
+		Faelligkeit f = new Faelligkeit();
+		f.setDatum(datum);
+		f.setNotiz(notizId);
 				
-		return this.faelligkeitMapper.bearbeiten(faelligkeit);
+		return this.faelligkeitMapper.bearbeiten(f);
 		
 	}
 	
 	@Override
-	public Freigabe bearbeiteNotizFreigabe(Freigabe notizFreigabe) throws IllegalArgumentException{
-		
-		return this.freigabeMapper.bearbeiten(notizFreigabe);
+	public Freigabe bearbeiteNotizFreigabe(boolean lb, boolean ab, boolean lob, String nutzer) throws IllegalArgumentException{
+		Freigabe f = new Freigabe();
+		f.setLeseberechtigung(lb);
+		f.setAenderungsberechtigung(ab);
+		f.setLoeschberechtigung(lob);
+		f.setFreigegebenerNutzer(nutzer);
+		return this.freigabeMapper.bearbeiten(f);
 		
 	}
 	
 	@Override
-	public Freigabe bearbeiteNotizbuchFreigabe(Freigabe notizbuchFreigabe) throws IllegalArgumentException{
-		
-		return this.freigabeMapper.bearbeiten(notizbuchFreigabe);
+	public Freigabe bearbeiteNotizbuchFreigabe(boolean lb, boolean ab, boolean lob, String nutzer) throws IllegalArgumentException{
+		Freigabe f = new Freigabe();
+		f.setLeseberechtigung(lb);
+		f.setAenderungsberechtigung(ab);
+		f.setLoeschberechtigung(lob);
+		f.setFreigegebenerNutzer(nutzer);
+		return this.freigabeMapper.bearbeiten(f);
 	}
 	
 	
@@ -453,34 +483,40 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	
 	@Override
-	public Notiz zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz) throws IllegalArgumentException{
-		
-		notizbuch.setEnthalteneNotiz(notiz);
-		
-		return this.notizMapper.zuweisen(notizbuch);
+	public void zuweisungNotiz(int notizbuch, int notiz) throws IllegalArgumentException{
+		Notizbuch nb = new Notizbuch();
+		Notiz n = new Notiz();
+		nb.setEintragungId(notizbuch);
+		n.setEintragungId(notiz);
+		this.notizMapper.zuweisen(nb, n);
 	}
 	
 	public Nutzer getNutzerByEMail(String email) throws IllegalArgumentException{
-		
-		return this.nutzerMapper.getNutzerByEmail(email);
+		Nutzer n = new Nutzer();
+		n.setEmail(email);
+		return this.nutzerMapper.getNutzerByEmail(n);
 		
 	}
 	
 	public Vector<Nutzer> getNutzerByName(String name, String vorname) throws IllegalArgumentException{
-		
-		return this.nutzerMapper.getNutzerByName(name, vorname);
+		Nutzer n = new Nutzer();
+		n.setName(name);
+		n.setVorname(vorname);
+		return this.nutzerMapper.getNutzerByName(n);
 		
 	}
 	
 	public Vector<Notiz> getNotizByTitel(String titel) throws IllegalArgumentException{
-		
-		return this.notizMapper.getNotizByTitel(titel);
+		Notiz n = new Notiz();
+		n.setTitel(titel);
+		return this.notizMapper.getNotizByTitel(n);
 		
 	}
 	
 	public Vector<Notizbuch> getNotizbuchByTitel(String titel) throws IllegalArgumentException{
-		
-		return this.notizbuchMapper.getNotizBuchByTitel(titel);
+		Notizbuch n = new Notizbuch();
+		n.setTitel(titel);
+		return this.notizbuchMapper.getNotizBuchByTitel(n);
 		
 	}
 	
@@ -592,31 +628,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return this.notizMapper.getNotizByModifikationsdatum(modifikationsdatum);
 	}
 
-
-	@Override
-	public void speicherNutzer(int NutzerId, String vorname, String name)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void loescheNotiz(Notiz notiz, Eintragung eintragung, int notizid)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung,
-			int notizbuchid) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	
 
 	@Override
@@ -634,14 +645,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 
-
-	@Override
-	public void loescheFreigabe(Freigabe freigabe, int freigabeId)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public Notiz getNotizByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
@@ -649,12 +652,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
-	@Override
-	public Freigabe erstelleNotizFreigabe(int notizfreigabeId,
-			boolean leseberechtigung, boolean aenderungsberechtigung,
-			boolean loeschberechtigung) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 }

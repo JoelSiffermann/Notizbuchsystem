@@ -88,7 +88,7 @@ public class NotizbuchMapper {
 
 	
 
-public Vector<Notizbuch> getNotizBuchByTitel(String titel) {
+public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 		
 		Connection con = DBConnection.getConnection();
 		Vector<Notizbuch> result = new Vector<Notizbuch>();
@@ -96,17 +96,17 @@ public Vector<Notizbuch> getNotizBuchByTitel(String titel) {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Notizbuch WHERE titel LIKE '%" + titel + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Notizbuch WHERE titel LIKE '%" + n.getTitel() + "%' ");
 			
 			while(rs.next()){
-				Notizbuch n = new Notizbuch();
-				n.setId(rs.getInt("Eintragungs-ID"));
-		        n.setEigentuemer(rs.getString("Eigentuemer"));
-		        n.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-		        n.setErstelldatum(rs.getDate("Erstelldatum"));
-		        n.setTitel(rs.getString("Titel"));
+				Notizbuch nb = new Notizbuch();
+				nb.setId(rs.getInt("Eintragungs-ID"));
+		        nb.setEigentuemer(rs.getString("Eigentuemer"));
+		        nb.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        nb.setErstelldatum(rs.getDate("Erstelldatum"));
+		        nb.setTitel(rs.getString("Titel"));
 		        
-		        result.addElement(n);
+		        result.addElement(nb);
 				}
 			} catch (SQLException e1){
 				e1.printStackTrace();
@@ -116,17 +116,7 @@ public Vector<Notizbuch> getNotizBuchByTitel(String titel) {
 		
 		}
 
-	public Notizbuch insertNotizbuch(Notizbuch notizbuch, int notizbuchId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
-
-	public void loeschenotizbuch(int notizbuchId) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

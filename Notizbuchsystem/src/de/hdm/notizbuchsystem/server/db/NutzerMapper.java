@@ -50,9 +50,9 @@ public Nutzer bearbeiten(Nutzer nutzer) {
       Statement stmt = con.createStatement();
 
 
-      stmt.executeUpdate("UPDATE Nutzer " + "SET Name=\"'"
-          + nutzer.getName() + "'\", " + "Vorname=\"'" +nutzer.getVorname() + "'\" "
-          + "WHERE Email='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("UPDATE nutzer " + "SET Name=\""
+          + nutzer.getName() + "\", " + "Vorname=\"" +nutzer.getVorname() + "\" "
+          + "WHERE `Email`='" + nutzer.getEmail() + "'");
 
 
     }
@@ -70,7 +70,12 @@ public void loeschen(Nutzer nutzer) {
     try {
       Statement stmt = con.createStatement();
 
-      stmt.executeUpdate("DELETE FROM Nutzer " + "WHERE Email='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE `FreigebenderNutzer`='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE faelligkeit FROM notizbuchdb.faelligkeit faelligkeit JOIN eintragung ON faelligkeit.`Eintragung` = eintragung.`Eintragung-ID` WHERE eintragung.Eigentuemer ='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE notiz FROM notizbuchdb.notiz notiz JOIN eintragung ON notiz.`ID` = eintragung.`Eintragung-ID` WHERE eintragung.Eigentuemer ='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE notizbuch FROM notizbuchdb.notizbuch notizbuch JOIN eintragung ON notizbuch.`ID` = eintragung.`Eintragung-ID` WHERE eintragung.Eigentuemer ='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE FROM eintragung " + "WHERE `Eigentuemer`='" + nutzer.getEmail() + "'");
+      stmt.executeUpdate("DELETE FROM nutzer WHERE Email='" + nutzer.getEmail() + "'");
     }
     catch (SQLException e) {
       e.printStackTrace();
@@ -115,7 +120,7 @@ public Nutzer getNutzerByID(int ID) {
   }
 
 
-public Vector<Nutzer> getNutzerByName(String name, String vorname) {
+public Vector<Nutzer> getNutzerByName(Nutzer n) {
     
     Connection con = DBConnection.getConnection();
     Vector<Nutzer> result = new Vector<Nutzer>();
@@ -126,14 +131,14 @@ public Vector<Nutzer> getNutzerByName(String name, String vorname) {
 
       
       ResultSet rs = stmt
-          .executeQuery("SELECT * FROM Nutzer WHERE name LIKE '%" + name + "%' ");
+          .executeQuery("SELECT * FROM Nutzer WHERE name LIKE '%" + n.getName() + "%' ");
 
       while(rs.next()){
-    	  Nutzer n = new Nutzer();
-    	  n.setEmail(rs.getString("Email"));
-    	  n.setName(rs.getString("name"));
-    	  n.setVorname(rs.getString("vorname"));
-    	  result.add(n);
+    	  Nutzer n1 = new Nutzer();
+    	  n1.setEmail(rs.getString("Email"));
+    	  n1.setName(rs.getString("name"));
+    	  n1.setVorname(rs.getString("vorname"));
+    	  result.add(n1);
       }
       
     }
@@ -144,10 +149,10 @@ public Vector<Nutzer> getNutzerByName(String name, String vorname) {
 	return result;
 }
 
-public Nutzer getNutzerByEmail(String Email) {
+public Nutzer getNutzerByEmail(Nutzer n) {
     
     Connection con = DBConnection.getConnection();
-    Nutzer n = new Nutzer();
+    
     try {
     	
       Statement stmt = con.createStatement();
@@ -155,7 +160,7 @@ public Nutzer getNutzerByEmail(String Email) {
       
       ResultSet rs = stmt
 
-          .executeQuery("SELECT * FROM Notiz WHERE Email LIKE '%" + Email + "%' ");
+          .executeQuery("SELECT * FROM Notiz WHERE Email LIKE '%" + n.getEmail() + "%' ");
 
 
     if(rs.next()) {  

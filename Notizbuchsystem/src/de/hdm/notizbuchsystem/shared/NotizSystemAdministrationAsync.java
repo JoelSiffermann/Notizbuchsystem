@@ -36,18 +36,10 @@ public interface NotizSystemAdministrationAsync {
 	void erstelleFaelligkeit(int faelligkeitId, Date datum,
 			AsyncCallback<Faelligkeit> callback);
 	
-	void erstelleNotizFreigabe(int notizfreigabeId, boolean leseberechtigung,
-			boolean aenderungsberechtigung, boolean loeschberechtigung,
-			AsyncCallback<Freigabe> callback);
-	
-	void erstelleNotizbuchFreigabe(int notizbuchFreigabeId,
-			boolean leseberechtigung, boolean aenderungsberechtigung,
-			boolean loeschberechtigung, AsyncCallback<Freigabe> callback);
-	
-	void loescheNotiz(Notiz notiz, Eintragung eintragung, int notizid,
+	void loescheNotiz(int notizid,
 			AsyncCallback<Void> callback);
 	
-	void loescheNotizbuch(Notizbuch notizbuch, Eintragung eintragung,
+	void loescheNotizbuch(
 			int notizbuchid, AsyncCallback<Void> callback);
 	
 	void loescheNutzer(String email, AsyncCallback<Void> callback);
@@ -58,26 +50,26 @@ public interface NotizSystemAdministrationAsync {
 	void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid,
 			AsyncCallback<Void> callback);
 	
-	void loescheFreigabe(Freigabe freigabe, int freigabeId,
+	void loescheFreigabe(String nutzer, int eintragungId,
 			AsyncCallback<Void> callback);	
 	
-	void bearbeiteNotiz(Notiz notiz, Eintragung eintragung, AsyncCallback<Notiz> callback);
+	void bearbeiteNotiz(String titel, String subtitel, String inhalt, Date modifikationsdatum, AsyncCallback<Notiz> callback);
 	
-	void bearbeiteNotizbuch(Notizbuch notizbuch, Eintragung eintragung, AsyncCallback<Notizbuch> callback);
+	void bearbeiteNotizbuch(String titel, Date modifikationsdatum, AsyncCallback<Notizbuch> callback);
 	
 	void bearbeiteNotizquelle(Notizquelle notizquelle, AsyncCallback<Notizquelle> callback);
 	
-	void bearbeiteFaelligkeit(Faelligkeit faelligkeit, Date datum,
+	void bearbeiteFaelligkeit(Date datum, int notizId,
 			AsyncCallback<Faelligkeit> callback);
 	
 	void bearbeiteNutzer(String email, String name, String vorname, AsyncCallback<Nutzer> callback);
 	
-	void bearbeiteNotizFreigabe(Freigabe notizfreigabe, AsyncCallback<Freigabe> callback);
+	void bearbeiteNotizFreigabe(boolean lb, boolean ab, boolean lob, String nutzer, AsyncCallback<Freigabe> callback);
 
-	void bearbeiteNotizbuchFreigabe(Freigabe notizbuchfreigabe, AsyncCallback<Freigabe> callback);
+	void bearbeiteNotizbuchFreigabe(boolean lb, boolean ab, boolean lob, String nutzer, AsyncCallback<Freigabe> callback);
 
-	void zuweisungNotiz(Notizbuch notizbuch, Vector<Notiz> notiz,
-			AsyncCallback<Notiz> callback);
+	void zuweisungNotiz(int notizbuch, int notiz,
+			AsyncCallback<Void> callback);
 	
 	void getNotizByFaelligkeit(Date fdatum, AsyncCallback<Vector<Notiz>> callback);
 	
@@ -107,10 +99,6 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNotizByNotizbuch(String titel, AsyncCallback<Vector<Notiz>> callback);
 	
-	
-	void speicherNutzer(int notizId, String vorname, String Name, AsyncCallback<Void> callback);
-
-	void getNutzerById(int nutzerId, AsyncCallback<Nutzer> asyncCallback);
 
 	void getNotizenByNutzer(Nutzer nutzer, AsyncCallback<Vector<Notiz>> callback);
 
@@ -121,6 +109,15 @@ public interface NotizSystemAdministrationAsync {
 
 	void getNotizByNutzerUndFreigabe(Nutzer n, Freigabe f,
 			AsyncCallback<Map<Vector<Notiz>, Vector<Freigabe>>> callback);
+
+	void erstelleNotizbuchFreigabe(int eintragungsid, boolean leseberechtigung,
+			boolean aenderungsberechtigung, boolean loeschberechtigung,
+			String email, String freigegebenerNutzer,
+			AsyncCallback<Freigabe> callback);
+	void erstelleNotizFreigabe(int eintragungsid, boolean leseberechtigung,
+			boolean aenderungsberechtigung, boolean loeschberechtigung,
+			String email, String freigegebenerNutzer,
+			AsyncCallback<Freigabe> callback);
 
 	
 

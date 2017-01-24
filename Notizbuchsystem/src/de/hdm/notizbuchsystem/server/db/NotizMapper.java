@@ -41,9 +41,9 @@ public class NotizMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`) " + "VALUES ('"
-		            + n.getId() + "','" + n.getEigentuemer() + "','" + getSqlDateFormat(n.getModifikationsdatum()) + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "','" + n.getSubtitel() + "' )");
-				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`) VALUES ('" + n.getId() + "','" + n.getInhalt() + "')");
+				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`) " + "VALUES ('"
+		            + n.getId() + "','" + n.getEigentuemer() + "','" + getSqlDateFormat(n.getModifikationsdatum()) + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "' )");
+				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`, Subtitel) VALUES ('" + n.getId() + "','" + n.getInhalt() + "','" + n.getSubtitel() + "')");
 			}
 		}
 		
@@ -68,9 +68,9 @@ public class NotizMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Notiz" + "SET Titel=\""
+			stmt.executeUpdate("UPDATE eintragung, notiz" + "SET Titel=\""
           + n.getTitel() + "\", " + "Modifikationsdatum=\"" +n.getModifikationsdatum()+ "\", " + "Subtitel=\"" + n.getSubtitel()+ "\", " + "SET Inhalt=\"" + n.getInhalt()
-          + "WHERE id=" + n.getId());
+          + "WHERE `Eintragung-ID`='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -166,7 +166,7 @@ public Vector<Notiz> getNotizen() {
 		  }
 	
 
-	public Vector<Notiz> getNotizByTitel(String titel) {
+	public Vector<Notiz> getNotizByTitel(Notiz n) {
 		
 		Connection con = DBConnection.getConnection();
 		Vector<Notiz> result = new Vector<Notiz>();
@@ -174,19 +174,19 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Eintragung INNERJOIN Notiz ON `Eintragung-ID` = ID WHERE titel LIKE '%" + titel + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Eintragung INNERJOIN Notiz ON `Eintragung-ID` = ID WHERE titel LIKE '%" + n.getTitel() + "%' ");
 			
 			while(rs.next()){
-				Notiz n = new Notiz();
-				n.setId(rs.getInt("Eintragungs-ID"));
-		        n.setEigentuemer(rs.getString("Eigentuemer"));
-		        n.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-		        n.setErstelldatum(rs.getDate("Erstelldatum"));
-		        n.setTitel(rs.getString("Titel"));
-		        n.setSubtitel(rs.getString("Subtitel"));
-		        n.setInhalt(rs.getString("Inhalt"));
+				Notiz n1 = new Notiz();
+				n1.setId(rs.getInt("Eintragungs-ID"));
+		        n1.setEigentuemer(rs.getString("Eigentuemer"));
+		        n1.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        n1.setErstelldatum(rs.getDate("Erstelldatum"));
+		        n1.setTitel(rs.getString("Titel"));
+		        n1.setSubtitel(rs.getString("Subtitel"));
+		        n1.setInhalt(rs.getString("Inhalt"));
 		        
-		        result.addElement(n);
+		        result.addElement(n1);
 				}
 			} catch (SQLException e1){
 				e1.printStackTrace();
@@ -233,9 +233,20 @@ public Vector<Notiz> getNotizen() {
 		  }
 	
 
-	public Notiz zuweisen(Notizbuch notizbuch) {
-		// TODO Auto-generated method stub
-		return null;
+	public void zuweisen(Notizbuch notizbuch, Notiz notiz) {
+		Connection con = DBConnection.getConnection();
+		
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeQuery("INSERT INTO notiz (notizbuch) VALUES ('" + notizbuch.getEintragungId() + "') WHERE notiz.`ID`='" + notiz.getEintragungId() + "'");
+			
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) {
@@ -425,17 +436,6 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		return null;
 	}
 
-	public Notiz insertNotiz(Notiz notiz, int notizId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
-	public void loeschenotiz(int notizId) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }

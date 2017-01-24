@@ -59,7 +59,7 @@ public class BearbeiteNutzer extends Showcase {
 		 * @param profiltyp Der Profiltyp (Nutzer). 
 		 */
 
-		public BearbeiteNutzer(final String email) {
+		public BearbeiteNutzer(String email) {
 
 			this.email = email;
 			run(); 

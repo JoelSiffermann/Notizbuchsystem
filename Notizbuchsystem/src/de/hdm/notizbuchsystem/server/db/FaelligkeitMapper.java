@@ -88,7 +88,10 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 			Statement stmt = con.createStatement();
 			//TODO
 			stmt.executeQuery("SELECT Datum FROM Faelligkeit INNER JOIN Notiz ON Faelligkeit-ID = Notiz");
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public Vector<Faelligkeit> getFaelligkeitByDatum(Date datum) {
@@ -96,14 +99,5 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		return null;
 	}
 
-	public Faelligkeit insertNotizquelle(Faelligkeit faelligkeit,
-			int faelligkeitId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void loescheFaelligkeit(int faelligkeitId) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
