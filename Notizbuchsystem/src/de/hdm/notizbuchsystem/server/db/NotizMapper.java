@@ -102,15 +102,16 @@ public class NotizMapper {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `notiz.Inhalt`"
-		    		  + "FROM eintragung INNERJOIN notiz ON `Eintragung-ID` = `ID` WHERE Eigentuemer =" + email
-		          + " ORDER BY `Eintragung-ID`");
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, notiz.`Inhalt`"
+		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE Eigentuemer ='" + email
+		          + "' ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
 		      while (rs.next()) {
+		    	  
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("`Eintragungs-ID`"));
-		        e.setEigentuemer(rs.getString("`Eigentuemer`"));
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
 		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        e.setErstelldatum(rs.getDate("Erstelldatum"));
 		        e.setTitel(rs.getString("Titel"));
@@ -139,13 +140,13 @@ public Vector<Notiz> getNotizen() {
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
-		          + " ORDER BY Eintragung-ID");
+		    		  + "Eigentuemer FROM eintragung INNER JOIN notizbuchdb.notiz ON Eintragung-ID = Notiz-ID"
+		          + " ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("Eintragungs-ID"));
+		        e.setId(rs.getInt("Eintragung-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
 		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        e.setErstelldatum(rs.getDate("Erstelldatum"));

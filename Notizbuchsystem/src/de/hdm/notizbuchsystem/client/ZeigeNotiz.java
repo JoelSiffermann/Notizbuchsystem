@@ -63,11 +63,12 @@ public class ZeigeNotiz extends Showcase {
 		Nuebersicht.getColumnFormatter().addStyleName(0,
 				"TableHeader");
 		
-		Nuebersicht.setText(0, 1, "Titel");
-		Nuebersicht.setText(0, 2, "Subtitel");
-		Nuebersicht.setText(0, 3, "Inhalt");
-		Nuebersicht.setText(0, 4, "Fälligkeit");
-		Nuebersicht.setText(0, 5, "Anzeigen");
+		Nuebersicht.setText(0, 0, "Titel");
+		Nuebersicht.setText(0, 1, "Subtitel");
+		Nuebersicht.setText(0, 2, "Eigentuemer");
+		Nuebersicht.setText(0, 3, "Faelligkeitsdatum");
+		Nuebersicht.setText(0, 4, "Anzeigen");
+		Nuebersicht.getRowFormatter().addStyleName(0, "TabelHeader");
 		
 	//	bearbeiteNotizButton.addClickHandler(new ClickHandler() {
 	//	      @Override

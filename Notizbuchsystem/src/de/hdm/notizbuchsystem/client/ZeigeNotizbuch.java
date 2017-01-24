@@ -1,7 +1,10 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,19 +12,28 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.notizbuchsystem.shared.bo.Notiz;
+import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
+
 public class ZeigeNotizbuch extends Showcase {
 
 	@Override
 	protected String getHeadlineText() {
 		// TODO Auto-generated method stub
 		return "Meine Notizbuecher:";
+		
+
 	}
+
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+	
 	private VerticalPanel verPanel = new VerticalPanel();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
 	
 	private FlexTable NBuebersicht = new FlexTable();
 	private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizbuecher");
 	private Button abbrechenButton = new Button("Abbrechen");
+	private Button anzeigenButton;
 	  
 
 	@Override
@@ -52,10 +64,10 @@ public class ZeigeNotizbuch extends Showcase {
 		NBuebersicht.getColumnFormatter().addStyleName(0,
 				"TableHeader");
 		
-		NBuebersicht.setText(0, 1, "Titel");
-		NBuebersicht.setText(0, 2, "Subtitel");
-		NBuebersicht.setText(0, 3, "Anzahl der Notizen");
-		NBuebersicht.setText(0, 4, "Anzeigen");
+		NBuebersicht.setText(0, 0, "Titel");
+		NBuebersicht.setText(0, 1, "Eigentuemer");
+		NBuebersicht.setText(0, 2, "Anzeigen");
+		
 		
 				
 		abbrechenButton.addClickHandler(new ClickHandler() {
@@ -70,12 +82,43 @@ public class ZeigeNotizbuch extends Showcase {
 		      }
 		    });
 		
+		
+		befuelleTabelle();
+		
 	}
 	
 	
-	public void NBauflisten(){
-	//
-	}
+	public void befuelleTabelle(){
+		ClientsideSettings.getNotizSystemAdministration().getNotizbuecherByNutzer(email, 
+				new AsyncCallback<Vector<Notizbuch>>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Notizbuch> result) {
+						// TODO Auto-generated method stub
+						
+						int reihe = 0;
+						
+						for(Notizbuch n : result) {
+							
+							final int eintragungid = n.getId();
+							
+							reihe++;
+							
+							NBuebersicht.setText(reihe, 0, n.getTitel());
+							NBuebersicht.setText(reihe, 1, n.getEigentuemer());	
+							NBuebersicht.setText(reihe, 2, n.getErstelldatum().toString());
+							
+							anzeigenButton = new Button("Anzeigen");
+							
+							NBuebersicht.setWidget(reihe, 3, anzeigenButton);
+							
+						}}});}
 	
 
 }

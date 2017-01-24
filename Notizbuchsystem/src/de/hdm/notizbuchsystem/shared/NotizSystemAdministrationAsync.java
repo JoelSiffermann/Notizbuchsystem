@@ -113,6 +113,8 @@ public interface NotizSystemAdministrationAsync {
 	void getNutzerById(int nutzerId, AsyncCallback<Nutzer> asyncCallback);
 
 	void getNotizenByNutzer(String email, AsyncCallback<Vector<Notiz>> callback);
+	
+	void getNotizbuecherByNutzer(String email, AsyncCallback<Vector<Notizbuch>> callback);
 
 	void getNotizen(AsyncCallback<Vector<Notiz>> callback);
 

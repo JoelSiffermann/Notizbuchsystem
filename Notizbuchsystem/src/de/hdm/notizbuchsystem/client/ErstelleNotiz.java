@@ -217,6 +217,10 @@ admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTex
 		public void onSuccess(Notiz result) {
 			// TODO Auto-generated method stub
 			warnLabel.setText("Erfolgreich");
+			if(faelligkeitDateBox.getValue() != null){
+//				admin.erstelleFaelligkeit(result.getEintragungId();
+			}
+			
 		}
 	};
 		 return asynCallback;

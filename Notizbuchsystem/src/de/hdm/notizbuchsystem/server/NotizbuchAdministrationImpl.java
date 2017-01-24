@@ -290,13 +290,15 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 	
 	@Override
-	public Faelligkeit erstelleFaelligkeit(int faelligkeitId, Date datum) throws IllegalArgumentException{
+	public Faelligkeit erstelleFaelligkeit(int EintragungID, Date datum) throws IllegalArgumentException{
 		
 		Faelligkeit faelligkeit = new Faelligkeit();
 		
 		faelligkeit.setDatum(datum);
 		
-		return this.faelligkeitMapper.insertNotizquelle(faelligkeit, faelligkeitId);
+		faelligkeit.setId(EintragungID);
+		
+		return this.faelligkeitMapper.erstellen(faelligkeit);
 		
 	}
 	
@@ -561,6 +563,14 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	public Vector<Notiz> getNotizen() {
 		return this.notizMapper.getNotizen();
 	}
+	
+	public Vector<Notizbuch> getNotizbuecherByNutzer(String Email)
+			throws IllegalArgumentException {
+		
+		return this.notizbuchMapper.getNotizbuecherByNutzer(Email);
+		
+	}
+	
 
 
 	@Override

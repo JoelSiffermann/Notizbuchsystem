@@ -67,7 +67,10 @@ h1 {
   margin-bottom: 5px;
   overflow: scroll;
 }
-
+.TableHeader {
+  background-color: #7c9ef8;
+  color: black;
+  
  div#Navigator {
 
 	 max-height: 100%; 

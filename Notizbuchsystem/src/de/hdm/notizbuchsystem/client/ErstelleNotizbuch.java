@@ -167,9 +167,7 @@ public class ErstelleNotizbuch extends Showcase {
 	  if (titelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
 		  notizbuchFlexTable.setWidget(0, 3, warnLabel);
-//	  } else if(subtitelTextBox.getText().length() == 0) {
-//		  warnLabel.setText("Bitte geben Sie einen Subtitel an!");
-//		  notizbuchFlexTable.setWidget(1, 3, warnLabel);
+
 	  }	else {
 		  notizbuchAnlegen();
 		  
@@ -218,11 +216,6 @@ admin.erstelleNotizbuch(titelTextBox.getText(), email, aktuellesDatum(), aktuell
 		return DateTimeFormat.getFormat("yyyyMMdd").parse(
 				DateTimeFormat.getFormat("yyyyMMdd").format(date));
 	}
- 
-// private static Date zeroTime(final Date date) {
-//		return DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").parse(
-//				DateTimeFormat.getFormat("yyyyMMdd hh:mm:ss aa").format(date)); 
-//  	}
 }
   
   

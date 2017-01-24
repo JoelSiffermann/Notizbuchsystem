@@ -50,7 +50,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException;
 	
-	public Faelligkeit erstelleFaelligkeit(int faelligkeitId, Date datum) throws IllegalArgumentException;
+	public Faelligkeit erstelleFaelligkeit(int EintragungID, Date datum) throws IllegalArgumentException;
 	
 	public Freigabe erstelleNotizFreigabe(int notizfreigabeId, boolean leseberechtigung, boolean aenderungsberechtigung, boolean loeschberechtigung) throws IllegalArgumentException;
 	
@@ -114,6 +114,10 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Vector<Notiz> getNotizenByNutzer(String email)
 			throws IllegalArgumentException;
+	
+	Vector<Notizbuch> getNotizbuecherByNutzer(String email)
+			throws IllegalArgumentException;
+	
 	
 	Vector<Notiz> getNotizen() throws IllegalArgumentException;
 	
