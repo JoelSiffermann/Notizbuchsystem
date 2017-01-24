@@ -55,11 +55,11 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE nutzerfreigabe " + "SET FreigegebeneEintragung=\"" + f.getFreigegebeneEintragung()
+			stmt.executeUpdate("UPDATE nutzerfreigabe SET FreigegebeneEintragung=\"" + f.getFreigegebeneEintragung()
 					+ "\", " + "Loeschberechtigung=\"" + f.getLoeschberechtigung() + "\", " + 
 					"Aenderungsberechtigung=\"" + f.getAenderungsberechtigung() + "\", " +
 					"Leseberechtigung=\"" + f.getLeseberechtigung() + "\", " + 
-					"FreigegebenerNutzer=\"" + f.getFreigegebenerNutzer() + "\" " +"WHERE FreigabeID=" + f.getId());
+					"FreigegebenerNutzer=\"" + f.getFreigegebenerNutzer() + "\" " +"WHERE FreigabeID=" + f.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -75,7 +75,7 @@ private static FreigabeMapper freigabeMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE FreigegebeneEintragung='" + f.getFreigegebeneEintragung() + "' OR FreigegebenerNutzer='" + f.getFreigegebenerNutzer() + "'");
+			stmt.executeUpdate("DELETE FROM nutzerfreigabe WHERE FreigegebeneEintragung='" + f.getFreigegebeneEintragung() + "' OR FreigegebenerNutzer='" + f.getFreigegebenerNutzer() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
