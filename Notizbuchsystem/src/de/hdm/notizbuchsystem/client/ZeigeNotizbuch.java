@@ -34,6 +34,7 @@ public class ZeigeNotizbuch extends Showcase {
 	private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizbuecher");
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Button anzeigenButton;
+	private Button zeigeNotizenButton;
 	  
 
 	@Override
@@ -61,12 +62,20 @@ public class ZeigeNotizbuch extends Showcase {
 		pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
 		NBuebersicht.addStyleName("FlexTable");
 		NBuebersicht.setCellPadding(6);
-		NBuebersicht.getColumnFormatter().addStyleName(0,
-				"TableHeader");
+		
+		NBuebersicht.getCellFormatter().addStyleName(0, 0, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 1, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 2, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 3, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 4, "TableHeader");
 		
 		NBuebersicht.setText(0, 0, "Titel");
 		NBuebersicht.setText(0, 1, "Eigentuemer");
-		NBuebersicht.setText(0, 2, "Anzeigen");
+		NBuebersicht.setText(0, 2, "Erstelldatum");
+		NBuebersicht.setText(0, 3, "Anzeigen");
+		NBuebersicht.setText(0, 4, "Notizen Anzeigen");
+		
+		
 		
 		
 				
@@ -81,6 +90,8 @@ public class ZeigeNotizbuch extends Showcase {
 
 		      }
 		    });
+		
+		
 		
 		
 		befuelleTabelle();
@@ -117,6 +128,25 @@ public class ZeigeNotizbuch extends Showcase {
 							anzeigenButton = new Button("Anzeigen");
 							
 							NBuebersicht.setWidget(reihe, 3, anzeigenButton);
+							
+							anzeigenButton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(showcase);
+								}});
+							
+							zeigeNotizenButton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(showcase);
+								}});
+							
 							
 						}}});}
 	

@@ -36,8 +36,8 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 		private TextBox inhaltAnzeige = new TextBox();
 		
 		private DateBox faelligkeitdatebox = new DateBox();
-		private Label modidatumlabel = new Label();
-		private Label erstelldatumlabel = new Label();
+		private DateBox modidatumDateBox = new DateBox();
+		private DateBox erstelldatumDateBox = new DateBox();
 		
 		private Button bearbeitebutton = new Button("Bearbeiten");
 		
@@ -62,8 +62,8 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 		anzeigeFlexTable.setWidget(0, 1, titelAnzeige);
 		anzeigeFlexTable.setWidget(1, 1, subtitelAnzeige);
 		anzeigeFlexTable.setWidget(2, 1, inhaltAnzeige);
-		anzeigeFlexTable.setWidget(3, 1, erstelldatumlabel);
-		anzeigeFlexTable.setWidget(4, 1, modidatumlabel);
+		anzeigeFlexTable.setWidget(3, 1, erstelldatumDateBox);
+		anzeigeFlexTable.setWidget(4, 1, modidatumDateBox);
 		anzeigeFlexTable.setWidget(5, 1, faelligkeitdatebox);
 		
 		verPanel.add(anzeigeFlexTable);
@@ -102,14 +102,23 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 				titelAnzeige.setText(result.getTitel());
 				subtitelAnzeige.setText(result.getSubtitel());
 				inhaltAnzeige.setText(result.getInhalt());
-				erstelldatumlabel.setText(result.getErstelldatum().toString());
-				modidatumlabel.setText(result.getModifikationsdatum().toString());
+				erstelldatumDateBox.setValue(result.getErstelldatum());
+				modidatumDateBox.setValue(result.getModifikationsdatum());
 				faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
 				faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
+				
+				erstelldatumDateBox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+				erstelldatumDateBox.getDatePicker().setYearAndMonthDropdownVisible(true);
+				
+				modidatumDateBox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+				modidatumDateBox.getDatePicker().setYearAndMonthDropdownVisible(true);
 				
 				titelAnzeige.setEnabled(false);
 				subtitelAnzeige.setEnabled(false);
 				inhaltAnzeige.setEnabled(false);
+				erstelldatumDateBox.setEnabled(false);
+				modidatumDateBox.setEnabled(false);
+				faelligkeitdatebox.setEnabled(false);
 				
 				
 				
