@@ -68,6 +68,9 @@ public class BearbeiteNotiz extends Showcase {
 			anzeigeFlexTable.setWidget(4, 1, modidatebox);
 			anzeigeFlexTable.setWidget(5, 1, faelligkeitdatebox);
 			
+			erstelldatumdatebox.setEnabled(false);
+			modidatebox.setEnabled(false);
+			
 			verPanel.add(anzeigeFlexTable);
 			verPanel.add(speichernButton);
 			
@@ -80,7 +83,7 @@ public class BearbeiteNotiz extends Showcase {
 			      @Override
 				public void onClick(ClickEvent event) {
 			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(titelAnzeige.getText(),
-			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), new AsyncCallback<Notiz>()
+			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), faelligkeitdatebox.getValue(), new AsyncCallback<Notiz>()
 			        		{
 
 								@Override
