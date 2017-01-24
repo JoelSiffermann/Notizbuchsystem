@@ -11,7 +11,9 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.hdm.notizbuchsystem.shared.bo.Notiz;
 
@@ -24,29 +26,27 @@ public class ZeigeNotiz extends Showcase {
 	}
 
 	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
-	private VerticalPanel verPanel = new VerticalPanel();
+	private HorizontalPanel verPanel = new HorizontalPanel();
 	private HorizontalPanel buttonPanel = new HorizontalPanel();
+	private VerticalPanel anzeigePanel = new VerticalPanel();
+	
 	
 	
 	private FlexTable Nuebersicht = new FlexTable();
 	private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizen");
 	final private Button abbrechenButton = new Button("Abbrechen");
-	final Button notizNotizbuchZuweisenButton = new Button("Notizbuch Zuweisen");
 	private Button anzeigenbutton;
 	@Override
 	protected void run() {
 
 		verPanel.add(Nuebersicht);
 		buttonPanel.add(abbrechenButton);
-		buttonPanel.add(notizNotizbuchZuweisenButton);
 		buttonPanel.add(pfadLabelNA);
 		
 		
 		RootPanel.get("Details").add(verPanel);
 		RootPanel.get("Details").add(buttonPanel);
 		
-		
-
 		
 		pfadLabelNA.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -57,37 +57,27 @@ public class ZeigeNotiz extends Showcase {
 
 		});
 		
+		
+		
+		
 		pfadLabelNA.addStyleName("notizbuchsystem-zurueckbutton");
 		Nuebersicht.addStyleName("FlexTable");
 		Nuebersicht.setCellPadding(6);
-		Nuebersicht.getColumnFormatter().addStyleName(0,
-				"TableHeader");
+		Nuebersicht.getCellFormatter().addStyleName(0, 0, "TableHeader");
+		Nuebersicht.getCellFormatter().setStyleName(0, 1, "TableHeader");
+		Nuebersicht.getCellFormatter().setStyleName(0, 2, "TableHeader");
+		Nuebersicht.getCellFormatter().setStyleName(0, 3, "TableHeader");
+		Nuebersicht.getCellFormatter().setStyleName(0, 4, "Tableheader");
 		
 		Nuebersicht.setText(0, 0, "Titel");
 		Nuebersicht.setText(0, 1, "Subtitel");
 		Nuebersicht.setText(0, 2, "Eigentuemer");
 		Nuebersicht.setText(0, 3, "Faelligkeitsdatum");
-		Nuebersicht.setText(0, 4, "Anzeigen");
-		Nuebersicht.getRowFormatter().addStyleName(0, "TabelHeader");
+		Nuebersicht.setText(0, 4, "");
 		
-	//	bearbeiteNotizButton.addClickHandler(new ClickHandler() {
-	//	      @Override
-	//		public void onClick(ClickEvent event) {
-		        /*
-		         * Showcase instantiieren.
-		         */
-	//	        Showcase showcase = new BearbeiteNotiz();
-
-		        /*
-		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-		         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-		         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-		         * Elemente dieses DIV.
-		         */
-	//	        RootPanel.get("Details").clear();
-	//	        RootPanel.get("Details").add(showcase);
-	//	      }
-	//	    });
+		
+		
+  
 		
 		abbrechenButton.addClickHandler(new ClickHandler() {
 		      @Override
@@ -95,34 +85,13 @@ public class ZeigeNotiz extends Showcase {
 		        
 		    	  Showcase showcase = new VerwalteNotiz();
 				     
-		          RootPanel.get("Details").clear();
-		          RootPanel.get("Details").add(showcase);
-
-		          
-		          
-		      }
+		    	  RootPanel.get("Details").clear();
+		          RootPanel.get("Details").add(showcase); 
+		          }
 		    });
 		
+
 	
-		
-		notizNotizbuchZuweisenButton.addClickHandler(new ClickHandler() {
-		      @Override
-			public void onClick(ClickEvent event) {
-		        /*
-		         * Showcase instantiieren.
-		         */
-		        Showcase showcase = new WeiseNotizNotizbuchZu();
-
-		        /*
-		         * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-		         * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-		         * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-		         * Elemente dieses DIV.
-		         */
-		        RootPanel.get("Details").clear();
-		        RootPanel.get("Details").add(showcase);
-		      }
-		    });
 		befuelleNotizTabelle();
 	}
 	
@@ -157,13 +126,17 @@ public class ZeigeNotiz extends Showcase {
 							
 							Nuebersicht.setWidget(reihe, 4, anzeigenbutton);
 							
-
-						}
-						
-					}
-			
-		});
-	}
+							
+							anzeigenbutton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								Nuebersicht.setWidget(0, 5, showcase);
+								
+								}
+							});}}});}
+	
+					
+	
 
 }
 
