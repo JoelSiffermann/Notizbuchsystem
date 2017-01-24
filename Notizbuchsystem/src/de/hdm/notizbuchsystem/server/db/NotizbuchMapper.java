@@ -64,9 +64,9 @@ public class NotizbuchMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Notizbuch" + "SET Titel=\""
-			          + n.getTitel() + "\", " + "Modifikationsdatum=\"" +n.getModifikationsdatum()+ "\", " + "Erstelldatum=\"" +n.getErstelldatum()+ ""
-			          + "WHERE id=" + n.getId());
+			stmt.executeUpdate("UPDATE notizbuchdb.eintragung , notizbuchdb.notizbuch SET eintragung.Titel =\""
+			          + n.getTitel() + "\", eintragung.Modifikationsdatum =\"" + getSqlDateFormat(n.getModifikationsdatum())
+			          + "\" WHERE `Eintragung-ID`='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -105,7 +105,7 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 			
 			while(rs.next()){
 				Notizbuch nb = new Notizbuch();
-				nb.setId(rs.getInt("Eintragungs-ID"));
+				nb.setId(rs.getInt("Eintragung-ID"));
 		        nb.setEigentuemer(rs.getString("Eigentuemer"));
 		        nb.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        nb.setErstelldatum(rs.getDate("Erstelldatum"));

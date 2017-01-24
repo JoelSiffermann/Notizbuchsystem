@@ -50,8 +50,8 @@ public Nutzer bearbeiten(Nutzer nutzer) {
       Statement stmt = con.createStatement();
 
 
-      stmt.executeUpdate("UPDATE nutzer " + "SET Name=\""
-          + nutzer.getName() + "\", " + "Vorname=\"" +nutzer.getVorname() + "\" "
+      stmt.executeUpdate("UPDATE nutzer SET Name=\""
+          + nutzer.getName() + "\", Vorname=\"" +nutzer.getVorname() + "\" "
           + "WHERE `Email`='" + nutzer.getEmail() + "'");
 
 
@@ -81,44 +81,6 @@ public void loeschen(Nutzer nutzer) {
       e.printStackTrace();
     }
   }
-
-
-// Methode zum suchen und ausgeben eines bestimmten Nutzers anhand seiner ID
-public Nutzer getNutzerByID(int ID) {
-    
-    Connection con = DBConnection.getConnection();
-
-    try {
-    	
-      Statement stmt = con.createStatement();
-
-      
-      ResultSet rs = stmt
-          .executeQuery("SELECT id, Name, Vorname, Email FROM Nutzer "
-              + "WHERE id=" + ID + " ORDER BY Name");
-
-      /*
-       * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-       * werden. Prüfe, ob ein Ergebnis vorliegt.
-       */
-      if (rs.next()) {
-        // Ergebnis-Tupel in Objekt umwandeln
-        Nutzer nutzer = new Nutzer();
-        nutzer.setId(rs.getInt("ID"));
-        nutzer.setName(rs.getString("Name"));
-        nutzer.setVorname(rs.getString("Vorname"));
-
-        return nutzer;
-      }
-    }
-    catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    }
-
-    return null;
-  }
-
 
 public Vector<Nutzer> getNutzerByName(Nutzer n) {
     

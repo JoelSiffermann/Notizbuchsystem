@@ -84,7 +84,7 @@ public class BearbeiteNotiz extends Showcase {
 			speichernButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
-			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(titelAnzeige.getText(),
+			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, titelAnzeige.getText(),
 			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), aktuellesDatum(), new AsyncCallback<Notiz>()
 			        		{
 

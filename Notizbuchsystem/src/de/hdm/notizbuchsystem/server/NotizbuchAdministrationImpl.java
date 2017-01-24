@@ -88,6 +88,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		if (nutzerMapper.getNutzerByEmail(n) == null) {
 			
 			return true;
+			
 		}
 		
 		return false;
@@ -400,8 +401,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	
 	@Override
-	public Notiz bearbeiteNotiz(String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz bearbeiteNotiz(int id, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
 		Notiz n = new Notiz();
+		n.setId(id);
 		n.setTitel(titel);
 		n.setSubtitel(subtitel);
 		n.setInhalt(inhalt);
@@ -411,8 +413,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Notizbuch bearbeiteNotizbuch(String titel, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notizbuch bearbeiteNotizbuch(int id, String titel, Date modifikationsdatum) throws IllegalArgumentException{
 		Notizbuch nb = new Notizbuch();
+		nb.setId(id);
 		nb.setTitel(titel);
 		nb.setModifikationsdatum(modifikationsdatum);
 		return this.notizbuchMapper.bearbeiten(nb);

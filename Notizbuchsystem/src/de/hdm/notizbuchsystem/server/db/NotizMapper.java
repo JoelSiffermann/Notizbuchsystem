@@ -68,9 +68,9 @@ public class NotizMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE eintragung, notiz" + "SET Titel=\""
-          + n.getTitel() + "\", " + "Modifikationsdatum=\"" +n.getModifikationsdatum()+ "\", " + "Subtitel=\"" + n.getSubtitel()+ "\", " + "SET Inhalt=\"" + n.getInhalt()
-          + "WHERE `Eintragung-ID`='" + n.getId() + "'");
+			stmt.executeUpdate("UPDATE notizbuchdb.eintragung , notizbuchdb.notiz SET eintragung.Titel =\""
+          + n.getTitel() + "\", eintragung.Modifikationsdatum =\"" + getSqlDateFormat(n.getModifikationsdatum()) + "\", notiz.Subtitel=\"" + n.getSubtitel()+ "\", notiz.Inhalt =\"" + n.getInhalt()
+          + "\" WHERE `Eintragung-ID`='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
