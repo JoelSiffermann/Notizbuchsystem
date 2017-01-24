@@ -1,13 +1,19 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.sql.Date;
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.notizbuchsystem.shared.bo.Notiz;
 
 public class ZeigeNotiz extends Showcase {
 
@@ -17,15 +23,16 @@ public class ZeigeNotiz extends Showcase {
 		return "Meine Notizen";
 	}
 
-	
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
 	private VerticalPanel verPanel = new VerticalPanel();
-	  private HorizontalPanel buttonPanel = new HorizontalPanel();
-	  
-	  private FlexTable Nuebersicht = new FlexTable();
-	  private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizen");
-	  final private Button abbrechenButton = new Button("Abbrechen");
-	  final Button notizNotizbuchZuweisenButton = new Button("Notizbuch Zuweisen");
-
+	private HorizontalPanel buttonPanel = new HorizontalPanel();
+	
+	
+	private FlexTable Nuebersicht = new FlexTable();
+	private Label pfadLabelNA = new Label("Zurueck zu: Verwalte Notizen");
+	final private Button abbrechenButton = new Button("Abbrechen");
+	final Button notizNotizbuchZuweisenButton = new Button("Notizbuch Zuweisen");
+	private Button anzeigenbutton;
 	@Override
 	protected void run() {
 
@@ -90,6 +97,8 @@ public class ZeigeNotiz extends Showcase {
 		          RootPanel.get("Details").clear();
 		          RootPanel.get("Details").add(showcase);
 
+		          
+		          
 		      }
 		    });
 		
@@ -113,7 +122,46 @@ public class ZeigeNotiz extends Showcase {
 		        RootPanel.get("Details").add(showcase);
 		      }
 		    });
-		
+		befuelleNotizTabelle();
+	}
+	
+	public void befuelleNotizTabelle(){
+		ClientsideSettings.getNotizSystemAdministration().getNotizenByNutzer(email, 
+				new AsyncCallback<Vector<Notiz>>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Notiz> result) {
+						// TODO Auto-generated method stub
+						
+						int reihe = 0;
+						
+						for(Notiz n : result) {
+							
+							final int eintragungid = n.getId();
+							
+							reihe++;
+							
+							Nuebersicht.setText(reihe, 0, n.getTitel());
+							Nuebersicht.setText(reihe, 1, n.getSubtitel());
+							Nuebersicht.setText(reihe, 2, n.getEigentuemer());
+							Nuebersicht.setText(reihe, 3, n.getErstelldatum().toString());
+							
+							anzeigenbutton = new Button("Anzeigen");
+							
+							Nuebersicht.setWidget(reihe, 4, anzeigenbutton);
+							
+
+						}
+						
+					}
+			
+		});
 	}
 
 }

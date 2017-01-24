@@ -113,7 +113,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId)
 			throws IllegalArgumentException;
 	
-	Vector<Notiz> getNotizenByNutzer(Nutzer nutzer)
+	Vector<Notiz> getNotizenByNutzer(String email)
 			throws IllegalArgumentException;
 	
 	Vector<Notiz> getNotizen() throws IllegalArgumentException;

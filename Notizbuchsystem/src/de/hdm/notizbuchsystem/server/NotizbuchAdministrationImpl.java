@@ -569,10 +569,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 
 
 	@Override
-	public Vector<Notiz> getNotizenByNutzer(Nutzer nutzer)
+	public Vector<Notiz> getNotizenByNutzer(String Email)
 			throws IllegalArgumentException {
 		
-		return this.notizMapper.getNotizenByNutzer(nutzer);
+		return this.notizMapper.getNotizenByNutzer(Email);
 		
 	}
 
