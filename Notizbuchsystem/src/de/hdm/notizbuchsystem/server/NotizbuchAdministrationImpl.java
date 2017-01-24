@@ -408,7 +408,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	//TODO
 	public Notizbuch bearbeiteNotizbuch(String titel, Date modifikationsdatum) throws IllegalArgumentException{
 		Notizbuch nb = new Notizbuch();
 		nb.setTitel(titel);
@@ -477,8 +476,8 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	public void zuweisungNotiz(int notizbuch, int notiz) throws IllegalArgumentException{
 		Notizbuch nb = new Notizbuch();
 		Notiz n = new Notiz();
-		nb.setEintragungId(notizbuch);
-		n.setEintragungId(notiz);
+		nb.setId(notizbuch);
+		n.setId(notiz);
 		this.notizMapper.zuweisen(nb, n);
 	}
 	
@@ -546,16 +545,17 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return this.notizMapper.getNotizByErstelldatum(erstelldatum);
 		
 	}
-	
+	//TODO
 	public Vector<Notiz> getNotizByModifikationsdatum(Date modifikationsdatum) throws IllegalArgumentException{
 		
 		return this.notizMapper.getNotizByModifikationsdatum(modifikationsdatum);
 		
 	}
 		
-	public Vector<Notiz> getNotizByNotizbuch(String titel) throws IllegalArgumentException{
-		
-		return this.notizMapper.getNotizByNotizbuch(titel);
+	public Vector<Notiz> getNotizByNotizbuch(int notizbuchid) throws IllegalArgumentException{
+		Notizbuch nb = new Notizbuch();
+		nb.setId(notizbuchid);
+		return this.notizMapper.getNotizByNotizbuch(nb);
 	}
 
 

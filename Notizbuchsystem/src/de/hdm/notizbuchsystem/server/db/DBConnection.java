@@ -2,8 +2,6 @@ package de.hdm.notizbuchsystem.server.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import com.google.appengine.api.utils.SystemProperty;
 
 
