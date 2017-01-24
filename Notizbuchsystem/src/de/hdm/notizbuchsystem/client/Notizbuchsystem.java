@@ -185,12 +185,12 @@ public class Notizbuchsystem implements EntryPoint {
 
 				if (!result) {
 			
-					admin.getNutzerByEmail(loginInfo.getEmailAddress(),
+					admin.getNutzerByEMail(loginInfo.getEmailAddress(),
 							getNutzerByEmailExecute(loginInfo.getEmailAddress()));
 					
 					RootPanel.get("Details").add(begruessenN);
 					RootPanel.get("Details").add(begruessenN2);
-					Window.alert("Test");
+					
 					
 				} else {
 					

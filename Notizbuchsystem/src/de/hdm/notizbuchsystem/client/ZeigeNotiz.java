@@ -3,6 +3,8 @@ package de.hdm.notizbuchsystem.client;
 import java.sql.Date;
 import java.util.Vector;
 
+
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -117,6 +119,7 @@ public class ZeigeNotiz extends Showcase {
 							
 							reihe++;
 							
+														
 							Nuebersicht.setText(reihe, 0, n.getTitel());
 							Nuebersicht.setText(reihe, 1, n.getSubtitel());
 							Nuebersicht.setText(reihe, 2, n.getEigentuemer());
@@ -129,8 +132,11 @@ public class ZeigeNotiz extends Showcase {
 							
 							anzeigenbutton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotiz();
 								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
-								Nuebersicht.setWidget(0, 5, showcase);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(showcase);
 								
 								}
 							});}}});}

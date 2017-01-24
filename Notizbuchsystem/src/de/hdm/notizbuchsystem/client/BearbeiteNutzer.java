@@ -162,7 +162,7 @@ public class BearbeiteNutzer extends Showcase {
 			 */
 			public void befuelleTabelle(){
 				
-				ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
+				ClientsideSettings.getNotizSystemAdministration().getNutzerByEMail(email,
 						new AsyncCallback<Nutzer>() {
 					public void onFailure(Throwable caught) {
 					}

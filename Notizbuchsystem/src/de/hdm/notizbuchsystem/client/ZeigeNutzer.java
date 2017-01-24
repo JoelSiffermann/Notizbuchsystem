@@ -136,7 +136,7 @@ public class ZeigeNutzer extends Showcase {
 	 * ausliest und die Profildaten in die Tabelle einfuegt.
 	 */
 	public void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNutzerByEmail(email,
+		ClientsideSettings.getNotizSystemAdministration().getNutzerByEMail(email,
 				new AsyncCallback<Nutzer>() {
 
 					public void onFailure(Throwable caught) {
