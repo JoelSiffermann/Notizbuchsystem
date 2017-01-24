@@ -38,7 +38,7 @@ public class NotizbuchMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`) " + "VALUES ('"
+				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`) " + "VALUES ('"
 		            + n.getId() + "','" + n.getEigentuemer() + "','" + getSqlDateFormat(n.getModifikationsdatum()) + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "','" +  "' )");
 				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`) VALUES ('" + n.getId() + "','" + "')");
 			}
