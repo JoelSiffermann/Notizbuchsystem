@@ -789,6 +789,18 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		}
 		return result;
 	}
+	
+//	public Collection<Notizbuch> getNBfuerSuggestbox(){
+//		List<Notizbuch> result = new ArrayList<Notizbuch>();
+//		Vector<Notizbuch> n = this.notizbuchMapper.getNotizbuecherByNutzer(email);
+//		for(int i = 0; i < n.size() ; i++){
+//			String email = n.get(i).getEmail();
+//			result.add(email);
+//		}
+//		return result;
+//	}
+	
+	
 
 	@Override
 	public Vector<Nutzer> getAllNutzer(){

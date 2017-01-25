@@ -1,7 +1,14 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Vector;
+
+
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -18,12 +25,12 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 		return "Notiz zu Notizbuch zuweisen:";
 	}
 
-	private Button zuweisenbutton = new Button("Zum ausgewaehlten Notizbuch hinzufuegen");
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
 	private VerticalPanel verPanel = new VerticalPanel();
-	
-	
+	private Button auswahlbutton = new Button("Diesem Notizbuch zuweisen");
+	private FlexTable NBuebersicht = new FlexTable();
 	private int id;
-	 SuggestBox suggestbox = new SuggestBox(getNotizbuchliste());
+
 	
 	
 	public WeiseNotizNotizbuchZu(int id){
@@ -33,32 +40,64 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 	
 	@Override
 	protected void run() {
-		 verPanel.add(suggestbox);
-		 verPanel.add(zuweisenbutton);
-		RootPanel.get("Details").add(verPanel);
+		verPanel.add(NBuebersicht);
+		
+		RootPanel.get("Details").add(NBuebersicht);
+		
+		NBuebersicht.getCellFormatter().addStyleName(0, 0, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 1, "TableHeader");
+		NBuebersicht.getCellFormatter().addStyleName(0, 2, "TableHeader");
+		
+		NBuebersicht.setText(0, 0, "Titel");
+		NBuebersicht.setText(0, 1, "Eigentuemer");
+		NBuebersicht.setText(0, 2, "Erstelldatum");
+		
+		befuelleTabelle();
+		
+	}
+	
+	public void befuelleTabelle(){
+		ClientsideSettings.getNotizSystemAdministration().getNotizbuecherByNutzer(email, 
+				new AsyncCallback<Vector<Notizbuch>>(){
 
-	}
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Notizbuch> result) {
+						// TODO Auto-generated method stub
+						
+						int reihe = 0;
+						
+						for(Notizbuch n : result) {
+							
+							final int eintragungid = n.getId();
+							
+							reihe++;
+							
+							NBuebersicht.setText(reihe, 0, n.getTitel());
+							NBuebersicht.setText(reihe, 1, n.getEigentuemer());	
+							NBuebersicht.setText(reihe, 2, n.getErstelldatum().toString());
+							
+							auswahlbutton = new Button("Anzeigen");
+							
+							NBuebersicht.setWidget(reihe, 3, auswahlbutton);
+							
+							auswahlbutton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase = new ZeigeausgewaehltesNB(eintragungid);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(verPanel);
+								}});
+							
+
+							
+							
+						}}});}
 	
-	private MultiWordSuggestOracle getNotizbuchliste(){
-	MultiWordSuggestOracle Notizbuchliste = new MultiWordSuggestOracle();
-//	ClientsideSettings.getNotizSystemAdministration().getNotizbuecherByNutzer(email,
-//			new AsyncCallback<Nutzer>() {
-//
-//				@Override
-//				public void onFailure(Throwable caught) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//
-//				@Override
-//				public void onSuccess(Nutzer result) {
-//					// TODO Auto-generated method stub
-//					
-//		for(int i=0; i< result.le)		
-//		
-//	}
-	
-	Notizbuchliste.add("asda@example.com");
-	return Notizbuchliste;
-	}
 }
