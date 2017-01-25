@@ -107,7 +107,7 @@ public class ZeigeNotizenAusNotizbuch extends Showcase{
 	}
 	
 	public void befuelleNotizTabelle(){
-		ClientsideSettings.getNotizSystemAdministration().getNotizByNotizbuch(id, 
+		ClientsideSettings.getNotizSystemAdministration().getNotizByNotizbuch(id, email, 
 				new AsyncCallback<Vector<Notiz>>(){
 
 					@Override

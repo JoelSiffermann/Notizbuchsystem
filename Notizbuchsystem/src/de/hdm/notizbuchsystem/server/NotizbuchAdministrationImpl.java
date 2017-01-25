@@ -777,7 +777,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		List<String> result = new ArrayList<String>();
 		Vector<Nutzer> n = this.nutzerMapper.getAllNutzer();
 		for(int i = 0; i < n.size() ; i++){
-			String email = n.get(i).getEmail() + ", ";
+			String email = n.get(i).getEmail();
 			result.add(email);
 		}
 		return result;

@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.client;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.notizbuchsystem.shared.bo.Freigabe;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 public class Eintragungteilen extends Showcase {
@@ -44,7 +46,7 @@ public class Eintragungteilen extends Showcase {
 
 	 
 	
-	 SuggestBox suggestbox = new SuggestBox(getNutzer());
+	 final SuggestBox suggestbox = new SuggestBox(getNutzer());
 	 
 
 	 
@@ -66,23 +68,43 @@ public class Eintragungteilen extends Showcase {
 		
 		
 		
-//		teilen.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				ClientsideSettings.getNotizSystemAdministration().erstelleNotizFreigabe(id, leseb.getValue(),
-//						ab.getValue(), loeb.getValue(), suggestBox.getText(), email,
-//						new Asynccallback<>);
-//			
-//			}
-//		});
-//	}
+		teilen.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ClientsideSettings.getNotizSystemAdministration().erstelleNotizFreigabe(id, leseb.getValue(),
+						ab.getValue(), loeb.getValue(), email, suggestbox.getText(), 
+						new AsyncCallback<Freigabe>(){
 
-}
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Freigabe result) {
+								Window.alert("testeijiaji");
+							}});
+							}});
+
+	}
+
+
 	private MultiWordSuggestOracle getNutzer(){
-		MultiWordSuggestOracle Nutzer = new MultiWordSuggestOracle();
+		final MultiWordSuggestOracle Nutzer = new MultiWordSuggestOracle();
 		
-//		String[] alleNutzer = new String[100];
-//
-//		ClientsideSettings.getNotizSystemAdministration().
+ClientsideSettings.getNotizSystemAdministration().getStringforSuggestBox(new AsyncCallback<Collection<String>>(){
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSuccess(Collection<String> result) {
+		Nutzer.addAll(result);
+		}
+});
 	return Nutzer;
 	}
 }
