@@ -202,8 +202,9 @@ public void pruefeEingabe(){
 
 // Methode zum Anlegen einer neuen Notiz und dessen Speicherung in der DB
 public void notizAnlegen(){
-admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTextArea.getText(), email, aktuellesDatum(), aktuellesDatum()
-		, notizAnlegenExecute());
+admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTextArea.getText(), email, aktuellesDatum(), aktuellesDatum(),
+		faelligkeitDateBox.getValue(),
+		notizAnlegenExecute());
 }
 
 	private AsyncCallback<Notiz> notizAnlegenExecute()
@@ -211,18 +212,19 @@ admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTex
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			warnLabel.setText("failed");
+			Window.alert("Notiz konnte nicht angelegt werden");
 		}
 
 			@Override
 		public void onSuccess(Notiz result) {
-			// TODO Auto-generated method stub
-			warnLabel.setText("Erfolgreich");
-			if(faelligkeitDateBox.getValue() != null){
-				faelligkeitanlegen();
+			
+			
+	Window.alert("Notiz erfolgreich angelegt");
+				
+				
 			}
 			
-		}
+		
 	};
 		 return asynCallback;
 	 }
