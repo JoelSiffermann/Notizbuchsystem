@@ -90,13 +90,14 @@ private static FreigabeMapper freigabeMapper = null;
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
+		      ResultSet rs = stmt.executeQuery("SELECT FreigabeID, FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
 		    		  + "Loeschberechtigung, FreigebenderNutzer FROM nutzerfreigabe WHERE FreigegebeneEintragung = '"
 		          + fr.getFreigegebeneEintragung() + "' ORDER BY FreigegebeneEintragung");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Freigabe-Objekt erstellt.
 		      while (rs.next()) {
 		        Freigabe f = new Freigabe();
+		        f.setId(rs.getInt("FreigabeID"));
 		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
 		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
 		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
@@ -124,13 +125,14 @@ private static FreigabeMapper freigabeMapper = null;
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
+		      ResultSet rs = stmt.executeQuery("SELECT FreigabeID, FreigegebeneEintragung, FreigegebenerNutzer, Leseberechtigung, Aenderungsberechtigung,"
 		    		  + "Loeschberechtigung, FreigebenderNutzer FROM nutzerfreigabe WHERE FreigegebenerNutzer = '"
 		          + n.getEmail() + "' ORDER BY FreigegebeneEintragung");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Freigabe-Objekt erstellt.
 		      while (rs.next()) {
 		        Freigabe f = new Freigabe();
+		        f.setId(rs.getInt("FreigabeID"));
 		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
 		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
 		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));

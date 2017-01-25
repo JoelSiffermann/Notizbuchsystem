@@ -4,8 +4,10 @@ package de.hdm.notizbuchsystem.shared;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
 import de.hdm.notizbuchsystem.shared.bo.*;
 
 @RemoteServiceRelativePath("admin")
@@ -46,21 +48,21 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Faelligkeit erstelleFaelligkeit(int EintragungID, Date datum) throws IllegalArgumentException;
 	
-	public void loescheNotiz(int notizid) throws IllegalArgumentException;
+	public void loescheNotiz(int notizid, String nutzer) throws IllegalArgumentException;
 	
-	public void loescheNotizbuch(int notizbuchid) throws IllegalArgumentException;
+	public void loescheNotizbuch(int notizbuchid, String nutzer) throws IllegalArgumentException;
 	
 	public void loescheNutzer(String email) throws IllegalArgumentException;
 	
 	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid) throws IllegalArgumentException;
 	
-	public void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid) throws IllegalArgumentException;
+	public void loescheFaelligkeit(int notizId, String Nutzer) throws IllegalArgumentException;
 	
 	public void loescheFreigabe(String nutzer, int eintragungId) throws IllegalArgumentException;
 	
-	public Notiz bearbeiteNotiz(int id, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException;
 	
-	public Notizbuch bearbeiteNotizbuch(int id, String titel, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notizbuch bearbeiteNotizbuch(int id, String nutzer, String titel, Date modifikationsdatum) throws IllegalArgumentException;
 	
 	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException;
 	
@@ -70,13 +72,11 @@ public interface NotizSystemAdministration extends RemoteService {
 
 	public Freigabe bearbeiteNotizbuchFreigabe(boolean lb, boolean ab, boolean lob, String nutzer) throws IllegalArgumentException;
 
-	public void zuweisungNotiz(int notizbuch, int notiz) throws IllegalArgumentException;
+	public void zuweisungNotiz(int notizbuch, int notiz, String nutzer) throws IllegalArgumentException;
 	
 	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum) throws IllegalArgumentException;
 	
 	public Notiz getNotizByNutzer(Nutzer nutzer) throws IllegalArgumentException;
-	
-	public Freigabe getBerechtigungByNutzer(Nutzer nutzer) throws IllegalArgumentException;
 	
 	public Nutzer getNutzerByNotiz(Notiz notiz) throws IllegalArgumentException;
 
@@ -98,7 +98,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId) throws IllegalArgumentException;
 
-	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId)
+	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId, String nutzer)
 			throws IllegalArgumentException;
 	
 	Vector<Notiz> getNotizenByNutzer(String email)
@@ -128,7 +128,16 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Notiz getNotizbyID(int id) throws IllegalArgumentException;
 	
-	String[] getStringforSuggestBox() throws IllegalArgumentException;;
+
+	String[] getStringforSuggestBox() throws IllegalArgumentException;
+	
+	Freigabe getFreigabe(String email) throws IllegalArgumentException;
+	
+	Vector<Freigabe> getBerechtigungByNutzer(String email)
+			throws IllegalArgumentException;
+	Vector<Nutzer> getAllNutzer() throws IllegalArgumentException;
+	
+	Notizbuch getNotizbuchbyID(int id) throws IllegalArgumentException;
 	
 	
 }

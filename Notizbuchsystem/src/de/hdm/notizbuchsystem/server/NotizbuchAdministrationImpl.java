@@ -2,6 +2,7 @@ package de.hdm.notizbuchsystem.server;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -203,11 +204,21 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param notizId Die Notiz-ID der Notiz, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheNotiz(int notizId)
+	public void loescheNotiz(int notizId, String nutzer)
 			throws IllegalArgumentException {
 		Notiz n = new Notiz();
 		n.setId(notizId);
-		this.notizMapper.loeschen(n);
+		if(n.getEigentuemer()==nutzer){
+			this.notizMapper.loeschen(n);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(notizId);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getLoeschberechtigung()==true){
+					this.notizMapper.loeschen(n);
+				} else {
+				}
+			}
+		}
 	}
 	
 	/**
@@ -243,11 +254,21 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param notizbuchId Die Notizbuch-ID des Notizbuches, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheNotizbuch(int notizbuchId)
+	public void loescheNotizbuch(int notizbuchId, String nutzer)
 			throws IllegalArgumentException {
 		Notizbuch nb = new Notizbuch();
 		nb.setId(notizbuchId);
-		this.notizbuchMapper.loeschen(nb);
+		if(nb.getEigentuemer()==nutzer){
+			this.notizbuchMapper.loeschen(nb);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(notizbuchId);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getLoeschberechtigung()==true){
+					this.notizbuchMapper.loeschen(nb);
+				} else {
+				}
+			}
+		}
 	}
 	
 	
@@ -307,11 +328,22 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @param faelligkeitId Die Faelligkeit-ID der Faelligkeit, das geloescht werden soll.
 	 * @throws IllegalArgumentException
 	 */
-	public void loescheFaelligkeit(int notizId)
+	public void loescheFaelligkeit(int notizId, String nutzer)
 			throws IllegalArgumentException {
 		Faelligkeit f = new Faelligkeit();
 		f.setNotiz(notizId);
-		this.faelligkeitMapper.loeschen(f);
+		Notiz n = this.getNotizbyID(notizId);
+		if(n.getEigentuemer()==nutzer){
+			this.faelligkeitMapper.loeschen(f);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(notizId);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getLoeschberechtigung()==true){
+					this.faelligkeitMapper.loeschen(f);
+				} else {
+				}
+			}
+		}
 	}
 	
 	
@@ -401,25 +433,50 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	
 	@Override
-	public Notiz bearbeiteNotiz(int id, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
 		Notiz n = new Notiz();
 		n.setId(id);
 		n.setTitel(titel);
 		n.setSubtitel(subtitel);
 		n.setInhalt(inhalt);
 		n.setModifikationsdatum(modifikationsdatum);
-		return this.notizMapper.bearbeiten(n);
 		
+		if(n.getEigentuemer()==nutzer){
+			return this.notizMapper.bearbeiten(n);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(id);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getAenderungsberechtigung()==true){
+					return this.notizMapper.bearbeiten(n);
+				} else {
+					return null;
+				}
+			}
+		}
+		
+		
+		return null;
 	}
 	
 	@Override
-	public Notizbuch bearbeiteNotizbuch(int id, String titel, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notizbuch bearbeiteNotizbuch(int id, String nutzer, String titel, Date modifikationsdatum) throws IllegalArgumentException{
 		Notizbuch nb = new Notizbuch();
 		nb.setId(id);
 		nb.setTitel(titel);
 		nb.setModifikationsdatum(modifikationsdatum);
-		return this.notizbuchMapper.bearbeiten(nb);
-				
+		if(nb.getEigentuemer()==nutzer){
+			return this.notizbuchMapper.bearbeiten(nb);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(id);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getAenderungsberechtigung()==true){
+					return this.notizbuchMapper.bearbeiten(nb);
+				} else {
+					return null;
+				}
+			}
+		}
+				return null;
 	}
 	
 	@Override
@@ -441,13 +498,25 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId) throws IllegalArgumentException {
+	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId, String nutzer) throws IllegalArgumentException {
 		Faelligkeit f = new Faelligkeit();
 		f.setDatum(datum);
 		f.setNotiz(notizId);
-				
-		return this.faelligkeitMapper.bearbeiten(f);
+		Notiz n = this.getNotizbyID(notizId);
 		
+		if(n.getEigentuemer()==nutzer){
+			return this.faelligkeitMapper.bearbeiten(f);
+		} else {
+			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(notizId);
+			for(Freigabe ergebnis : freigaben) {
+				if(ergebnis.getFreigegebenerNutzer()==nutzer && ergebnis.getAenderungsberechtigung()==true){
+					return this.faelligkeitMapper.bearbeiten(f);
+				} else {
+					return null;
+				}
+			}
+		}
+		return null;
 	}
 	
 	@Override
@@ -479,12 +548,25 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	
 	@Override
-	public void zuweisungNotiz(int notizbuch, int notiz) throws IllegalArgumentException{
+	public void zuweisungNotiz(int notizbuch, int notiz, String nutzer) throws IllegalArgumentException{
 		Notizbuch nb = new Notizbuch();
 		Notiz n = new Notiz();
 		nb.setId(notizbuch);
 		n.setId(notiz);
-		this.notizMapper.zuweisen(nb, n);
+		if(nb.getEigentuemer()==nutzer && n.getEigentuemer()==nutzer){
+			this.notizMapper.zuweisen(nb, n);
+		} else {
+			Vector<Freigabe> nf = this.getFreigabeByEintragung(notiz);
+			Vector<Freigabe> nbf = this.getFreigabeByEintragung(notizbuch);
+			for(Freigabe f : nbf) {
+				for(Freigabe f2: nf){
+				if(f.getFreigebenderNutzer()==nutzer && f.getAenderungsberechtigung()==true){
+					this.notizMapper.zuweisen(nb, n);
+				} else {
+				}
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -544,6 +626,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
+	public Notizbuch getNotizbuchbyID(int id) throws IllegalArgumentException{
+		Notizbuch n = new Notizbuch();
+		n.setId(id);
+		return this.notizbuchMapper.getNotizbuchByID(n);
+		
+	}
 	
 	//TODO:
 	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) throws IllegalArgumentException{
@@ -565,8 +654,20 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 
 
-	
-
+	//TODO
+	@Override
+	public Freigabe getFreigabe(String email){
+		Nutzer n = new Nutzer();
+		Freigabe f = new Freigabe();
+		n.setEmail(email);
+		Vector<Freigabe> v = this.freigabeMapper.getFreigabeByNutzer(n);
+		for (int i = 0 ; i < v.size(); i++) {
+			f.setLeseberechtigung(v.get(i).getLeseberechtigung());
+			f.setAenderungsberechtigung(v.get(i).getAenderungsberechtigung());
+			f.setLoeschberechtigung(v.get(i).getLoeschberechtigung());
+		}
+		return f;
+	}
 
 	
 
@@ -586,18 +687,24 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	@Override
 	public Vector<Notiz> getNotizenByNutzer(String Email)
 			throws IllegalArgumentException {
-		
-		return this.notizMapper.getNotizenByNutzer(Email);
-		
+		Vector<Notiz> result = new Vector<Notiz>();
+		result.addAll(this.notizMapper.getNotizenByNutzer(Email));
+		Vector<Freigabe> f = this.getBerechtigungByNutzer(Email);
+		for(Freigabe freigabe : f) {
+			if(freigabe.getFreigegebenerNutzer()==Email && freigabe.getLeseberechtigung()==true){
+				result.addAll(this.notizMapper.getNotizByFreigabe(freigabe));
+			}
+		}
+		return result;
 	}
 
 
 	@Override
-	public Freigabe getBerechtigungByNutzer(Nutzer nutzer)
+	public Vector<Freigabe> getBerechtigungByNutzer(String email)
 			throws IllegalArgumentException {
-		
-		//return this.freigabeMapper.getBerechtigungByNutzer(nutzer);
-		return null;
+		Nutzer n = new Nutzer();
+		n.setEmail(email);
+		return this.freigabeMapper.getFreigabeByNutzer(n);
 	}
 
 
@@ -660,14 +767,6 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 
-
-	@Override
-	public void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public Notiz getNotizByNutzer(Nutzer nutzer)
 			throws IllegalArgumentException {
@@ -688,5 +787,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return result;
 	}
 
+	@Override
+	public Vector<Nutzer> getAllNutzer(){
+		return this.nutzerMapper.getAllNutzer();
+	}
 	
 }

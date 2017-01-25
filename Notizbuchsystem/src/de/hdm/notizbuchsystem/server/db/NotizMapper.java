@@ -61,7 +61,7 @@ public class NotizMapper {
 		return result;
 	}
 
-	// Es können bis jetzt nur Modifikationsdatum, Titel, Subtitel und Inhalt bearbeitet werden, da die restlichen Werte nicht veränderbar sein sollten
+	
 	public Notiz bearbeiten(Notiz n) {
 		Connection con = DBConnection.getConnection();
 		
@@ -70,7 +70,7 @@ public class NotizMapper {
 			
 			stmt.executeUpdate("UPDATE notizbuchdb.eintragung , notizbuchdb.notiz SET eintragung.Titel =\""
           + n.getTitel() + "\", eintragung.Modifikationsdatum =\"" + getSqlDateFormat(n.getModifikationsdatum()) + "\", notiz.Subtitel=\"" + n.getSubtitel()+ "\", notiz.Inhalt =\"" + n.getInhalt()
-          + "\" WHERE `Eintragung-ID`='" + n.getId() + "'");
+          + "\" WHERE `Eintragung-ID`='" + n.getId() + "' AND notiz.ID='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -109,7 +109,7 @@ public class NotizMapper {
 		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE Eigentuemer ='" + email
 		          + "' ORDER BY `Eintragung-ID`");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		    	  
 		        Notiz e = new Notiz();
@@ -146,7 +146,7 @@ public Vector<Notiz> getNotizen() {
 		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.ID"
 		          + " ORDER BY `Eintragung-ID`");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragung-ID"));
@@ -213,7 +213,7 @@ public Vector<Notiz> getNotizen() {
 		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
 		          + " ORDER BY Eintragung-ID");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragung-ID"));
@@ -266,10 +266,10 @@ public Vector<Notiz> getNotizen() {
 		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
 		          + "WHERE Erstelldatum=" + erstelldatum + " ORDER BY Eintragung-ID");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
-		        e.setId(rs.getInt("Eintragungs-ID"));
+		        e.setId(rs.getInt("Eintragung-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
 		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
 		        e.setErstelldatum(rs.getDate("Erstelldatum"));
@@ -302,7 +302,7 @@ public Vector<Notiz> getNotizen() {
 		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
 		          + "WHERE Erstelldatum=" + modifikationsdatum + " ORDER BY Eintragung-ID");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragung-ID"));
@@ -362,7 +362,7 @@ public Vector<Notiz> getNotizen() {
 				try {
 					Statement stmt = con.createStatement();
 					
-					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit.Datum"
+					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, faelligkeit.Datum, faelligkeit.ID, faelligkeit.Eintragung"
 				    		  + "FROM eintragung LEFT JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN faelligkeit ON notiz.ID = faelligkeit.Eintragung"
 				          + whereQuery + " ORDER BY `Eintragung-ID`");
 				while(rs.next()){
@@ -376,7 +376,9 @@ public Vector<Notiz> getNotizen() {
 			        n.setTitel(rs.getString("Titel"));
 			        n.setSubtitel(rs.getString("Subtitel"));
 			        n.setInhalt(rs.getString("Inhalt"));
-			        f.setDatum(rs.getDate("Faelligkeit.Datum"));
+			        f.setId(rs.getInt("faelligkeit.ID"));
+			        f.setDatum(rs.getDate("faelligkeit.Datum"));
+			        f.setNotiz(rs.getInt("faelligkeit.Eintragung"));
 			        v.add(f);
 			        notiz.add(n);
 			        result.put(notiz, v);
@@ -405,7 +407,9 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 					Statement stmt = con.createStatement();
 					
 					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, nutzerfreigabe.Leseberechtigung,"
-				    		  + "nutzerfreigabe.Aenderungsberechtigung, nutzerfreigabe.Loeschberechtigung nutzerfreigabe.FreigegebenerNutzer FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN nutzerfreigabe ON eintragung.Eigentuemer = nutzerfreigabe.FreigebenderNutzer"
+				    		  + "nutzerfreigabe.Aenderungsberechtigung, nutzerfreigabe.Loeschberechtigung nutzerfreigabe.FreigegebenerNutzer, nutzerfreigabe.FreigabeID,"
+				    		  + "nutzerfreigabe.FreigegebeneEintragung, nutzerfreigabe.FreigebenderNutzer"
+				    		  + " FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN nutzerfreigabe ON eintragung.Eigentuemer = nutzerfreigabe.FreigebenderNutzer"
 				          + "WHERE eintragung.Eigentuemer LIKE '%" + n.getEmail() + "%' ORDER BY `Eintragung-ID`");
 				while(rs.next()){
 					
@@ -418,6 +422,9 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 			        no.setTitel(rs.getString("Titel"));
 			        no.setSubtitel(rs.getString("Subtitel"));
 			        no.setInhalt(rs.getString("Inhalt"));
+			        fr.setId(rs.getInt("FreigabeID"));
+			        fr.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
+			        fr.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
 			        fr.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
 			        fr.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
 			        fr.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
@@ -447,7 +454,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 	    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE `Eintragung-ID` ='" + n.getId()
 	          + "' ORDER BY `Eintragung-ID`");
 
-	      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+	      // Für den Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 	      if (rs.next()) {
 	    	  
 	        
@@ -482,7 +489,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		    		  + "FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN notizbuch ON `Eintragung-ID` = notizbuch.ID"
 		          + "WHERE `Eintragung-ID`='" + nb.getId() + "' ORDER BY `Eintragung-ID`");
 
-		      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragung-ID"));
@@ -505,6 +512,40 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		    return result;
 	}
 
-	
+	public Vector<Notiz> getNotizByFreigabe(Freigabe f) {
+
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notiz> result = new Vector<Notiz>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		    		  + "FROM Eintragung INNER JOIN Notiz ON `Eintragung-ID` = notiz.ID INNER JOIN nutzerfreigabe ON notiz.ID = nutzerfreigabe.FreigegebeneEintragung"
+		          + "WHERE FreigegebeneEintragung=" + f.getFreigegebeneEintragung() + " ORDER BY `Eintragung-ID`");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
+		      while (rs.next()) {
+		        Notiz e = new Notiz();
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+		        e.setSubtitel(rs.getString("Subtitel"));
+		        e.setInhalt(rs.getString("Inhalt"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(e);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+		  }
 	
 }

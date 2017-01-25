@@ -28,6 +28,8 @@ public class BearbeiteNotizbuch extends Showcase {
 	}
 	private int id;
 	
+	private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+	
 	private DateTimeFormat erstelldatumFormat = DateTimeFormat
 			.getFormat("dd.MM.yyyy");
 	
@@ -74,31 +76,33 @@ public class BearbeiteNotizbuch extends Showcase {
 		
 		RootPanel.get("Details").add(verPanel);
 		
-//		speichernButton.addClickHandler(new ClickHandler() {
-//		      @Override
-//			public void onClick(ClickEvent event) {
-//		     ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(titelAnzeige.getText(), aktuellesDatum(), 
-//		    		 new AsyncCallback<Notizbuch>()
-//     		{
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//
-//					@Override
-//					public void onSuccess(Notizbuch result) {
-//						titelAnzeige.setText(result.getTitel());
-//						erstelldatumdatebox.setValue(result.getErstelldatum());
-//						modidatebox.setValue(result.getModifikationsdatum());
-//
-//					}}
-//     		
-//     		);
-// 	  	
-//       }
-// });
+
+		speichernButton.addClickHandler(new ClickHandler() {
+		      @Override
+			public void onClick(ClickEvent event) {
+		     ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(id, email, titelAnzeige.getText(), aktuellesDatum(), 
+		    		 new AsyncCallback<Notizbuch>()
+     		{
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Notizbuch result) {
+						titelAnzeige.setText(result.getTitel());
+						erstelldatumdatebox.setValue(result.getErstelldatum());
+						modidatebox.setValue(result.getModifikationsdatum());
+
+					}}
+     		
+     		);
+ 	  	
+       }
+ });
+
 
 		
 		
