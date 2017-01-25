@@ -100,9 +100,9 @@ private static FreigabeMapper freigabeMapper = null;
 		        f.setId(rs.getInt("FreigabeID"));
 		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
 		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
-		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
-		        f.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
-		        f.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
+		        f.setLeseberechtigung(javaboolean(rs.getInt("Leseberechtigung")));
+		        f.setAenderungsberechtigung(javaboolean(rs.getInt("Aenderungsberechtigung")));
+		        f.setLoeschberechtigung(javaboolean(rs.getInt("Loeschberechtigung")));
 		        f.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
