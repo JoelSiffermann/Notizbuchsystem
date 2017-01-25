@@ -203,13 +203,10 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		notiz.setModifikationsdatum(modifikationsdatum);
 		
+		notiz.setFaelligkeit(fdatum);
+		
 		this.notizMapper.erstellen(notiz);
-		
-		if(fdatum!=null){
-			this.erstelleFaelligkeit(notiz.getId(), fdatum);
-			return notiz;
-		}
-		
+				
 		return notiz;
 	}
 	
@@ -301,28 +298,28 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @return Das angelegte Notizquelle-Objekt.
 	 * @throws IllegalArgumentException
 	 */
-//TODO
-	@Override
-	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException{
-		
-		Notizquelle notizquelle = new Notizquelle();
-		
-		notizquelle.setUrl(url);
-		
-		return this.notizquelleMapper.insertNotizquelle(notizquelle, notizquelleId);
-		
-	}
-	
-	/**
-	 * Ein Notizquelle-Objekt loeschen.
-	 * @param notizquelleId Die Notizquelle-ID der Notizquelle, das geloescht werden soll.
-	 * @throws IllegalArgumentException
-	 */
-	//TODO
-	public void loescheNotizquelle(int notizquelleId)
-			throws IllegalArgumentException {
-		this.notizquelleMapper.loeschenotizquelle(notizquelleId);
-	}
+////TODO
+//	@Override
+//	public Notizquelle erstelleNotizquelle(int notizquelleId, String url) throws IllegalArgumentException{
+//		
+//		Notizquelle notizquelle = new Notizquelle();
+//		
+//		notizquelle.setUrl(url);
+//		
+//		return this.notizquelleMapper.insertNotizquelle(notizquelle, notizquelleId);
+//		
+//	}
+//	
+//	/**
+//	 * Ein Notizquelle-Objekt loeschen.
+//	 * @param notizquelleId Die Notizquelle-ID der Notizquelle, das geloescht werden soll.
+//	 * @throws IllegalArgumentException
+//	 */
+//	//TODO
+//	public void loescheNotizquelle(int notizquelleId)
+//			throws IllegalArgumentException {
+//		this.notizquelleMapper.loeschenotizquelle(notizquelleId);
+//	}
 	
 	
 	/**
@@ -468,7 +465,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 			n.setSubtitel(subtitel);
 			n.setInhalt(inhalt);
 			n.setModifikationsdatum(modifikationsdatum);
-			this.bearbeiteFaelligkeit(fdatum, id, nutzer);
+			n.setFaelligkeit(fdatum);
 			return this.notizMapper.bearbeiten(n);
 		} else {
 			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(id);
@@ -480,7 +477,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 					n.setSubtitel(subtitel);
 					n.setInhalt(inhalt);
 					n.setModifikationsdatum(modifikationsdatum);
-					this.bearbeiteFaelligkeit(fdatum, id, nutzer);
+					n.setFaelligkeit(fdatum);
 					return this.notizMapper.bearbeiten(n);
 				} else {
 					System.out.println("Dir fehlen die Berechtigungen");
@@ -526,13 +523,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
-	@Override
-	//TODO
-	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
-		
-		return this.notizquelleMapper.bearbeiten(notizquelle);
-		
-	}
+//	@Override
+//	//TODO
+//	public Notizquelle bearbeiteNotizquelle(Notizquelle notizquelle) throws IllegalArgumentException{
+//		
+//		return this.notizquelleMapper.bearbeiten(notizquelle);
+//		
+//	}
 	
 	@Override
 	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId, String nutzer) throws IllegalArgumentException {
@@ -715,7 +712,8 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum)
 			throws IllegalArgumentException {
 		
-		return this.notizMapper.getNotizByFaelligkeit(fdatum);
+//		return this.notizMapper.getNotizByFaelligkeit(fdatum);
+		return null;
 		
 	}
 
@@ -804,12 +802,12 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 
 	
-	@Override
-	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid)
+//			throws IllegalArgumentException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public Notiz getNotizByNutzer(Nutzer nutzer)
@@ -833,9 +831,8 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	public Date getFaelligkeitByNotiz(int notizId){
 		Notiz n = new Notiz();
 		n.setId(notizId);
-		Faelligkeit f = new Faelligkeit();
-		this.faelligkeitMapper.getFaelligkeitByNotiz(n);
-		return f.getDatum();
+		this.notizMapper.getFaelligkeitByNotiz(n);
+		return n.getFaelligkeit();
 	}
 	
 //	public Collection<Notizbuch> getNBfuerSuggestbox(){

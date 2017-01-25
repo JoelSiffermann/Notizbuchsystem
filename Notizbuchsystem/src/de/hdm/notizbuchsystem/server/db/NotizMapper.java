@@ -43,7 +43,7 @@ public class NotizMapper {
 				
 				stmt.executeUpdate("INSERT INTO eintragung ( `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`) " + "VALUES ('"
 		            + n.getId() + "','" + n.getEigentuemer() + "','" + getSqlDateFormat(n.getModifikationsdatum()) + "','" + getSqlDateFormat(n.getErstelldatum()) + "','" + n.getTitel() + "' )");
-				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`, Subtitel) VALUES ('" + n.getId() + "','" + n.getInhalt() + "','" + n.getSubtitel() + "')");
+				stmt.executeUpdate("INSERT INTO notiz (`ID`, `Inhalt`, Subtitel, Faelligkeit) VALUES ('" + n.getId() + "','" + n.getInhalt() + "','" + n.getSubtitel() + "','" + getSqlDateFormat(n.getFaelligkeit()) + "')");
 			}
 		}
 		
@@ -70,7 +70,7 @@ public class NotizMapper {
 			
 			stmt.executeUpdate("UPDATE notizbuchdb.eintragung , notizbuchdb.notiz SET eintragung.Titel =\""
           + n.getTitel() + "\", eintragung.Modifikationsdatum =\"" + getSqlDateFormat(n.getModifikationsdatum()) + "\", notiz.Subtitel=\"" + n.getSubtitel()+ "\", notiz.Inhalt =\"" + n.getInhalt()
-          + "\" WHERE `Eintragung-ID`='" + n.getId() + "' AND notiz.ID='" + n.getId() + "'");
+          + "\", notiz.Faelligkeit=\"" + getSqlDateFormat(n.getFaelligkeit()) + "\" WHERE `Eintragung-ID`='" + n.getId() + "' AND notiz.ID='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
@@ -86,7 +86,6 @@ public class NotizMapper {
 		try{
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE `FreigegebeneEintragung`='" + n.getId() + "'");
-		    stmt.executeUpdate("DELETE FROM faelligkeit WHERE Eintragung='" + n.getId() + "'");
 			stmt.executeUpdate("DELETE FROM notiz " + "WHERE ID='" + n.getId() + "'");
 		}
 		catch(SQLException e1) {
@@ -105,7 +104,7 @@ public class NotizMapper {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, notiz.`Inhalt`"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, notiz.`Inhalt`, notiz.`Faelligkeit`"
 		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE Eigentuemer ='" + email
 		          + "' ORDER BY `Eintragung-ID`");
 
@@ -120,6 +119,7 @@ public class NotizMapper {
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
+		        e.setFaelligkeit(rs.getDate("Faelligkeit"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(e);
@@ -142,7 +142,7 @@ public Vector<Notiz> getNotizen() {
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit"
 		    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.ID"
 		          + " ORDER BY `Eintragung-ID`");
 
@@ -156,6 +156,7 @@ public Vector<Notiz> getNotizen() {
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
+		        e.setFaelligkeit(rs.getDate("Faelligkeit"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(e);
@@ -189,6 +190,7 @@ public Vector<Notiz> getNotizen() {
 		        n1.setTitel(rs.getString("Titel"));
 		        n1.setSubtitel(rs.getString("Subtitel"));
 		        n1.setInhalt(rs.getString("Inhalt"));
+		        n1.setFaelligkeit(rs.getDate("Faelligkeit"));
 		        
 		        result.addElement(n1);
 				}
@@ -199,22 +201,22 @@ public Vector<Notiz> getNotizen() {
 			return result;
 		
 		}
-//TODO		
-	public Vector<Notiz> getNotizByFaelligkeit(Date fdatum) {
+	
+	public Notiz getFaelligkeitByNotiz(Notiz n) {
 
 		Connection con = DBConnection.getConnection();
 		
-		Vector<Notiz> result = new Vector<Notiz>();
+		Notiz n1 = new Notiz();
 		
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT Eintragung-ID, Eigentümer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "Eigentuemer FROM Eintragung INNER JOIN Notiz ON Eintragung-ID = Notiz-ID"
-		          + " ORDER BY Eintragung-ID");
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit"
+		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` ='" + n.getId()
+		          + "WHERE Faelligkeit='" + getSqlDateFormat(n.getFaelligkeit()) + " ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
-		      while (rs.next()) {
+		      if(rs.next()) {
 		        Notiz e = new Notiz();
 		        e.setId(rs.getInt("Eintragung-ID"));
 		        e.setEigentuemer(rs.getString("Eigentuemer"));
@@ -223,18 +225,16 @@ public Vector<Notiz> getNotizen() {
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
-
-		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
-		        result.addElement(e);
+		        e.setFaelligkeit(rs.getDate("Faelligkeit"));
+		        n1 = e;
 		      }
 		    }
 		    catch (SQLException e2) {
 		      e2.printStackTrace();
 		    }
-
-		    // Ergebnisvektor zurückgeben
-		    return result;
-		  }
+		return n1;
+		
+	}
 	
 
 	public void zuweisen(Notizbuch notizbuch, Notiz notiz) {
@@ -325,7 +325,7 @@ public Vector<Notiz> getNotizen() {
 		    // Ergebnisvektor zurückgeben
 		    return result;
 	}
-	
+	//TODO
 	public Map<Vector<Notiz>, Vector<Faelligkeit>> getNotizenByKriterium(String titel, Date edatum, Date mdatum, Date fdatum) {
 		
 		Connection con = DBConnection.getConnection();
@@ -357,19 +357,18 @@ public Vector<Notiz> getNotizen() {
 					
 				} 
 				if(fdatum != null) {
-					fQuery = "Faelligkeit.Datum = '" + getSqlDateFormat(fdatum) + "'";
+					fQuery = "Faelligkeit = '" + getSqlDateFormat(fdatum) + "'";
 					whereQuery.append(" AND " + fQuery);
 				}
 				try {
 					Statement stmt = con.createStatement();
 					
-					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, faelligkeit.Datum, faelligkeit.ID, faelligkeit.Eintragung"
-				    		  + "FROM eintragung LEFT JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN faelligkeit ON notiz.ID = faelligkeit.Eintragung"
+					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit"
+				    		  + "FROM eintragung LEFT JOIN notiz ON `Eintragung-ID` = notiz.ID"
 				          + whereQuery + " ORDER BY `Eintragung-ID`");
 				while(rs.next()){
 					
 					Notiz n = new Notiz();
-					Faelligkeit f = new Faelligkeit();
 					n.setId(rs.getInt("Eintragung-ID"));
 			        n.setEigentuemer(rs.getString("Eigentuemer"));
 			        n.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
@@ -377,10 +376,7 @@ public Vector<Notiz> getNotizen() {
 			        n.setTitel(rs.getString("Titel"));
 			        n.setSubtitel(rs.getString("Subtitel"));
 			        n.setInhalt(rs.getString("Inhalt"));
-			        f.setId(rs.getInt("faelligkeit.ID"));
-			        f.setDatum(rs.getDate("faelligkeit.Datum"));
-			        f.setNotiz(rs.getInt("faelligkeit.Eintragung"));
-			        v.add(f);
+			        n.setFaelligkeit(rs.getDate("Faelligkeit"));
 			        notiz.add(n);
 			        result.put(notiz, v);
 			} 
@@ -407,7 +403,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 				try {
 					Statement stmt = con.createStatement();
 					
-					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, nutzerfreigabe.Leseberechtigung,"
+					ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt, Faelligkeit, nutzerfreigabe.Leseberechtigung,"
 				    		  + "nutzerfreigabe.Aenderungsberechtigung, nutzerfreigabe.Loeschberechtigung nutzerfreigabe.FreigegebenerNutzer, nutzerfreigabe.FreigabeID,"
 				    		  + "nutzerfreigabe.FreigegebeneEintragung, nutzerfreigabe.FreigebenderNutzer"
 				    		  + " FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID LEFT JOIN nutzerfreigabe ON eintragung.Eigentuemer = nutzerfreigabe.FreigebenderNutzer"
@@ -423,6 +419,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 			        no.setTitel(rs.getString("Titel"));
 			        no.setSubtitel(rs.getString("Subtitel"));
 			        no.setInhalt(rs.getString("Inhalt"));
+			        no.setFaelligkeit(rs.getDate("Faelligkeit"));
 			        fr.setId(rs.getInt("FreigabeID"));
 			        fr.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
 			        fr.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
@@ -451,7 +448,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 	try {
 	      Statement stmt = con.createStatement();
 
-	      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`"
+	      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`, `Faelligkeit`"
 	    		  + "FROM eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = `ID` WHERE `Eintragung-ID` ='" + n.getId()
 	          + "' ORDER BY `Eintragung-ID`");
 
@@ -466,6 +463,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 	        e.setTitel(rs.getString("Titel"));
 	        e.setSubtitel(rs.getString("Subtitel"));
 	        e.setInhalt(rs.getString("Inhalt"));
+	        e.setFaelligkeit(rs.getDate("Faelligkeit"));
 	        
 
 	      }
@@ -487,7 +485,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`, `Faelligkeit`"
 		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.`ID` INNER JOIN notizbuchdb.nutzerfreigabe ON notiz.`ID` = nutzerfreigabe.`FreigegebeneEintragung`"
 		          + "WHERE nutzerfreigabe.`FreigegebeneEintragung`='" + f.getFreigegebeneEintragung() + "' ORDER BY `Eintragung-ID`");
 
@@ -501,6 +499,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
+		        e.setFaelligkeit(rs.getDate("Faelligkeit"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(e);
@@ -523,7 +522,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`, notiz.`Notizbuch`"
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`, Faelligkeit, notiz.`Notizbuch`"
 		    		  + "FROM notizbuchdb.`eintragung` INNER JOIN notizbuchdb.`notiz` ON `Eintragung-ID` = notiz.`ID` INNER JOIN notizbuchdb.`notizbuch` ON notiz.`Notizbuch` = notizbuch.`ID`"
 		          + "WHERE notiz.`Notizbuch`='" + nb.getId() + "' ORDER BY `Eintragung-ID`");
 
@@ -537,6 +536,7 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		        e.setTitel(rs.getString("Titel"));
 		        e.setSubtitel(rs.getString("Subtitel"));
 		        e.setInhalt(rs.getString("Inhalt"));
+		        e.setFaelligkeit(rs.getDate("Faelligkeit"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(e);

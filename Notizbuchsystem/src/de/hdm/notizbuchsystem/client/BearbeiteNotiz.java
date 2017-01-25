@@ -108,7 +108,7 @@ public class BearbeiteNotiz extends Showcase {
 									inhaltAnzeige.setText(result.getInhalt());
 									erstelldatumdatebox.setValue(result.getErstelldatum());
 									modidatebox.setValue(result.getModifikationsdatum());
-									faelligkeitdatebox.setValue(faelligkeitdatebox.getValue());
+									faelligkeitdatebox.setValue(result.getFaelligkeit());
 
 								}}
 			        		
@@ -180,7 +180,7 @@ public class BearbeiteNotiz extends Showcase {
 					erstelldatumdatebox.setValue(result.getErstelldatum());
 					modidatebox.setValue(result.getModifikationsdatum());
 							
-//					faelligkeitdatebox.setFormat();
+					faelligkeitdatebox.setValue(result.getFaelligkeit());
 							
 							
 							

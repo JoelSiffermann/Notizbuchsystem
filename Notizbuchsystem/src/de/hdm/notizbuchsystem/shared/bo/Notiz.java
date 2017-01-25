@@ -1,5 +1,7 @@
 package de.hdm.notizbuchsystem.shared.bo;
 
+import java.util.Date;
+
 public class Notiz extends Eintragung{
 
 	private static final long serialVersionUID = 1L;
@@ -9,6 +11,8 @@ public class Notiz extends Eintragung{
 	private String subtitel;
 	
 	private String inhalt;
+	
+	private Date faelligkeit;
 	
 //	private Notiz notiz;
 	
@@ -36,6 +40,14 @@ public class Notiz extends Eintragung{
 	
 	public int getNotizId(){
 		return notizId;
+	}
+
+	public Date getFaelligkeit() {
+		return faelligkeit;
+	}
+
+	public void setFaelligkeit(Date faelligkeit) {
+		this.faelligkeit = faelligkeit;
 	}
 	
 	

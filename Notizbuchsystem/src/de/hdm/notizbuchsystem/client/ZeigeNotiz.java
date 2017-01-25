@@ -131,7 +131,7 @@ public class ZeigeNotiz extends Showcase {
 							Nuebersicht.setText(reihe, 0, n.getTitel());
 							Nuebersicht.setText(reihe, 1, n.getSubtitel());
 							Nuebersicht.setText(reihe, 2, n.getEigentuemer());
-							Nuebersicht.setText(reihe, 3, n.getErstelldatum().toString());
+							Nuebersicht.setText(reihe, 3, n.getFaelligkeit().toString());
 							
 							anzeigenbutton = new Button("Anzeigen");
 							teilenbutton = new Button("Teilen");
