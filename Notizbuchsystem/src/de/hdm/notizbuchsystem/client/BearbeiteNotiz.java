@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
+import de.hdm.notizbuchsystem.shared.bo.Faelligkeit;
 import de.hdm.notizbuchsystem.shared.bo.Notiz;
 
 public class BearbeiteNotiz extends Showcase {
@@ -140,8 +141,28 @@ public class BearbeiteNotiz extends Showcase {
 			}
 		
 		private void befuelleTabelle() {
+			
+			ClientsideSettings.getNotizSystemAdministration().getFaelligkeitByNotiz
+			(id, new AsyncCallback<Date>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("fehlgeschlagen");
+					
+				}
+
+				@Override
+				public void onSuccess(Date result) {
+					Window.alert(result.toString());
+					faelligkeitdatebox.setValue(result);
+				}
+				
+			});
+			
 			ClientsideSettings.getNotizSystemAdministration().getNotizbyID(id, new AsyncCallback<Notiz>() {
 
+				
+				
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub
@@ -151,14 +172,19 @@ public class BearbeiteNotiz extends Showcase {
 				@Override
 				public void onSuccess(Notiz result) {
 					
+					
+					
 					titelAnzeige.setText(result.getTitel());
 					subtitelAnzeige.setText(result.getSubtitel());
 					inhaltAnzeige.setText(result.getInhalt());
 					erstelldatumdatebox.setValue(result.getErstelldatum());
 					modidatebox.setValue(result.getModifikationsdatum());
-					faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(
-							ClientsideSettings.getNotizSystemAdministration().getFaelligkeit, callback);, callback);));
-					faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
+							
+//					faelligkeitdatebox.setFormat();
+							
+							
+							
+							faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
 					
 //					titelAnzeige.setEnabled(false);
 //					subtitelAnzeige.setEnabled(false);
