@@ -829,6 +829,15 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		return result;
 	}
 	
+	@Override
+	public Date getFaelligkeitByNotiz(int notizId){
+		Notiz n = new Notiz();
+		n.setId(notizId);
+		Faelligkeit f = new Faelligkeit();
+		this.faelligkeitMapper.getFaelligkeitByNotiz(n);
+		return f.getDatum();
+	}
+	
 //	public Collection<Notizbuch> getNBfuerSuggestbox(){
 //		List<Notizbuch> result = new ArrayList<Notizbuch>();
 //		Vector<Notizbuch> n = this.notizbuchMapper.getNotizbuecherByNutzer(email);

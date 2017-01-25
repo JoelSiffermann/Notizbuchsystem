@@ -90,7 +90,7 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			ResultSet rs = 
-			stmt.executeQuery("SELECT * FROM faelligkeit WHERE Eintragung = '" + n.getId() + "'");
+			stmt.executeQuery("SELECT * FROM notizbuchdb.faelligkeit WHERE faelligkeit.`Eintragung` = '" + n.getId() + "'");
 			
 			if(rs.next()){
 				f.setId(rs.getInt("ID"));
