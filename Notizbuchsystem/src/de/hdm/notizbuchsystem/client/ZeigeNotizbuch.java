@@ -35,6 +35,7 @@ public class ZeigeNotizbuch extends Showcase {
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Button anzeigenButton;
 	private Button zeigeNotizenButton;
+	private Button teilenbutton;
 	  
 
 	@Override
@@ -126,8 +127,12 @@ public class ZeigeNotizbuch extends Showcase {
 							NBuebersicht.setText(reihe, 2, n.getErstelldatum().toString());
 							
 							anzeigenButton = new Button("Anzeigen");
+							zeigeNotizenButton = new Button("Notizen anzeigen");
+							teilenbutton = new Button("Teilen");
 							
+							NBuebersicht.setWidget(reihe, 4, zeigeNotizenButton);
 							NBuebersicht.setWidget(reihe, 3, anzeigenButton);
+							NBuebersicht.setWidget(reihe, 6, teilenbutton);
 							
 							anzeigenButton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
@@ -141,8 +146,17 @@ public class ZeigeNotizbuch extends Showcase {
 							zeigeNotizenButton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
-								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase2 = new ZeigeNotizbuch();
 								Showcase showcase = new ZeigeNotizenAusNotizbuch(eintragungid);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(showcase);
+								}});
+							
+							teilenbutton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotizbuch();
+								Showcase showcase = new Eintragungteilen(eintragungid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});
