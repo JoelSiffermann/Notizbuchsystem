@@ -142,22 +142,22 @@ public class BearbeiteNotiz extends Showcase {
 		
 		private void befuelleTabelle() {
 			
-			ClientsideSettings.getNotizSystemAdministration().getFaelligkeitByNotiz
-			(id, new AsyncCallback<Date>(){
-
-				@Override
-				public void onFailure(Throwable caught) {
-					Window.alert("fehlgeschlagen");
-					
-				}
-
-				@Override
-				public void onSuccess(Date result) {
-					Window.alert(result.toString());
-					faelligkeitdatebox.setValue(result);
-				}
-				
-			});
+//			ClientsideSettings.getNotizSystemAdministration().getFaelligkeitByNotiz
+//			(id, new AsyncCallback<Date>(){
+//
+//				@Override
+//				public void onFailure(Throwable caught) {
+//					Window.alert("fehlgeschlagen");
+//					
+//				}
+//
+//				@Override
+//				public void onSuccess(Date result) {
+//					Window.alert(result.toString());
+//					faelligkeitdatebox.setValue(result);
+//				}
+//				
+//			});
 			
 			ClientsideSettings.getNotizSystemAdministration().getNotizbyID(id, new AsyncCallback<Notiz>() {
 

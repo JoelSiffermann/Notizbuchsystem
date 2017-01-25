@@ -84,7 +84,7 @@ public class NotizbuchMapper {
 			stmt.executeUpdate("DELETE FROM nutzerfreigabe " + "WHERE `FreigegebeneEintragung`='" + n.getId() + "'");
 			stmt.executeUpdate("DELETE faelligkeit FROM notizbuchdb.faelligkeit faelligkeit JOIN notizbuchdb.notiz ON faelligkeit.`Eintragung` = notiz.`ID` JOIN notizbuchdb.notizbuch ON notiz.Notizbuch ='" + n.getId() + "' WHERE notiz.`Notizbuch` ='" + n.getId() + "'");
 			stmt.executeUpdate("DELETE FROM notizbuchdb.notiz " + "WHERE notiz.`Notizbuch`='" + n.getId() + "'");
-			stmt.executeUpdate("DELTE FROM notizbuchdb.notizbuch WHERE notizbuch.`ID`='" + n.getId() + "'");
+			stmt.executeUpdate("DELETE FROM notizbuchdb.notizbuch WHERE notizbuch.`ID`='" + n.getId() + "'");
 		}
 		catch(SQLException e1) {
 			e1.printStackTrace();
