@@ -207,6 +207,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 		if(fdatum!=null){
 			this.erstelleFaelligkeit(notiz.getId(), fdatum);
+			return notiz;
 		}
 		
 		return notiz;
