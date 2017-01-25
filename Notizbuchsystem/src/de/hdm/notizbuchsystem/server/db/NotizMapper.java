@@ -244,7 +244,8 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			stmt.executeQuery("INSERT INTO notiz (notizbuch) VALUES ('" + notizbuch.getId() + "') WHERE notiz.`ID`='" + notiz.getId() + "'");
+			stmt.executeUpdate("UPDATE notizbuchdb.notiz SET notiz.Notizbuch =\""
+          + notizbuch.getId() + "\" WHERE notiz.`ID`='" + notiz.getId() + "'");
 			
 		} catch(SQLException e){
 			e.printStackTrace();

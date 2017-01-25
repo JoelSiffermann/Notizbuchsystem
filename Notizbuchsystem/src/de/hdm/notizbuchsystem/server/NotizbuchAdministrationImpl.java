@@ -551,20 +551,26 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	@Override
 	public void zuweisungNotiz(int notizbuch, int notiz, String nutzer) throws IllegalArgumentException{
-		Notizbuch nb = new Notizbuch();
-		Notiz n = new Notiz();
-		nb.setId(notizbuch);
-		n.setId(notiz);
-		if(nb.getEigentuemer()==nutzer && n.getEigentuemer()==nutzer){
-			this.notizMapper.zuweisen(nb, n);
+		Notizbuch nb = this.getNotizbuchbyID(notizbuch);
+		if(nb.getEigentuemer().equalsIgnoreCase(nutzer)){
+			Notiz n = this.getNotizbyID(notiz);
+			if(n.getEigentuemer().equalsIgnoreCase(nutzer)) {;
+				nb.setId(notizbuch);
+				n.setId(notiz);
+				this.notizMapper.zuweisen(nb, n);
+			}
 		} else {
-			Vector<Freigabe> nf = this.getFreigabeByEintragung(notiz);
 			Vector<Freigabe> nbf = this.getFreigabeByEintragung(notizbuch);
 			for(Freigabe f : nbf) {
-				for(Freigabe f2: nf){
-					if(f.getFreigebenderNutzer()==nutzer && f.getAenderungsberechtigung()==true){
-						if(f2.getFreigebenderNutzer()==nutzer && f2.getAenderungsberechtigung()==true){
-							this.notizMapper.zuweisen(nb, n);
+				if(f.getFreigegebenerNutzer().equalsIgnoreCase(nutzer) && f.getAenderungsberechtigung()==true){
+					Vector<Freigabe> nf = this.getFreigabeByEintragung(notiz);
+					for(Freigabe f2: nf){
+						if(f2.getFreigegebenerNutzer().equalsIgnoreCase(nutzer) && f2.getAenderungsberechtigung()==true){
+							Notizbuch nb1 = new Notizbuch();
+							Notiz n1 = new Notiz();
+							nb1.setId(notizbuch);
+							n1.setId(notiz);
+							this.notizMapper.zuweisen(nb1, n1);
 						} else {
 							System.out.println("Dir fehlen die Berechtigungen");
 						}	
@@ -573,6 +579,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 				}
 			}
 		}
+		
 	}
 	
 	@Override
@@ -649,7 +656,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		Vector<Freigabe> f = this.getBerechtigungByNutzer(nutzer);
 		for(Freigabe freigabe : f) {
 				if(freigabe.getFreigegebenerNutzer()==nutzer && freigabe.getLeseberechtigung()==true){
-					 return this.notizMapper.getNotizByFreigabe(freigabe);
+					 return this.notizMapper.getNotizenByNotizbuch(nb);
 				}
 			}
 		return null;
