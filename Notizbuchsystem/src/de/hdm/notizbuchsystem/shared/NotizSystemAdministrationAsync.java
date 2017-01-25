@@ -7,6 +7,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 
+
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -99,7 +101,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNotizByMDatum(Date modifikationsdatum, AsyncCallback<Vector<Notiz>> callback);
 	
-	void getNotizByNotizbuch(int notizbuchId, AsyncCallback<Vector<Notiz>> callback);
+	void getNotizByNotizbuch(int notizbuchId, String nutzer, AsyncCallback<Vector<Notiz>> callback);
 	
 
 	void getNotizenByNutzer(String email, AsyncCallback<Vector<Notiz>> callback);
@@ -125,7 +127,7 @@ public interface NotizSystemAdministrationAsync {
 
 	void getNotizbyID(int id, AsyncCallback<Notiz> callback);
 
-	void getStringforSuggestBox(AsyncCallback<String[]> callback);
+	void getStringforSuggestBox(AsyncCallback<Collection<String>> callback);
 
 	void getFreigabe(String email, AsyncCallback<Freigabe> callback);
 

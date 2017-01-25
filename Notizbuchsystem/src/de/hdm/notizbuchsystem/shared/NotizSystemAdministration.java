@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.shared;
 
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -96,7 +97,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum) throws IllegalArgumentException;
 	
-	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId) throws IllegalArgumentException;
+	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId, String nutzer) throws IllegalArgumentException;
 
 	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId, String nutzer)
 			throws IllegalArgumentException;
@@ -129,7 +130,11 @@ public interface NotizSystemAdministration extends RemoteService {
 	Notiz getNotizbyID(int id) throws IllegalArgumentException;
 	
 
-	String[] getStringforSuggestBox() throws IllegalArgumentException;
+
+//	String[] getStringforSuggestBox() throws IllegalArgumentException;
+
+	Collection<String> getStringforSuggestBox() throws IllegalArgumentException;
+
 	
 	Freigabe getFreigabe(String email) throws IllegalArgumentException;
 	
