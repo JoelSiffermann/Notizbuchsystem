@@ -90,10 +90,12 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try{
 			Statement stmt = con.createStatement();
 			ResultSet rs = 
-			stmt.executeQuery("SELECT Datum FROM faelligkeit WHERE Eintragung = '" + n.getId() + "'");
+			stmt.executeQuery("SELECT * FROM faelligkeit WHERE Eintragung = '" + n.getId() + "'");
 			
 			if(rs.next()){
+				f.setId(rs.getInt("ID"));
 				f.setDatum(rs.getDate("Datum"));
+				f.setNotiz(rs.getInt("Eintragung"));
 			}
 			
 		} catch (SQLException e) {
@@ -110,13 +112,15 @@ private static FaelligkeitMapper faelligkeitMapper = null;
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT Datum FROM faelligkeit WHERE Eintragung = '"
+		      ResultSet rs = stmt.executeQuery("SELECT * FROM faelligkeit WHERE Eintragung = '"
 		          + f.getNotiz() + "' ORDER BY Datum");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Faelligkeit-Objekt erstellt.
 		      while (rs.next()) {
 		        Faelligkeit fa = new Faelligkeit();
+		        fa.setId(rs.getInt("ID"));
 		        fa.setDatum(rs.getDate("Datum"));
+		        fa.setNotiz(rs.getInt("Eintragung"));
 
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(fa);

@@ -66,7 +66,7 @@ public class NotizbuchMapper {
 			
 			stmt.executeUpdate("UPDATE notizbuchdb.eintragung , notizbuchdb.notizbuch SET eintragung.Titel =\""
 			          + n.getTitel() + "\", eintragung.Modifikationsdatum =\"" + getSqlDateFormat(n.getModifikationsdatum())
-			          + "\" WHERE `Eintragung-ID`='" + n.getId() + "'");
+			          + "\" WHERE `Eintragung-ID`='" + n.getId() + "' AND notizbuch.ID='" + n.getId() + "'");
 		}
 		
 		catch (SQLException e1) {
