@@ -626,6 +626,13 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		
 	}
 	
+	@Override
+	public Notizbuch getNotizbuchbyID(int id) throws IllegalArgumentException{
+		Notizbuch n = new Notizbuch();
+		n.setId(id);
+		return this.notizbuchMapper.getNotizbuchByID(n);
+		
+	}
 	
 	//TODO:
 	public Vector<Notiz> getNotizByErstelldatum(Date erstelldatum) throws IllegalArgumentException{

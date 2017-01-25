@@ -27,6 +27,8 @@ public class BearbeiteNotiz extends Showcase {
 		}
 		private int id;
 		
+		private String email = Notizbuchsystem.getLoginInfo().getEmailAddress();
+		
 		private DateTimeFormat erstelldatumFormat = DateTimeFormat
 				.getFormat("dd.MM.yyyy");
 		
@@ -84,7 +86,7 @@ public class BearbeiteNotiz extends Showcase {
 			speichernButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
-			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, titelAnzeige.getText(),
+			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, email, titelAnzeige.getText(),
 			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), aktuellesDatum(), new AsyncCallback<Notiz>()
 			        		{
 

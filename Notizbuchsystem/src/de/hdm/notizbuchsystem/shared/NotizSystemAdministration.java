@@ -136,6 +136,8 @@ public interface NotizSystemAdministration extends RemoteService {
 			throws IllegalArgumentException;
 	Vector<Nutzer> getAllNutzer() throws IllegalArgumentException;
 	
+	Notizbuch getNotizbuchbyID(int id) throws IllegalArgumentException;
+	
 	
 }
 

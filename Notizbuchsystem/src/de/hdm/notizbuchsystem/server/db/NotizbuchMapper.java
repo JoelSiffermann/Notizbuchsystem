@@ -155,5 +155,37 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 			
 	}
 	
+	public Notizbuch getNotizbuchByID(Notizbuch n) {
+		
+		Connection con = DBConnection.getConnection();
+		Notizbuch e = new Notizbuch();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`"
+		    		  + "FROM eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = `ID` WHERE `Eintragung-ID` ='" + n.getId()
+		          + "' ORDER BY `Eintragung-ID`");
+
+		      // Für den Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
+		      if (rs.next()) {
+		    	  
+		        
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+		        
+
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+		
+		return e;
+
+		  }
 	
 }

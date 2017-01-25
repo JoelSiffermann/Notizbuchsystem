@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -132,6 +133,8 @@ public interface NotizSystemAdministrationAsync {
 			AsyncCallback<Vector<Freigabe>> callback);
 
 	void getAllNutzer(AsyncCallback<Vector<Nutzer>> callback);
+
+	void getNotizbuchbyID(int id, AsyncCallback<Notizbuch> callback);
 
 	
 
