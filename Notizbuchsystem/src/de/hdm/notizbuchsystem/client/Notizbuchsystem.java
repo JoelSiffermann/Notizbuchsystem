@@ -30,6 +30,7 @@ public class Notizbuchsystem implements EntryPoint {
 	private Button nutzerButton = new Button("Mein Profil");
 	private Button notizButton = new Button("Verwalte Notizen");
 	private Button notizbuchButton = new Button("Verwalte Notizbuecher");
+	private Button eintragungsuchenButton = new Button("Suche");
 	private Button logoutButton = new Button("Logout");
 	
 	
@@ -70,11 +71,13 @@ public class Notizbuchsystem implements EntryPoint {
 	    nutzerButton.setStylePrimaryName("test-menubutton");
 	    notizbuchButton.setStylePrimaryName("test-menubutton");
 	    notizButton.setStylePrimaryName("test-menubutton");
+	    eintragungsuchenButton.setStylePrimaryName("test-menubutton");
 	    logoutButton.setStylePrimaryName("test-menubutton");
 	        
 	    navPanel.add(nutzerButton);
 	    navPanel.add(notizbuchButton);
 	    navPanel.add(notizButton);
+	    navPanel.add(eintragungsuchenButton);
 	    navPanel.add(logoutButton);
 	    
 	    notizbuchButton.addClickHandler(new ClickHandler() {
@@ -102,7 +105,19 @@ public class Notizbuchsystem implements EntryPoint {
 	      }
 	    });
 
-	   
+	    eintragungsuchenButton.addClickHandler(new ClickHandler() {
+		      @Override
+			public void onClick(ClickEvent event) {
+		        /*
+		         * Showcase instantiieren.
+		         */
+		        Showcase showcase = new SucheEintragung();
+
+		        RootPanel.get("Details").clear();
+		        RootPanel.get("Details").add(showcase);
+		      }
+		    });
+	    
 	      nutzerButton.addClickHandler(new ClickHandler() {
 	    	    @Override
 	    	  	public void onClick(ClickEvent event) {
