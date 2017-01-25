@@ -458,7 +458,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	
 	
 	@Override
-	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum, Date fdatum) throws IllegalArgumentException{
 		Notiz n1 = this.getNotizbyID(id);
 		
 		if(n1.getEigentuemer().equalsIgnoreCase(nutzer)){
@@ -468,6 +468,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 			n.setSubtitel(subtitel);
 			n.setInhalt(inhalt);
 			n.setModifikationsdatum(modifikationsdatum);
+			this.bearbeiteFaelligkeit(fdatum, id, nutzer);
 			return this.notizMapper.bearbeiten(n);
 		} else {
 			Vector<Freigabe> freigaben = this.getFreigabeByEintragung(id);
@@ -479,6 +480,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 					n.setSubtitel(subtitel);
 					n.setInhalt(inhalt);
 					n.setModifikationsdatum(modifikationsdatum);
+					this.bearbeiteFaelligkeit(fdatum, id, nutzer);
 					return this.notizMapper.bearbeiten(n);
 				} else {
 					System.out.println("Dir fehlen die Berechtigungen");

@@ -59,7 +59,7 @@ public interface NotizSystemAdministrationAsync {
 	void loescheFreigabe(String nutzer, int eintragungId,
 			AsyncCallback<Void> callback);	
 	
-	void bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum, AsyncCallback<Notiz> callback);
+	void bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum, Date fdatum, AsyncCallback<Notiz> callback);
 	
 	void bearbeiteNotizbuch(int id, String nutzer, String titel, Date modifikationsdatum, AsyncCallback<Notizbuch> callback);
 	

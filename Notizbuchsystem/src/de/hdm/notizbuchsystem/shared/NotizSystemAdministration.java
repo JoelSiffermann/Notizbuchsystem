@@ -61,7 +61,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public void loescheFreigabe(String nutzer, int eintragungId) throws IllegalArgumentException;
 	
-	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notiz bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum, Date fdatum) throws IllegalArgumentException;
 	
 	public Notizbuch bearbeiteNotizbuch(int id, String nutzer, String titel, Date modifikationsdatum) throws IllegalArgumentException;
 	
