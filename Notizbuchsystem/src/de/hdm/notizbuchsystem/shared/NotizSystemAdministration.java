@@ -96,7 +96,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	public Vector<Notiz> getNotizByMDatum(Date modifikationsdatum) throws IllegalArgumentException;
 	
-	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId) throws IllegalArgumentException;
+	public Vector<Notiz> getNotizByNotizbuch(int notizbuchId, String nutzer) throws IllegalArgumentException;
 
 	public Faelligkeit bearbeiteFaelligkeit(Date datum, int notizId, String nutzer)
 			throws IllegalArgumentException;

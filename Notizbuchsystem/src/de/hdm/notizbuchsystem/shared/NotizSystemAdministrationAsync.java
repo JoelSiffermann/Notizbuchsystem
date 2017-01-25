@@ -99,7 +99,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void getNotizByMDatum(Date modifikationsdatum, AsyncCallback<Vector<Notiz>> callback);
 	
-	void getNotizByNotizbuch(int notizbuchId, AsyncCallback<Vector<Notiz>> callback);
+	void getNotizByNotizbuch(int notizbuchId, String nutzer, AsyncCallback<Vector<Notiz>> callback);
 	
 
 	void getNotizenByNutzer(String email, AsyncCallback<Vector<Notiz>> callback);
