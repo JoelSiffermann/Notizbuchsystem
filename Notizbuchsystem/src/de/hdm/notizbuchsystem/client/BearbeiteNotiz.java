@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -46,6 +47,7 @@ public class BearbeiteNotiz extends Showcase {
 			private DateBox erstelldatumdatebox = new DateBox();
 			
 			private Button speichernButton = new Button("Speichern");
+			private Button faelligkeitloeschen = new Button("Faelligkeit loeschen");
 			
 
 			
@@ -103,10 +105,30 @@ public class BearbeiteNotiz extends Showcase {
 									inhaltAnzeige.setText(result.getInhalt());
 									erstelldatumdatebox.setValue(result.getErstelldatum());
 									modidatebox.setValue(result.getModifikationsdatum());
+									faelligkeitdatebox.setValue(date);
 
 								}}
 			        		
 			        		);
+			    	  	
+			          }
+			    });
+			
+			faelligkeitloeschen.addClickHandler(new ClickHandler() {
+			      @Override
+				public void onClick(ClickEvent event) {
+			    	  ClientsideSettings.getNotizSystemAdministration().loescheFaelligkeit(id, email,
+			    			   new AsyncCallback<Void>() {
+
+							public void onFailure(Throwable caught) {
+							}
+
+							public void onSuccess(Void result) {
+
+								faelligkeitdatebox.setValue(null);	
+
+							}
+						});
 			    	  	
 			          }
 			    });
