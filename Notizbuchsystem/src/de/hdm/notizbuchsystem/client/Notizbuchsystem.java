@@ -202,6 +202,7 @@ public class Notizbuchsystem implements EntryPoint {
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
 					
+					
 				}
 
 			}

@@ -3,6 +3,9 @@ package de.hdm.notizbuchsystem.shared;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
+
+
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -36,30 +39,30 @@ public interface NotizSystemAdministrationAsync {
 	void erstelleFaelligkeit(int faelligkeitId, Date datum,
 			AsyncCallback<Faelligkeit> callback);
 	
-	void loescheNotiz(int notizid,
+	void loescheNotiz(int notizid, String nutzer,
 			AsyncCallback<Void> callback);
 	
 	void loescheNotizbuch(
-			int notizbuchid, AsyncCallback<Void> callback);
+			int notizbuchid, String nutzer, AsyncCallback<Void> callback);
 	
 	void loescheNutzer(String email, AsyncCallback<Void> callback);
 	
 	void loescheNotizquelle(Notizquelle notizquelle, int notizquelleid,
 			AsyncCallback<Void> callback);
 	
-	void loescheFaelligkeit(Faelligkeit faelligkeit, int faelligkeitid,
+	void loescheFaelligkeit(int notizId, String nutzer,
 			AsyncCallback<Void> callback);
 	
 	void loescheFreigabe(String nutzer, int eintragungId,
 			AsyncCallback<Void> callback);	
 	
-	void bearbeiteNotiz(int id, String titel, String subtitel, String inhalt, Date modifikationsdatum, AsyncCallback<Notiz> callback);
+	void bearbeiteNotiz(int id, String nutzer, String titel, String subtitel, String inhalt, Date modifikationsdatum, AsyncCallback<Notiz> callback);
 	
-	void bearbeiteNotizbuch(int id, String titel, Date modifikationsdatum, AsyncCallback<Notizbuch> callback);
+	void bearbeiteNotizbuch(int id, String nutzer, String titel, Date modifikationsdatum, AsyncCallback<Notizbuch> callback);
 	
 	void bearbeiteNotizquelle(Notizquelle notizquelle, AsyncCallback<Notizquelle> callback);
 	
-	void bearbeiteFaelligkeit(Date datum, int notizId,
+	void bearbeiteFaelligkeit(Date datum, int notizId, String nutzer,
 			AsyncCallback<Faelligkeit> callback);
 	
 	void bearbeiteNutzer(String email, String name, String vorname, AsyncCallback<Nutzer> callback);
@@ -68,14 +71,12 @@ public interface NotizSystemAdministrationAsync {
 
 	void bearbeiteNotizbuchFreigabe(boolean lb, boolean ab, boolean lob, String nutzer, AsyncCallback<Freigabe> callback);
 
-	void zuweisungNotiz(int notizbuch, int notiz,
+	void zuweisungNotiz(int notizbuch, int notiz, String nutzer,
 			AsyncCallback<Void> callback);
 	
 	void getNotizByFaelligkeit(Date fdatum, AsyncCallback<Vector<Notiz>> callback);
 	
 	void getNotizByNutzer(Nutzer nutzer, AsyncCallback<Notiz> callback);
-	
-	void getBerechtigungByNutzer(Nutzer nutzer, AsyncCallback<Freigabe> callback);
 	
 	void getNutzerByNotiz(Notiz notiz, AsyncCallback<Nutzer> callback);
 	
@@ -124,6 +125,13 @@ public interface NotizSystemAdministrationAsync {
 	void getNotizbyID(int id, AsyncCallback<Notiz> callback);
 
 	void getStringforSuggestBox(AsyncCallback<String[]> callback);
+
+	void getFreigabe(String email, AsyncCallback<Freigabe> callback);
+
+	void getBerechtigungByNutzer(String email,
+			AsyncCallback<Vector<Freigabe>> callback);
+
+	void getAllNutzer(AsyncCallback<Vector<Nutzer>> callback);
 
 	
 

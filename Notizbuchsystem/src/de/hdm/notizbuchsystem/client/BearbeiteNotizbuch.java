@@ -77,7 +77,7 @@ public class BearbeiteNotizbuch extends Showcase {
 		speichernButton.addClickHandler(new ClickHandler() {
 		      @Override
 			public void onClick(ClickEvent event) {
-		     ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(titelAnzeige.getText(), aktuellesDatum(), 
+		     ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(id, titelAnzeige.getText(), aktuellesDatum(), 
 		    		 new AsyncCallback<Notizbuch>()
      		{
 

@@ -512,6 +512,40 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		    return result;
 	}
 
-	
+	public Vector<Notiz> getNotizByFreigabe(Freigabe f) {
+
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notiz> result = new Vector<Notiz>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
+		    		  + "FROM Eintragung INNER JOIN Notiz ON `Eintragung-ID` = notiz.ID INNER JOIN nutzerfreigabe ON notiz.ID = nutzerfreigabe.FreigegebeneEintragung"
+		          + "WHERE FreigegebeneEintragung=" + f.getFreigegebeneEintragung() + " ORDER BY `Eintragung-ID`");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
+		      while (rs.next()) {
+		        Notiz e = new Notiz();
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+		        e.setSubtitel(rs.getString("Subtitel"));
+		        e.setInhalt(rs.getString("Inhalt"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(e);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+		  }
 	
 }
