@@ -77,7 +77,7 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 						
 						for(Notizbuch n : result) {
 							
-							final int nid = n.getId();
+							final int nbid = n.getId();
 							
 							reihe++;
 							
@@ -93,7 +93,7 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								ClientsideSettings.getNotizSystemAdministration().zuweisungNotiz
-								(n.getId(), nid, email, new AsyncCallback<Void>() {
+								(nbid, nid, email, new AsyncCallback<Void>() {
 
 									@Override
 									public void onFailure(Throwable caught) {
