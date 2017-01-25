@@ -69,7 +69,7 @@ public class SucheEintragung extends Showcase{
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+				Window.alert("spastiii");
 			}
 
 			@Override

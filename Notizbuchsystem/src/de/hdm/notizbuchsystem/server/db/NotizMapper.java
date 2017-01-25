@@ -179,7 +179,9 @@ public Vector<Notiz> getNotizen() {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM eintragung INNER JOIN notiz ON `Eintragung-ID` = notiz.ID WHERE Titel LIKE '%" + n.getTitel() + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`, `Faelligkeit`"
+		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.`ID`"
+		          + "WHERE eintragung.Titel LIKE '%" + n.getTitel() + "%' ORDER BY `Eintragung-ID`");
 			
 			while(rs.next()){
 				Notiz n1 = new Notiz();

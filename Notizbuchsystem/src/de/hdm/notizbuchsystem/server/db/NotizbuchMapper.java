@@ -101,7 +101,9 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM notizbuch WHERE Titel LIKE '%" + n.getTitel() + "%' ");
+			ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`"
+		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = notizbuch.`ID`"
+		          + "WHERE eintragung.Titel LIKE '%" + n.getTitel() + "%' ORDER BY `Eintragung-ID`");
 			
 			while(rs.next()){
 				Notizbuch nb = new Notizbuch();
