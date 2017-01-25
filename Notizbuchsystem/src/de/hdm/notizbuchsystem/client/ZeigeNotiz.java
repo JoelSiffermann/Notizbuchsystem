@@ -191,7 +191,9 @@ public class ZeigeNotiz extends Showcase {
 									}
 
 									public void onSuccess(Void result) {
-										Window.alert("Notiz erfolgreich geloescht");
+										Showcase showcase = new ZeigeNotiz();
+										RootPanel.get("Details").clear();
+										RootPanel.get("Details").add(showcase);
 	
 									}
 								});
