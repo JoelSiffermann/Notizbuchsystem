@@ -486,9 +486,9 @@ public Map<Vector<Notiz>, Vector<Freigabe>> getNotizenByNutzerUndFreigabe(Nutzer
 		try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, Eigentuemer, Modifikationsdatum, Erstelldatum, Titel, Subtitel, Inhalt"
-		    		  + "FROM Eintragung INNER JOIN Notiz ON `Eintragung-ID` = notiz.ID INNER JOIN nutzerfreigabe ON notiz.ID = nutzerfreigabe.FreigegebeneEintragung"
-		          + "WHERE FreigegebeneEintragung=" + f.getFreigegebeneEintragung() + " ORDER BY `Eintragung-ID`");
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`, `Subtitel`, `Inhalt`"
+		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notiz ON `Eintragung-ID` = notiz.`ID` INNER JOIN notizbuchdb.nutzerfreigabe ON notiz.`ID` = nutzerfreigabe.`FreigegebeneEintragung`"
+		          + "WHERE nutzerfreigabe.`FreigegebeneEintragung`='" + f.getFreigegebeneEintragung() + "' ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {

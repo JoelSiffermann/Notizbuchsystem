@@ -37,8 +37,8 @@ private static FreigabeMapper freigabeMapper = null;
 				
 				stmt.executeUpdate("INSERT INTO nutzerfreigabe (FreigabeID, FreigegebeneEintragung, Loeschberechtigung, "
 						+ "Aenderungsberechtigung, Leseberechtigung, FreigebenderNutzer, FreigegebenerNutzer) " + "VALUES ('" + f.getId() + "','" + 
-						f.getFreigegebeneEintragung() + "','" + f.getLoeschberechtigung() + "','"
-						+ f.getAenderungsberechtigung() + "','" + f.getLeseberechtigung() + "','" + f.getFreigebenderNutzer() + "','" + f.getFreigegebenerNutzer() + "')");
+						f.getFreigegebeneEintragung() + "','" + sqlboolean(f.getLoeschberechtigung()) + "','"
+						+ sqlboolean(f.getAenderungsberechtigung()) + "','" + sqlboolean(f.getLeseberechtigung()) + "','" + f.getFreigebenderNutzer() + "','" + f.getFreigegebenerNutzer() + "')");
 			}
 		}
 		
@@ -56,9 +56,9 @@ private static FreigabeMapper freigabeMapper = null;
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("UPDATE nutzerfreigabe SET FreigegebeneEintragung=\"" + f.getFreigegebeneEintragung()
-					+ "\", " + "Loeschberechtigung=\"" + f.getLoeschberechtigung() + "\", " + 
-					"Aenderungsberechtigung=\"" + f.getAenderungsberechtigung() + "\", " +
-					"Leseberechtigung=\"" + f.getLeseberechtigung() + "\", " + 
+					+ "\", " + "Loeschberechtigung=\"" + sqlboolean(f.getLoeschberechtigung()) + "\", " + 
+					"Aenderungsberechtigung=\"" + sqlboolean(f.getAenderungsberechtigung()) + "\", " +
+					"Leseberechtigung=\"" + sqlboolean(f.getLeseberechtigung()) + "\", " + 
 					"FreigegebenerNutzer=\"" + f.getFreigegebenerNutzer() + "\" " +"WHERE FreigabeID=" + f.getId() + "'");
 		}
 		
@@ -135,11 +135,10 @@ private static FreigabeMapper freigabeMapper = null;
 		        f.setId(rs.getInt("FreigabeID"));
 		        f.setFreigegebeneEintragung(rs.getInt("FreigegebeneEintragung"));
 		        f.setFreigegebenerNutzer(rs.getString("FreigegebenerNutzer"));
-		        f.setLeseberechtigung(rs.getBoolean("Leseberechtigung"));
-		        f.setAenderungsberechtigung(rs.getBoolean("Aenderungsberechtigung"));
-		        f.setLoeschberechtigung(rs.getBoolean("Loeschberechtigung"));
+		        f.setLeseberechtigung(javaboolean(rs.getInt("Leseberechtigung")));
+		        f.setAenderungsberechtigung(javaboolean(rs.getInt("Aenderungsberechtigung")));
+		        f.setLoeschberechtigung(javaboolean(rs.getInt("Loeschberechtigung")));
 		        f.setFreigebenderNutzer(rs.getString("FreigebenderNutzer"));
-
 		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
 		        result.addElement(f);
 		      }
@@ -150,6 +149,22 @@ private static FreigabeMapper freigabeMapper = null;
 
 		    // Ergebnisvektor zurückgeben
 		    return result;
+	}
+	
+	public int sqlboolean(boolean wert){
+		int i = 0;
+		if(wert == true){
+			i = 1;
+		}
+		return i;
+	}
+	
+	public boolean javaboolean(int i){
+		boolean wert = false;
+		if(i==1){
+			wert=true;
+		}
+		return wert;
 	}
 
 }

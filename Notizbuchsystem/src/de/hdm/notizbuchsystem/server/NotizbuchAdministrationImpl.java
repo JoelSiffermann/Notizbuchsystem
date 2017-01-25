@@ -688,7 +688,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		result.addAll(this.notizMapper.getNotizenByNutzer(Email));
 		Vector<Freigabe> f = this.getBerechtigungByNutzer(Email);
 		for(Freigabe freigabe : f) {
-			if(freigabe.getFreigegebenerNutzer()==Email && freigabe.getLeseberechtigung()==true){
+			if(freigabe.getLeseberechtigung()==true){
 				result.addAll(this.notizMapper.getNotizByFreigabe(freigabe));
 			}
 		}
@@ -720,8 +720,15 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	//TODO
 	public Vector<Notizbuch> getNotizbuecherByNutzer(String Email)
 			throws IllegalArgumentException {
-		
-		return this.notizbuchMapper.getNotizbuecherByNutzer(Email);
+		Vector<Notizbuch> result = new Vector<Notizbuch>();
+		result.addAll(this.notizbuchMapper.getNotizbuecherByNutzer(Email));
+		Vector<Freigabe> f = this.getBerechtigungByNutzer(Email);
+		for(Freigabe freigabe : f) {
+			if(freigabe.getLeseberechtigung()==true){
+				result.addAll(this.notizbuchMapper.getNotizbuchByFreigabe(freigabe));
+			}
+		}
+		return result;
 		
 	}
 	
