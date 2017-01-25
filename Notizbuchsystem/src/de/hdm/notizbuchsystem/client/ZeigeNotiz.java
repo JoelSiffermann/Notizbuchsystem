@@ -121,7 +121,7 @@ public class ZeigeNotiz extends Showcase {
 						
 						for(Notiz n : result) {
 							
-							final int eintragungid = n.getId();
+							final int nid = n.getId();
 							
 							reihe++;
 							
@@ -143,7 +143,7 @@ public class ZeigeNotiz extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								Showcase showcase = new ZeigeAusgewaehlteNotiz(nid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								
@@ -155,7 +155,7 @@ public class ZeigeNotiz extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new Eintragungteilen(eintragungid);
+								Showcase showcase = new Eintragungteilen(nid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								
@@ -166,7 +166,7 @@ public class ZeigeNotiz extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new WeiseNotizNotizbuchZu(eintragungid);
+								Showcase showcase = new WeiseNotizNotizbuchZu(nid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								

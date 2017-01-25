@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -29,12 +30,14 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 	private VerticalPanel verPanel = new VerticalPanel();
 	private Button auswahlbutton = new Button("Diesem Notizbuch zuweisen");
 	private FlexTable NBuebersicht = new FlexTable();
-	private int id;
+	private int nbid;
+	private int nid;
 
 	
 	
-	public WeiseNotizNotizbuchZu(int id){
-		this.id = id;
+	public WeiseNotizNotizbuchZu(int nid){
+//		this.nbid = nbid;
+		this.nid = nid;
 		run();
 	}
 	
@@ -74,7 +77,7 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 						
 						for(Notizbuch n : result) {
 							
-							final int eintragungid = n.getId();
+							final int nid = n.getId();
 							
 							reihe++;
 							
@@ -82,17 +85,32 @@ public class WeiseNotizNotizbuchZu extends Showcase {
 							NBuebersicht.setText(reihe, 1, n.getEigentuemer());	
 							NBuebersicht.setText(reihe, 2, n.getErstelldatum().toString());
 							
-							auswahlbutton = new Button("Anzeigen");
+							auswahlbutton = new Button("Diesem Notizbuch zuweisen"	);
 							
 							NBuebersicht.setWidget(reihe, 3, auswahlbutton);
 							
 							auswahlbutton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
-								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new ZeigeausgewaehltesNB(eintragungid);
-								RootPanel.get("Details").add(showcase2);
-								RootPanel.get("Details").add(verPanel);
+								ClientsideSettings.getNotizSystemAdministration().zuweisungNotiz
+								(n.getId(), nid, email, new AsyncCallback<Void>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+
+									@Override
+									public void onSuccess(Void result) {
+										Window.alert("Notiz erfolgreich zugewiesen");
+										
+									}
+
+							
+									
+								});
+								
 								}});
 							
 
