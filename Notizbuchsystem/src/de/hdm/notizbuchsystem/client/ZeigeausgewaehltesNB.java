@@ -1,5 +1,7 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -13,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.hdm.notizbuchsystem.shared.bo.Notiz;
+import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 
 public class ZeigeausgewaehltesNB extends Showcase {
 
@@ -33,8 +36,8 @@ public class ZeigeausgewaehltesNB extends Showcase {
 		private FlexTable anzeigeFlexTable = new FlexTable();
 		private TextBox titelAnzeige = new TextBox();
 						
-		private Label modidatumlabel = new Label();
-		private Label erstelldatumlabel = new Label();
+		private DateBox erstelldatumdateBox = new DateBox();
+		private DateBox modidatumdateBox  = new DateBox();
 		
 		private Button bearbeitebutton = new Button("Bearbeiten");
 		
@@ -50,12 +53,12 @@ public class ZeigeausgewaehltesNB extends Showcase {
 	protected void run() {
 		
 		anzeigeFlexTable.setText(0, 0, "Titel");
-		anzeigeFlexTable.setText(3, 0, "Erstelldatum");
-		anzeigeFlexTable.setText(4, 0, "Modifikationsdatum");
+		anzeigeFlexTable.setText(1, 0, "Erstelldatum");
+		anzeigeFlexTable.setText(2, 0, "Modifikationsdatum");
 				
 		anzeigeFlexTable.setWidget(0, 1, titelAnzeige);
-		anzeigeFlexTable.setWidget(3, 1, erstelldatumlabel);
-		anzeigeFlexTable.setWidget(4, 1, modidatumlabel);
+		anzeigeFlexTable.setWidget(1, 1, erstelldatumdateBox);
+		anzeigeFlexTable.setWidget(2, 1, modidatumdateBox);
 	
 		
 		verPanel.add(anzeigeFlexTable);
@@ -75,15 +78,53 @@ public class ZeigeausgewaehltesNB extends Showcase {
 					RootPanel.get("Details").add(showcase);
 				}
 			});
-		
+		befuelleTabelle();
 		
 		}
-	
+
 	private void befuelleTabelle() {
-		ClientsideSettings.getNotizSystemAdministration().getNotizbuchByTitel(titel, callback);
+		ClientsideSettings.getNotizSystemAdministration().getNotizbuchbyID(id, new AsyncCallback<Notizbuch>() {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
 
-}
+			@Override
+			public void onSuccess(Notizbuch result) {
+				
+				titelAnzeige.setText(result.getTitel());
+				erstelldatumdateBox.setValue(result.getErstelldatum());
+				modidatumdateBox.setValue(result.getModifikationsdatum());
+								
+				erstelldatumdateBox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+				erstelldatumdateBox.getDatePicker().setYearAndMonthDropdownVisible(true);
+				
+				modidatumdateBox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+				modidatumdateBox.getDatePicker().setYearAndMonthDropdownVisible(true);
+				
+				titelAnzeige.setEnabled(false);
+				erstelldatumdateBox.setEnabled(false);
+				modidatumdateBox.setEnabled(false);
+				
+				
+				
+			}
+		
+			
+		});
+				
+	
+	
+	
+	
+	
+	
+	
+	
+	}
+
 
 	
 	

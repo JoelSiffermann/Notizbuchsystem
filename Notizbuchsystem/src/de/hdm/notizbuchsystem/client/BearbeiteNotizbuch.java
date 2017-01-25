@@ -39,7 +39,7 @@ public class BearbeiteNotizbuch extends Showcase {
 		
 		private FlexTable anzeigeFlexTable = new FlexTable();
 		private TextBox titelAnzeige = new TextBox();
-		
+
 		private DateBox modidatebox = new DateBox();
 		private DateBox erstelldatumdatebox = new DateBox();
 		
@@ -58,12 +58,12 @@ public class BearbeiteNotizbuch extends Showcase {
 		
 		anzeigeFlexTable.setText(0, 0, "Titel");
 		anzeigeFlexTable.setText(1, 0, "Erstelldatum");
-		anzeigeFlexTable.setText(2, 0, "Eigentuemer");
-			
+		anzeigeFlexTable.setText(2, 0, "Modifikationsdatum");
+	
+		
 		anzeigeFlexTable.setWidget(0, 1, titelAnzeige);
 		anzeigeFlexTable.setWidget(1, 1, erstelldatumdatebox);
 		anzeigeFlexTable.setWidget(2, 1, modidatebox);
-		
 		
 		erstelldatumdatebox.setEnabled(false);
 		modidatebox.setEnabled(false);
@@ -76,70 +76,59 @@ public class BearbeiteNotizbuch extends Showcase {
 		
 		RootPanel.get("Details").add(verPanel);
 		
-
 		speichernButton.addClickHandler(new ClickHandler() {
 		      @Override
 			public void onClick(ClickEvent event) {
-		     ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(id, email, titelAnzeige.getText(), aktuellesDatum(), 
-		    		 new AsyncCallback<Notizbuch>()
-     		{
+		        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotizbuch(id, email, titelAnzeige.getText(),
+		        		aktuellesDatum(), new AsyncCallback<Notizbuch>()
+		        		{
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
 
-					@Override
-					public void onSuccess(Notizbuch result) {
-						titelAnzeige.setText(result.getTitel());
-						erstelldatumdatebox.setValue(result.getErstelldatum());
-						modidatebox.setValue(result.getModifikationsdatum());
+							@Override
+							public void onSuccess(Notizbuch result) {
+								titelAnzeige.setText(result.getTitel());
+								erstelldatumdatebox.setValue(result.getErstelldatum());
+								modidatebox.setValue(result.getModifikationsdatum());
 
-					}}
-     		
-     		);
- 	  	
-       }
- });
-
-
+							}}
+		        		
+		        		);
+		    	  	
+		          }
+		    });
 		
 		
 		
 		}
 	
 	private void befuelleTabelle() {
-//		ClientsideSettings.getNotizSystemAdministration().getNotizbuchByTitel(Callback<Notiz>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(Notiz result) {
-//				
-//				titelAnzeige.setText(result.getTitel());
-//				subtitelAnzeige.setText(result.getSubtitel());
-//				inhaltAnzeige.setText(result.getInhalt());
-//				erstelldatumdatebox.setValue(result.getErstelldatum());
-//				modidatebox.setValue(result.getModifikationsdatum());
-//				faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
-//				faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
-//				
-//				titelAnzeige.setEnabled(false);
-//				subtitelAnzeige.setEnabled(false);
-//				inhaltAnzeige.setEnabled(false);
+		ClientsideSettings.getNotizSystemAdministration().getNotizbyID(id, new AsyncCallback<Notiz>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
 				
+			}
+
+			@Override
+			public void onSuccess(Notiz result) {
 				
-				
+				titelAnzeige.setText(result.getTitel());
+				erstelldatumdatebox.setValue(result.getErstelldatum());
+				modidatebox.setValue(result.getModifikationsdatum());
+
 			}
 		
 			
-//		});
-//	}
+		});
+	
+	
+	}
 	
 	
 	private static Date aktuellesDatum() {
@@ -152,3 +141,4 @@ public class BearbeiteNotizbuch extends Showcase {
 	}
 
 }
+

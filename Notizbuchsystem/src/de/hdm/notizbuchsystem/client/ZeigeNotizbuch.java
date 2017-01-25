@@ -132,7 +132,7 @@ public class ZeigeNotizbuch extends Showcase {
 							anzeigenButton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
-								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase2 = new ZeigeNotizbuch();
 								Showcase showcase = new ZeigeausgewaehltesNB(eintragungid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
