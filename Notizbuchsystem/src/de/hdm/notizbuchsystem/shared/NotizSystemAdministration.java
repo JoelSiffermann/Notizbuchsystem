@@ -1,6 +1,7 @@
 package de.hdm.notizbuchsystem.shared;
 
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Vector;
@@ -128,7 +129,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Notiz getNotizbyID(int id) throws IllegalArgumentException;
 	
-	String[] getStringforSuggestBox() throws IllegalArgumentException;
+	Collection<String> getStringforSuggestBox() throws IllegalArgumentException;
 	
 	Freigabe getFreigabe(String email) throws IllegalArgumentException;
 	

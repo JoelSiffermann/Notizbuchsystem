@@ -1,9 +1,15 @@
 package de.hdm.notizbuchsystem.server;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+
+
 
 
 
@@ -767,14 +773,12 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String[] getStringforSuggestBox(){
-		String[] result = new String[0];
+	public Collection<String> getStringforSuggestBox(){
+		List<String> result = new ArrayList<String>();
 		Vector<Nutzer> n = this.nutzerMapper.getAllNutzer();
 		for(int i = 0; i < n.size() ; i++){
-			n.get(i).getEmail().toString();
-			n.get(i).getName().toString();
-			n.get(i).getVorname().toString();
-			n.toArray(result);
+			String email = n.get(i).getEmail() + ", ";
+			result.add(email);
 		}
 		return result;
 	}
