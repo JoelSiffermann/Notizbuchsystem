@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
+import de.hdm.notizbuchsystem.shared.bo.Faelligkeit;
 import de.hdm.notizbuchsystem.shared.bo.Notiz;
 
 public class BearbeiteNotiz extends Showcase {
@@ -46,6 +48,7 @@ public class BearbeiteNotiz extends Showcase {
 			private DateBox erstelldatumdatebox = new DateBox();
 			
 			private Button speichernButton = new Button("Speichern");
+			private Button faelligkeitloeschen = new Button("Faelligkeit loeschen");
 			
 
 			
@@ -86,8 +89,10 @@ public class BearbeiteNotiz extends Showcase {
 			speichernButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
-			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, email, titelAnzeige.getText(),
-			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), aktuellesDatum(), new AsyncCallback<Notiz>()
+			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, email,
+			        		titelAnzeige.getText(), subtitelAnzeige.getText(),
+			        		inhaltAnzeige.getText(), aktuellesDatum(), faelligkeitdatebox.getValue(),
+			        		new AsyncCallback<Notiz>()
 			        		{
 
 								@Override
@@ -103,10 +108,30 @@ public class BearbeiteNotiz extends Showcase {
 									inhaltAnzeige.setText(result.getInhalt());
 									erstelldatumdatebox.setValue(result.getErstelldatum());
 									modidatebox.setValue(result.getModifikationsdatum());
+									faelligkeitdatebox.setValue(faelligkeitdatebox.getValue());
 
 								}}
 			        		
 			        		);
+			    	  	
+			          }
+			    });
+			
+			faelligkeitloeschen.addClickHandler(new ClickHandler() {
+			      @Override
+				public void onClick(ClickEvent event) {
+			    	  ClientsideSettings.getNotizSystemAdministration().loescheFaelligkeit(id, email,
+			    			   new AsyncCallback<Void>() {
+
+							public void onFailure(Throwable caught) {
+							}
+
+							public void onSuccess(Void result) {
+
+								faelligkeitdatebox.setValue(null);	
+
+							}
+						});
 			    	  	
 			          }
 			    });
@@ -116,8 +141,28 @@ public class BearbeiteNotiz extends Showcase {
 			}
 		
 		private void befuelleTabelle() {
+			
+			ClientsideSettings.getNotizSystemAdministration().getFaelligkeitByNotiz
+			(id, new AsyncCallback<Date>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("fehlgeschlagen");
+					
+				}
+
+				@Override
+				public void onSuccess(Date result) {
+					Window.alert(result.toString());
+					faelligkeitdatebox.setValue(result);
+				}
+				
+			});
+			
 			ClientsideSettings.getNotizSystemAdministration().getNotizbyID(id, new AsyncCallback<Notiz>() {
 
+				
+				
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO Auto-generated method stub
@@ -127,13 +172,19 @@ public class BearbeiteNotiz extends Showcase {
 				@Override
 				public void onSuccess(Notiz result) {
 					
+					
+					
 					titelAnzeige.setText(result.getTitel());
 					subtitelAnzeige.setText(result.getSubtitel());
 					inhaltAnzeige.setText(result.getInhalt());
 					erstelldatumdatebox.setValue(result.getErstelldatum());
 					modidatebox.setValue(result.getModifikationsdatum());
-					faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
-					faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
+							
+//					faelligkeitdatebox.setFormat();
+							
+							
+							
+							faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
 					
 //					titelAnzeige.setEnabled(false);
 //					subtitelAnzeige.setEnabled(false);

@@ -43,6 +43,7 @@ public class ZeigeNotiz extends Showcase {
 	private Button teilenbutton;
 	private Button zuweisenbutton;
 	private Button loeschenbutton;
+	private Button geturlbutton;
 	
 	@Override
 	protected void run() {
@@ -136,11 +137,13 @@ public class ZeigeNotiz extends Showcase {
 							teilenbutton = new Button("Teilen");
 							zuweisenbutton = new Button("Zuweisen");
 							loeschenbutton = new Button("Loeschen");
+							geturlbutton = new Button("Erzeuge HTML Code");
 							
 							Nuebersicht.setWidget(reihe, 4, anzeigenbutton);
 							Nuebersicht.setWidget(reihe, 5, teilenbutton);
 							Nuebersicht.setWidget(reihe, 6, zuweisenbutton);
 							Nuebersicht.setWidget(reihe, 7, loeschenbutton);
+							Nuebersicht.setWidget(reihe, 8, geturlbutton);
 							
 							anzeigenbutton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {

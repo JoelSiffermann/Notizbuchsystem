@@ -160,7 +160,7 @@ public class ZeigeNutzer extends Showcase {
 
 		public void loescheNutzer() {
 			
-
+				
 				ClientsideSettings.getNotizSystemAdministration().loescheNutzer(email, new AsyncCallback<Void>() {
 
 					public void onFailure(Throwable caught) {
