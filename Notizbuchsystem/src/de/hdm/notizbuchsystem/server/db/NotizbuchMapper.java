@@ -164,7 +164,7 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 		      Statement stmt = con.createStatement();
 
 		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`"
-		    		  + "FROM eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = `ID` WHERE `Eintragung-ID` ='" + n.getId()
+		    		  + "FROM eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = notizbuch.`ID` WHERE notizbuch.`ID` ='" + n.getId()
 		          + "' ORDER BY `Eintragung-ID`");
 
 		      // Für den Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
@@ -200,6 +200,40 @@ public Vector<Notizbuch> getNotizBuchByTitel(Notizbuch n) {
 		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`"
 		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = notizbuch.`ID` INNER JOIN notizbuchdb.nutzerfreigabe ON notizbuch.`ID` = nutzerfreigabe.`FreigegebeneEintragung`"
 		          + "WHERE nutzerfreigabe.`FreigegebeneEintragung`='" + f.getFreigegebeneEintragung() + "' ORDER BY `Eintragung-ID`");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
+		      while (rs.next()) {
+		        Notizbuch e = new Notizbuch();
+		        e.setId(rs.getInt("Eintragung-ID"));
+		        e.setEigentuemer(rs.getString("Eigentuemer"));
+		        e.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+		        e.setErstelldatum(rs.getDate("Erstelldatum"));
+		        e.setTitel(rs.getString("Titel"));
+
+		        // Hinzufügen des neuen Objekts zum Ergebnisvektor
+		        result.addElement(e);
+		      }
+		    }
+		    catch (SQLException e2) {
+		      e2.printStackTrace();
+		    }
+
+		    // Ergebnisvektor zurückgeben
+		    return result;
+		  }
+	
+	public Vector<Notizbuch> getNotizbuecherByID(Notizbuch nb) {
+
+		Connection con = DBConnection.getConnection();
+		
+		Vector<Notizbuch> result = new Vector<Notizbuch>();
+		
+		try {
+		      Statement stmt = con.createStatement();
+
+		      ResultSet rs = stmt.executeQuery("SELECT `Eintragung-ID`, `Eigentuemer`, `Modifikationsdatum`, `Erstelldatum`, `Titel`"
+		    		  + "FROM notizbuchdb.eintragung INNER JOIN notizbuchdb.notizbuch ON `Eintragung-ID` = notizbuch.`ID`"
+		          + "WHERE notizbuch.`ID`='" + nb.getId() + "' ORDER BY `Eintragung-ID`");
 
 		      // Für jeden Eintrag im Suchergebnis wird nun ein Notiz-Objekt erstellt.
 		      while (rs.next()) {
