@@ -133,7 +133,7 @@ public class ZeigeNotizbuch extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								Showcase showcase = new ZeigeausgewaehltesNB(eintragungid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});
@@ -142,7 +142,7 @@ public class ZeigeNotizbuch extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
-								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
+								Showcase showcase = new ZeigeNotizenAusNotizbuch(eintragungid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});

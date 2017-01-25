@@ -50,12 +50,9 @@ public class ZeigeausgewaehltesNB extends Showcase {
 	protected void run() {
 		
 		anzeigeFlexTable.setText(0, 0, "Titel");
-		anzeigeFlexTable.setText(1, 0, "Subtitel");
-		anzeigeFlexTable.setText(2, 0, "Inhalt");
 		anzeigeFlexTable.setText(3, 0, "Erstelldatum");
 		anzeigeFlexTable.setText(4, 0, "Modifikationsdatum");
-		anzeigeFlexTable.setText(5, 0, "Faelligkeit");
-		
+				
 		anzeigeFlexTable.setWidget(0, 1, titelAnzeige);
 		anzeigeFlexTable.setWidget(3, 1, erstelldatumlabel);
 		anzeigeFlexTable.setWidget(4, 1, modidatumlabel);
@@ -83,32 +80,8 @@ public class ZeigeausgewaehltesNB extends Showcase {
 		}
 	
 	private void befuelleTabelle() {
-//		ClientsideSettings.getNotizSystemAdministration().getNotizbuchbyID(id, new AsyncCallback<Notiz>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(Notiz result) {
-//				
-//				titelAnzeige.setText(result.getTitel());
-//				erstelldatumlabel.setText(result.getErstelldatum().toString());
-//				modidatumlabel.setText(result.getModifikationsdatum().toString());
-//								
-//				titelAnzeige.setEnabled(false);
-//							
-//				
-//				
-//			}
-//		
-//			
-//		});
-				
-		
-//	}
+		ClientsideSettings.getNotizSystemAdministration().getNotizbuchByTitel(titel, callback);
+
 
 }
 

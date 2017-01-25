@@ -128,7 +128,7 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Notiz getNotizbyID(int id) throws IllegalArgumentException;
 	
-	String[] getStringforSuggestBox();
+	String[] getStringforSuggestBox() throws IllegalArgumentException;;
 	
 	
 }

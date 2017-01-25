@@ -680,9 +680,9 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		String[] result = new String[0];
 		Vector<Nutzer> n = this.nutzerMapper.getAllNutzer();
 		for(int i = 0; i < n.size() ; i++){
-			n.get(i).getEmail();
-			n.get(i).getName();
-			n.get(i).getVorname();
+			n.get(i).getEmail().toString();
+			n.get(i).getName().toString();
+			n.get(i).getVorname().toString();
 			n.toArray(result);
 		}
 		return result;

@@ -1,7 +1,11 @@
 package de.hdm.notizbuchsystem.client;
 
+import java.util.Arrays;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
@@ -9,6 +13,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.notizbuchsystem.shared.bo.Nutzer;
 
 public class Eintragungteilen extends Showcase {
 
@@ -39,6 +45,7 @@ public class Eintragungteilen extends Showcase {
 	 
 	
 	 SuggestBox suggestbox = new SuggestBox(getNutzer());
+	 
 
 	 
 	 
@@ -73,8 +80,9 @@ public class Eintragungteilen extends Showcase {
 	private MultiWordSuggestOracle getNutzer(){
 		MultiWordSuggestOracle Nutzer = new MultiWordSuggestOracle();
 		
-		Nutzer.add("asda@example.com");
-		return Nutzer;
-
+//		String[] alleNutzer = new String[100];
+//
+//		ClientsideSettings.getNotizSystemAdministration().
+	return Nutzer;
 	}
 }
