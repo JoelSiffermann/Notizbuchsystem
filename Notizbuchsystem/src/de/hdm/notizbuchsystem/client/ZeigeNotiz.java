@@ -40,6 +40,7 @@ public class ZeigeNotiz extends Showcase {
 	final private Button abbrechenButton = new Button("Abbrechen");
 	private Button anzeigenbutton;
 	private Button teilenbutton;
+	private Button zuweisenbutton;
 	
 	
 	@Override
@@ -132,9 +133,11 @@ public class ZeigeNotiz extends Showcase {
 							
 							anzeigenbutton = new Button("Anzeigen");
 							teilenbutton = new Button("Teilen");
+							zuweisenbutton = new Button("Zuweisen");
 							
 							Nuebersicht.setWidget(reihe, 4, anzeigenbutton);
 							Nuebersicht.setWidget(reihe, 5, teilenbutton);
+							Nuebersicht.setWidget(reihe, 6, zuweisenbutton);
 							
 							anzeigenbutton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
@@ -153,6 +156,17 @@ public class ZeigeNotiz extends Showcase {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotiz();
 								Showcase showcase = new Eintragungteilen(eintragungid);
+								RootPanel.get("Details").add(showcase2);
+								RootPanel.get("Details").add(showcase);
+								
+								}
+							});
+							
+							zuweisenbutton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								RootPanel.get("Details").clear();		
+								Showcase showcase2 = new ZeigeNotiz();
+								Showcase showcase = new ZeigeAusgewaehlteNotiz(eintragungid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								
