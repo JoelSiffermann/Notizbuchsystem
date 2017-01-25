@@ -37,7 +37,7 @@ public interface NotizSystemAdministration extends RemoteService {
 
 	
 	
-	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException;
+	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum, Date fdatum) throws IllegalArgumentException;
 
 	Notizbuch erstelleNotizbuch(String titel,
 			String eigentuemer, Date erstelldatum,

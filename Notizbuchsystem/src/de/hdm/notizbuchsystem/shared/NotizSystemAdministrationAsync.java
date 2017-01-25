@@ -28,7 +28,7 @@ public interface NotizSystemAdministrationAsync {
 	
 	void erstelleNotiz(String titel, String subtitel,
 			String inhalt, String eigentuemer, Date erstelldatum,
-			Date modifikationsdatum, AsyncCallback<Notiz> callback);
+			Date modifikationsdatum, Date fdatum, AsyncCallback<Notiz> callback);
 
 	void erstelleNotizbuch(String titel, String eigentuemer,
 			Date erstelldatum, Date modifikationsdatum,

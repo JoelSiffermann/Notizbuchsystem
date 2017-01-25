@@ -187,7 +187,7 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 	 * @throws IllegalArgumentException
 	 */
 	
-	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum) throws IllegalArgumentException{
+	public Notiz erstelleNotiz(String titel, String subtitel, String inhalt, String eigentuemer, Date erstelldatum, Date modifikationsdatum, Date fdatum) throws IllegalArgumentException{
 		
 		Notiz notiz = new Notiz();
 		
@@ -202,9 +202,14 @@ public class NotizbuchAdministrationImpl extends RemoteServiceServlet implements
 		notiz.setErstelldatum(erstelldatum);
 		
 		notiz.setModifikationsdatum(modifikationsdatum);
-	
-		return this.notizMapper.erstellen(notiz);
-						 
+		
+		this.notizMapper.erstellen(notiz);
+		
+		if(fdatum!=null){
+			this.erstelleFaelligkeit(notiz.getId(), fdatum);
+		}
+		
+		return notiz;
 	}
 	
 	/**
