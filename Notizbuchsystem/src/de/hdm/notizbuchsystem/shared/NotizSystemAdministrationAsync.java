@@ -138,6 +138,8 @@ public interface NotizSystemAdministrationAsync {
 
 	void getNotizbuchbyID(int id, AsyncCallback<Notizbuch> callback);
 
+	void getFaelligkeitByNotiz(int notizId, AsyncCallback<Date> callback);
+
 	
 
 	

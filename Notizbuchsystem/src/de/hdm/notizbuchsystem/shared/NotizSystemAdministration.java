@@ -144,6 +144,8 @@ public interface NotizSystemAdministration extends RemoteService {
 	
 	Notizbuch getNotizbuchbyID(int id) throws IllegalArgumentException;
 	
+	Date getFaelligkeitByNotiz(int notizId) throws IllegalArgumentException;
+	
 	
 }
 
