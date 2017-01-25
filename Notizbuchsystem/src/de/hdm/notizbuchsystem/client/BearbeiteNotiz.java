@@ -88,8 +88,10 @@ public class BearbeiteNotiz extends Showcase {
 			speichernButton.addClickHandler(new ClickHandler() {
 			      @Override
 				public void onClick(ClickEvent event) {
-			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, email, titelAnzeige.getText(),
-			        		subtitelAnzeige.getText(), inhaltAnzeige.getText(), aktuellesDatum(), new AsyncCallback<Notiz>()
+			        ClientsideSettings.getNotizSystemAdministration().bearbeiteNotiz(id, email,
+			        		titelAnzeige.getText(), subtitelAnzeige.getText(),
+			        		inhaltAnzeige.getText(), aktuellesDatum(), faelligkeitdatebox.getValue(),
+			        		new AsyncCallback<Notiz>()
 			        		{
 
 								@Override
@@ -105,7 +107,7 @@ public class BearbeiteNotiz extends Showcase {
 									inhaltAnzeige.setText(result.getInhalt());
 									erstelldatumdatebox.setValue(result.getErstelldatum());
 									modidatebox.setValue(result.getModifikationsdatum());
-									faelligkeitdatebox.setValue(date);
+									faelligkeitdatebox.setValue(faelligkeitdatebox.getValue());
 
 								}}
 			        		
@@ -154,7 +156,8 @@ public class BearbeiteNotiz extends Showcase {
 					inhaltAnzeige.setText(result.getInhalt());
 					erstelldatumdatebox.setValue(result.getErstelldatum());
 					modidatebox.setValue(result.getModifikationsdatum());
-					faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(erstelldatumFormat));
+					faelligkeitdatebox.setFormat(new DateBox.DefaultFormat(
+							ClientsideSettings.getNotizSystemAdministration().getFaelligkeit, callback);, callback);));
 					faelligkeitdatebox.getDatePicker().setYearAndMonthDropdownVisible(true);
 					
 //					titelAnzeige.setEnabled(false);
