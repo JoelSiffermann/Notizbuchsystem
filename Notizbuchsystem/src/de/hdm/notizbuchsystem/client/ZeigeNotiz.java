@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -41,7 +42,7 @@ public class ZeigeNotiz extends Showcase {
 	private Button anzeigenbutton;
 	private Button teilenbutton;
 	private Button zuweisenbutton;
-	
+	private Button loeschenbutton;
 	
 	@Override
 	protected void run() {
@@ -134,10 +135,12 @@ public class ZeigeNotiz extends Showcase {
 							anzeigenbutton = new Button("Anzeigen");
 							teilenbutton = new Button("Teilen");
 							zuweisenbutton = new Button("Zuweisen");
+							loeschenbutton = new Button("Loeschen");
 							
 							Nuebersicht.setWidget(reihe, 4, anzeigenbutton);
 							Nuebersicht.setWidget(reihe, 5, teilenbutton);
 							Nuebersicht.setWidget(reihe, 6, zuweisenbutton);
+							Nuebersicht.setWidget(reihe, 7, loeschenbutton);
 							
 							anzeigenbutton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
@@ -169,6 +172,26 @@ public class ZeigeNotiz extends Showcase {
 								Showcase showcase = new WeiseNotizNotizbuchZu(nid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
+								
+								}
+							});
+							
+							loeschenbutton.addClickHandler(new ClickHandler() {
+								public void onClick(ClickEvent event) {
+								ClientsideSettings.getNotizSystemAdministration().loescheNotiz(nid, email,
+										new AsyncCallback<Void>() {
+
+									public void onFailure(Throwable caught) {
+									}
+
+									public void onSuccess(Void result) {
+										Window.alert("Notiz erfolgreich geloescht");
+	
+									}
+								});
+									
+									
+
 								
 								}
 							});

@@ -39,7 +39,7 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 		private DateBox modidatumDateBox = new DateBox();
 		private DateBox erstelldatumDateBox = new DateBox();
 		
-		private Button bearbeitebutton = new Button("Bearbeiten");
+		private Button bearbeitebutton = new Button("Diese Notiz bearbeiten");
 		
 
 		
@@ -60,6 +60,7 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 		anzeigeFlexTable.setText(5, 0, "Faelligkeit");
 		
 		anzeigeFlexTable.setWidget(0, 1, titelAnzeige);
+		anzeigeFlexTable.setWidget(0, 2, bearbeitebutton);
 		anzeigeFlexTable.setWidget(1, 1, subtitelAnzeige);
 		anzeigeFlexTable.setWidget(2, 1, inhaltAnzeige);
 		anzeigeFlexTable.setWidget(3, 1, erstelldatumDateBox);
@@ -67,7 +68,7 @@ public class ZeigeAusgewaehlteNotiz extends Showcase {
 		anzeigeFlexTable.setWidget(5, 1, faelligkeitdatebox);
 		
 		verPanel.add(anzeigeFlexTable);
-		verPanel.add(bearbeitebutton);
+	
 		
 		befuelleTabelle();
 		

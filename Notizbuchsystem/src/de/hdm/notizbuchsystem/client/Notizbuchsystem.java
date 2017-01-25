@@ -197,10 +197,15 @@ public class Notizbuchsystem implements EntryPoint {
 					
 					
 				} else if(result==true){
-					Window.alert("hi");
+					
 					Showcase showcase = new ErstelleNutzer();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(showcase);
+//					nutzerButton.setEnabled(false);
+//					notizButton.setEnabled(false);
+//					notizbuchButton.setEnabled(false);
+//					logoutButton.setEnabled(false);
+					
 					
 					
 				}

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -36,6 +37,7 @@ public class ZeigeNotizbuch extends Showcase {
 	private Button anzeigenButton;
 	private Button zeigeNotizenButton;
 	private Button teilenbutton;
+	private Button loeschenbutton;
 	  
 
 	@Override
@@ -118,7 +120,7 @@ public class ZeigeNotizbuch extends Showcase {
 						
 						for(Notizbuch n : result) {
 							
-							final int eintragungid = n.getId();
+							final int nbid = n.getId();
 							
 							reihe++;
 							
@@ -129,16 +131,19 @@ public class ZeigeNotizbuch extends Showcase {
 							anzeigenButton = new Button("Anzeigen");
 							zeigeNotizenButton = new Button("Notizen anzeigen");
 							teilenbutton = new Button("Teilen");
+							loeschenbutton = new Button("Notizbuch loeschen");
+							
 							
 							NBuebersicht.setWidget(reihe, 4, zeigeNotizenButton);
 							NBuebersicht.setWidget(reihe, 3, anzeigenButton);
 							NBuebersicht.setWidget(reihe, 6, teilenbutton);
+							NBuebersicht.setWidget(reihe, 6, loeschenbutton);
 							
 							anzeigenButton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotizbuch();
-								Showcase showcase = new ZeigeausgewaehltesNB(eintragungid);
+								Showcase showcase = new ZeigeausgewaehltesNB(nbid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});
@@ -147,7 +152,7 @@ public class ZeigeNotizbuch extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotizbuch();
-								Showcase showcase = new ZeigeNotizenAusNotizbuch(eintragungid);
+								Showcase showcase = new ZeigeNotizenAusNotizbuch(nbid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});
@@ -156,10 +161,30 @@ public class ZeigeNotizbuch extends Showcase {
 								public void onClick(ClickEvent event) {
 								RootPanel.get("Details").clear();		
 								Showcase showcase2 = new ZeigeNotizbuch();
-								Showcase showcase = new Eintragungteilen(eintragungid);
+								Showcase showcase = new Eintragungteilen(nbid);
 								RootPanel.get("Details").add(showcase2);
 								RootPanel.get("Details").add(showcase);
 								}});
+							
+							loeschenbutton.addClickHandler(new ClickHandler() {
+									public void onClick(ClickEvent event) {
+										ClientsideSettings.getNotizSystemAdministration()
+										.loescheNotizbuch(nbid, email,
+												new AsyncCallback<Void>() {
+
+											public void onFailure(Throwable caught) {
+											}
+
+											public void onSuccess(Void result) {
+												Window.alert("Notizbuch erfolgreich geloescht");
+			
+											}
+										});	
+									
+													
+
+								}});
+							
 							
 							
 						}}});}

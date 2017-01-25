@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -18,6 +19,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 //import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.hdm.notizbuchsystem.shared.NotizSystemAdministrationAsync;
+import de.hdm.notizbuchsystem.shared.bo.Faelligkeit;
 import de.hdm.notizbuchsystem.shared.bo.Notiz;
 import de.hdm.notizbuchsystem.shared.bo.Notizbuch;
 import de.hdm.notizbuchsystem.shared.bo.Nutzer;
@@ -59,7 +61,7 @@ public class ErstelleNotiz extends Showcase {
 	private Button erstelleNotizButton = new Button("Notiz Anlegen");
 	private Button abbrechenButton = new Button("Abbrechen");
 	private Label reqLabel1 = new Label("* Pflichtfeld");
-	private Label reqLabel2 = new Label("* Pflichtfeld");
+	private Label reqLabel2 = new Label("");
 	private Label reqLabel3 = new Label("* Pflichtfeld");
 	//private Label reqLabel4 = new Label("");
 	private Label warnLabel = new Label();
@@ -177,8 +179,7 @@ public void pruefeEingabe(){
 	  if (titelTextBox.getText().length() == 0) {
 		  warnLabel.setText("Bitte geben Sie einen Titel an!"); 
 		  notizFlexTable.setWidget(0, 3, warnLabel);
-	  } else if(subtitelTextBox.getText().length() == 0) {
-		  warnLabel .setText("Bitte geben Sie einen Subtitel an!");
+	  
 		  notizFlexTable.setWidget(1, 3, warnLabel);
 	  } else if(inhaltTextArea.getText().length() == 0) {
 		  warnLabel .setText("Bitte geben Sie einen Inhalt an!");
@@ -218,13 +219,30 @@ admin.erstelleNotiz(titelTextBox.getText(), subtitelTextBox.getText(), inhaltTex
 			// TODO Auto-generated method stub
 			warnLabel.setText("Erfolgreich");
 			if(faelligkeitDateBox.getValue() != null){
-//				admin.erstelleFaelligkeit(result.getEintragungId();
+				faelligkeitanlegen();
 			}
 			
 		}
 	};
 		 return asynCallback;
 	 }
+	
+	
+	private  void faelligkeitanlegen(){
+//		ClientsideSettings.getNotizSystemAdministration().erstelleFaelligkeit
+//		(faelligkeitId, faelligkeitDateBox.getValue(),
+//				new AsyncCallback<Void>() {
+//
+//			public void onFailure(Throwable caught) {
+//			}
+//
+//			public void onSuccess(Void result) {
+//				Window.alert("Notiz erfolgreich geloescht");
+//
+//			}
+//		});
+	
+	}
 		
 
 
