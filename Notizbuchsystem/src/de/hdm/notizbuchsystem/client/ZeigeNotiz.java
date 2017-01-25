@@ -182,6 +182,8 @@ public class ZeigeNotiz extends Showcase {
 										new AsyncCallback<Void>() {
 
 									public void onFailure(Throwable caught) {
+										
+										
 									}
 
 									public void onSuccess(Void result) {

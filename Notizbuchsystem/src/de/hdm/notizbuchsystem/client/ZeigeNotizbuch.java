@@ -137,7 +137,7 @@ public class ZeigeNotizbuch extends Showcase {
 							NBuebersicht.setWidget(reihe, 4, zeigeNotizenButton);
 							NBuebersicht.setWidget(reihe, 3, anzeigenButton);
 							NBuebersicht.setWidget(reihe, 6, teilenbutton);
-							NBuebersicht.setWidget(reihe, 6, loeschenbutton);
+							NBuebersicht.setWidget(reihe, 7, loeschenbutton);
 							
 							anzeigenButton.addClickHandler(new ClickHandler() {
 								public void onClick(ClickEvent event) {

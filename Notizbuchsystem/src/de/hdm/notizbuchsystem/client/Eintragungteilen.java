@@ -82,7 +82,7 @@ public class Eintragungteilen extends Showcase {
 
 							@Override
 							public void onSuccess(Freigabe result) {
-								Window.alert(loeb.getValue().toString());
+								
 							}});
 							}});
 
